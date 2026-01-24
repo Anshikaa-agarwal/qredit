@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
+         :confirmable, :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   enum :role, { admin: 0, regular: 1 }
 
@@ -19,8 +19,8 @@ class User < ApplicationRecord
 
   def self.from_omniauth(access_token)
     data = access_token.info
-    account = User.where(email: data['email']).first
-    account ||= User.create(name: data['name'], email: data['email'], password: Devise.friendly_token[0, 20])
+    account = User.where(email: data["email"]).first
+    account ||= User.create(name: data["name"], email: data["email"], password: Devise.friendly_token[0, 20])
     account
   end
 
@@ -42,6 +42,6 @@ class User < ApplicationRecord
   end
 
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 end

@@ -1,3 +1,2 @@
 class HomeFeedController < ApplicationController
-    
 end
