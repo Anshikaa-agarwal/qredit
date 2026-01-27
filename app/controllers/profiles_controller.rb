@@ -3,12 +3,13 @@ class ProfilesController < ApplicationController
 
     def show
         @user = current_user
-        @topics = Topic.all
+        @remaining_topics = Topic.all - @user.topics
     end
 
     def edit
     end
 
     def update
+        p params
     end
 end

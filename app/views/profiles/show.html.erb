@@ -37,18 +37,19 @@
     <p class="text-lg font-medium text-gray-700 mb-2">Interested Topics</p>
     <div class="flex flex-wrap gap-2">
       <% @user.topics.each do |topic| %>
-        <span class="bg-violet-50 text-violet-600 px-3 py-1 rounded-full text-sm font-semibold border border-violet-200">
+        <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-md font-semibold border border-orange-200">
           <%= topic.name %>
         </span>
       <% end %>
     </div>
   </div>
 
+
   <!-- Add Topics -->
   <div>
     <p class="text-lg font-medium text-gray-700 mb-2">Add more topics</p>
     <%= form_with model: current_user, url: profile_path, method: :patch, class: "flex gap-3 items-center" do |f| %>
-      <%= select_tag :topics, options_from_collection_for_select(@topics, :id, :name), prompt: "Select a topic",
+      <%= select_tag :topics, options_from_collection_for_select(@remaining_topics, :id, :name), prompt: "Select a topic",
             class: "border border-violet-200 rounded px-3 py-2 w-full text-base focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
       <%= f.submit "Add", class: "bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition font-medium text-base" %>
     <% end %>
