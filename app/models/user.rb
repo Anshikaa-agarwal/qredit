@@ -32,6 +32,11 @@ class User < ApplicationRecord
   has_many :followers, through: :followers_relationships, source: :follower
   has_many :followees, through: :following_relationships, source: :followee
 
+  # validations
+  validates :name,  presence: true
+  validates :credits, numericality: :only_integer
+  # password and email are validated with devise.
+
   # attachments
   has_one_attached :avatar
 
