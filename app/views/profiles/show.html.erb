@@ -39,6 +39,7 @@
       <% @user.topics.each do |topic| %>
         <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-md font-semibold border border-orange-200">
           <%= topic.name %>
+          <%= button_to "x", remove_associated_topic_profile_path(topic.id), method: :delete, form_class: "inline-block m-0 p-0", class: "ml-2 text-red-800" %>
         </span>
       <% end %>
     </div>
