@@ -49,7 +49,7 @@
           <%= link_to "My Answers", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Credits", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Following", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
-          <%= link_to "My Profile", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "My Profile", profile_path, class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
     
           <%= button_to "Log out",
                 destroy_user_session_path,

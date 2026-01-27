@@ -8,7 +8,7 @@ class Question < ApplicationRecord
     belongs_to :user
 
     has_many :topic_assignements, as: :topicable
-    has_many :topics, through: :topic_assignements, optional: false
+    has_many :topics, through: :topic_assignements
 
     has_many :answers,  dependent: :restrict_with_error
     has_many :comments, dependent: :restrict_with_error, as: :commentable
