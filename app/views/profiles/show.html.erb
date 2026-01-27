@@ -10,6 +10,14 @@
       <%= f.file_field :avatar, class: "w-full border border-violet-200 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
       <%= f.submit "Update Avatar", class: "w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition font-medium text-lg" %>
     <% end %>
+    
+    <% if @user.avatar.attached? %>
+        <%= button_to 'Remove avatar',
+            profile_path,
+            method: :patch,
+            params: { remove_avatar: true },
+            class: "mt-2 text-sm text-red-600 hover:text-red-800 underline underline-offset-2 font-medium" %>
+    <% end %>
   </div>
 
   <!-- Stats -->

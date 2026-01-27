@@ -10,6 +10,19 @@ class ProfilesController < ApplicationController
     end
 
     def update
+        if params[:remove_avatar]
+            @user.avatar.delete
+        end
+
+        if params[:user] && params[:user][:avatar]
+            @user.update!(profile_params)
+        end
+
+        if params[:topics]
+            @user.topics << Topic.find(params[:topics])
+        end
+
+        redirect_to profile_path
     end
 
     def remove_associated_topic
