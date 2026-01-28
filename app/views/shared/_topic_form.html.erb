@@ -1,0 +1,16 @@
+<div>
+    <p class="text-lg font-medium text-gray-700 mb-2">
+        <%= 'Add topics' %>
+    </p>
+
+    <%= form_with url: path, method: :patch, class: "flex gap-3 items-center" do |f| %>
+        <%= select_tag :topic_id, 
+            options_from_collection_for_select(topics_array, :id, :name),
+            prompt: "Select a topic",
+            class: "border border-violet-200 rounded px-3 py-2 w-full text-base focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+
+        <%= f.submit "Add",
+            class: "bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition font-medium text-base" %>
+
+    <% end %>
+</div>
