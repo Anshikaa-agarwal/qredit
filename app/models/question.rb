@@ -20,9 +20,9 @@ class Question < ApplicationRecord
     has_one_attached :pdf
 
     # validations
-    validates :title, uniqueness: true, allow_blank: true
+    # validates :title, uniqueness: true, allow_blank: true
     validates :title, :content, presence: true, if: :published?
-    validates :url, presence: true, uniqueness: true, if: :published?
+    # validates :url, presence: true, uniqueness: true, if: :published?
     validate  :atleast_1_credit_needed, on: :create
     validate  :must_have_topics_if_published
     validate  :pdf_type
@@ -41,17 +41,13 @@ class Question < ApplicationRecord
     end
 
     private def must_have_topics_if_published
-        return unless published?
-
-        if topics.blank?
+        if published? && topics.blank?
             errors.add(:topics, "must be selected when question is published.")
         end
     end
 
     private def pdf_type
-        return unless pdf.attached?
-
-        unless pdf.content_type == "application/pdf"
+        if pdf.attached? && pdf.content_type != "application/pdf"
           errors.add(:pdf, "must be a PDF file")
         end
     end
