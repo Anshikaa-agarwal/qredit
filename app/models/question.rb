@@ -3,6 +3,7 @@ class Question < ApplicationRecord
 
     # callback
     before_update :check_if_editable?
+    before_save   :create_url_slug, if: :status_changed?
 
     # associations
     belongs_to :user
@@ -20,14 +21,13 @@ class Question < ApplicationRecord
     has_one_attached :pdf
 
     # validations
-    # validates :title, uniqueness: true, allow_blank: true
+    validates :title, uniqueness: true, allow_blank: true
     validates :title, :content, presence: true, if: :published?
-    # validates :url, presence: true, uniqueness: true, if: :published?
     validate  :atleast_1_credit_needed, on: :create
     validate  :must_have_topics_if_published
     validate  :pdf_type
 
-    private def check_if_editable
+    private def check_if_editable?
         return unless answers.exists? || comments.exists? || votes.exists?
 
         errors.add(:base, "Question can not be edited if answers/comments/votes are present")
@@ -47,8 +47,23 @@ class Question < ApplicationRecord
     end
 
     private def pdf_type
-        if pdf.attached? && pdf.content_type != "application/pdf"
-          errors.add(:pdf, "must be a PDF file")
+        if pdf.attached? && pdf.filename.extension != "pdf"
+          errors.add(:base, "Attachment must be a PDF file")
         end
+    end
+
+    private def create_url_slug
+        return if draft?
+
+        base_url = title.parameterize
+        slug = base_url
+        suffix = 2
+
+        while Question.exists?(url: base_url)
+            base_url = "#{base_url}-#{suffix}"
+            suffix += 1
+        end
+
+        self.url = base_url
     end
 end
