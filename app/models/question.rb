@@ -14,6 +14,7 @@ class Question < ApplicationRecord
     has_many :comments, dependent: :restrict_with_error, as: :commentable
     has_many :votes,    dependent: :restrict_with_error, as: :votable
 
+    has_many :credit_transactions, as: :source
     has_many :abuse_reports, as: :reportable, dependent: :destroy
 
     has_one_attached :pdf

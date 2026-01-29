@@ -4,6 +4,7 @@ class CreditPurchase < ApplicationRecord
 
     # associations
     belongs_to :user
+    has_many :credit_transactions, as: :source
 
     # validations
     validates :stripe_transaction_id, presence: true, uniqueness: true, if: :successful?
