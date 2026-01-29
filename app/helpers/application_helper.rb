@@ -4,7 +4,7 @@ module ApplicationHelper
         hard_wrap: true,
         link_attributes: { rel: "nofollow", target: "_blank" }
       )
-  
+
       options = {
         autolink: true,
         tables: true,
@@ -13,8 +13,7 @@ module ApplicationHelper
         lax_spacing: true,
         space_after_headers: true
       }
-  
+
       Redcarpet::Markdown.new(renderer, options).render(text).html_safe
     end
-  end
-  
+end
