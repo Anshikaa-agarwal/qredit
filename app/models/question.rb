@@ -4,6 +4,7 @@ class Question < ApplicationRecord
     # callback
     before_update :check_if_editable?
     before_save   :create_url_slug, if: :status_changed?
+    after_create  :deduct_user_credits
 
     # associations
     belongs_to :user
@@ -35,6 +36,7 @@ class Question < ApplicationRecord
     end
 
     private def atleast_1_credit_needed
+        return if draft?
         if user.credits < 1
             errors.add(:user, "must have atleast 1 credit to ask a question.")
         end
@@ -65,5 +67,11 @@ class Question < ApplicationRecord
         end
 
         self.url = base_url
+    end
+
+    private def deduct_user_credits
+        return if self.draft?
+
+        self.user.decrement!(:credits)
     end
 end

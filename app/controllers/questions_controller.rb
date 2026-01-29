@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
     before_action :set_current_user
+    before_action :set_current_question, only: %i[show]
 
     def index
       @questions = @user.questions
@@ -10,8 +11,10 @@ class QuestionsController < ApplicationController
       load_topics
     end
 
+    def show
+    end
+
     def create
-        p params
       @question = Question.new(question_params)
       @question.user = @user
       @question.status = :published if params[:commit] == "Publish"
@@ -29,6 +32,10 @@ class QuestionsController < ApplicationController
 
     def set_current_user
       @user = current_user
+    end
+
+    def set_current_question
+      @question = Question.find(params[:id])
     end
 
     def load_topics
