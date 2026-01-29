@@ -73,5 +73,12 @@ class Question < ApplicationRecord
         return if self.draft?
 
         self.user.decrement!(:credits)
+
+        credit_transactions.create!(
+            user: self.user,
+            reason: 'Question asked',
+            status: :spent,
+            units: 1
+        )
     end
 end
