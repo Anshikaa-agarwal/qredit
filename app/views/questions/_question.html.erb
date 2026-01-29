@@ -1,4 +1,6 @@
-<div class="max-w-3xl mx-auto bg-white border border-gray-200 rounded-lg p-5 space-y-4">
+<%= link_to question_path(question),
+      class: "block max-w-6xl mx-auto my-6 no-underline" do %>
+<div class="max-w-6xl mx-auto bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
 
   <!-- User -->
   <div class="flex items-center gap-4">
@@ -11,9 +13,22 @@
     </div>
   </div>
 
+<!-- Topics -->
+<% if question.topics.any? %>
+  <div class="flex flex-wrap gap-2">
+    <% question.topics.each do |t| %>
+      <span class="bg-orange-50 text-orange-600 border border-orange-100 px-3 py-1 rounded-full text-sm font-medium">
+        <%= t.name %>
+      </span>
+    <% end %>
+  </div>
+<% end %>
+
+
+
   <!-- Question -->
   <div>
-    <p class="text-xl font-semibold text-blue-600 mb-1"><%= question.title %></p>
+    <p class="text-xl font-semibold text-gray-800 mb-1"><%= question.title %></p>
     <p class="text-gray-700 leading-relaxed"><%= markdown(question.content) %></p>
 
     <% if question.pdf.attached? %>
@@ -26,3 +41,4 @@
   </div>
 
 </div>
+<% end %>
