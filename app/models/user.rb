@@ -71,6 +71,12 @@ class User < ApplicationRecord
       credits: credits + 5,
       auth_token: SecureRandom.hex(20)
     )
+
+    credit_transactions.create!(
+      reason: 'User email verified',
+      status: :earnt,
+      units: 5
+    )
   end
 
   def admin?
