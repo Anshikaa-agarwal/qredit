@@ -92,7 +92,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_070213) do
     t.string "reason"
     t.bigint "source_id"
     t.string "source_type"
-    t.integer "type", null: false
+    t.integer "status", null: false
     t.bigint "units", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
