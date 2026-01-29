@@ -89,14 +89,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
   end
 
   create_table "credit_transactions", force: :cascade do |t|
-    t.bigint "amount", null: false
     t.datetime "created_at", null: false
-    t.string "reason", null: false
+    t.string "reason"
+    t.bigint "source_id"
+    t.string "source_type"
     t.integer "type", null: false
+    t.bigint "units", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["source_type", "source_id"], name: "index_credit_transactions_on_source"
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
-    t.check_constraint "amount > 0"
+    t.check_constraint "units > 0"
   end
 
   create_table "followers", force: :cascade do |t|
