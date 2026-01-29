@@ -28,6 +28,10 @@ class Question < ApplicationRecord
     validate  :must_have_topics_if_published
     validate  :pdf_type
 
+    def posted_at_date
+        created_at.to_date
+    end
+
     private def check_if_editable?
         return unless answers.exists? || comments.exists? || votes.exists?
 

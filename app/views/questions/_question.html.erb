@@ -5,24 +5,28 @@
   <!-- User -->
   <div class="flex items-center gap-4">
     <%= image_tag(question.user.avatar,
-          class: "w-12 h-12 rounded-full border border-gray-300 object-cover") %>
+          class: "w-12 h-12 rounded-full border border-gray-300 object-cover") %> 
 
     <div>
       <p class="text-lg font-semibold text-gray-800"><%= question.user.name %></p>
-      <p class="text-sm text-gray-500"><%= question.user.followers.count %> followers</p>
+      <p class="text-sm text-gray-600"><%= question.user.followers.count %> followers</p>
+      <p class="text-xs text-gray-400">
+        Posted <%= question.created_at >= 1.day.ago ? time_ago_in_words(question.created_at) + " ago" : question.posted_at_date %>
+      </p>
     </div>
   </div>
 
-<!-- Topics -->
-<% if question.topics.any? %>
-  <div class="flex flex-wrap gap-2">
-    <% question.topics.each do |t| %>
-      <span class="bg-orange-50 text-orange-600 border border-orange-100 px-3 py-1 rounded-full text-sm font-medium">
-        <%= t.name %>
-      </span>
-    <% end %>
-  </div>
-<% end %>
+
+  <!-- Topics -->
+  <% if question.topics.any? %>
+    <div class="flex flex-wrap gap-2">
+      <% question.topics.each do |t| %>
+        <span class="bg-orange-50 text-orange-600 border border-orange-100 px-3 py-1 rounded-full text-sm font-medium">
+          <%= t.name %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
 
 
 
