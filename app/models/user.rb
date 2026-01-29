@@ -73,7 +73,7 @@ class User < ApplicationRecord
     )
 
     credit_transactions.create!(
-      reason: 'User email verified',
+      reason: "User email verified",
       status: :earnt,
       units: 5
     )

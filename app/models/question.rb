@@ -74,9 +74,10 @@ class Question < ApplicationRecord
 
         self.user.decrement!(:credits)
 
+        # logs credit spent
         credit_transactions.create!(
             user: self.user,
-            reason: 'Question asked',
+            reason: "Question asked",
             status: :spent,
             units: 1
         )
