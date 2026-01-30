@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
     before_action :set_current_user
-    before_action :set_current_question, only: %i[show]
+    before_action :set_current_question, only: %i[show edit update destroy]
+    before_action :load_topics, only: %i[show edit update]
 
     def index
       @questions = @user.questions
@@ -8,7 +9,9 @@ class QuestionsController < ApplicationController
 
     def new
       @question = Question.new
-      load_topics
+    end
+
+    def edit
     end
 
     def show
@@ -25,6 +28,23 @@ class QuestionsController < ApplicationController
       else
         load_topics
         render :new, status: :unprocessable_entity
+      end
+    end
+
+    def update
+      if @question.update(question_params)
+        redirect_to question_path(@question), notice: "Question updated successfully"
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
+    def destroy
+      if @question.destroy
+        redirect_to root_path, notice: "Question deleted successfully"
+      else
+        flash.now[:alert] = "Question cannot be deleted"
+        render :show, status: :unprocessable_entity
       end
     end
 
