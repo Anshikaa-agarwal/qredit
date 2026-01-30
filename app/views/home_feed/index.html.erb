@@ -1,5 +1,7 @@
-<h1>home feed</h1>
-
-<% @questions.each do |q| %>
-    <%= q.title %>
-<% end %>
+<div>
+  <%= render 'notice' %>
+  <%= render 'alert' %>
+  <div class="space-y-6">
+    <%= render partial: "questions/question", collection: @questions %>
+  </div>
+</div>

@@ -3,10 +3,11 @@
   <!-- Edit/Delete -->
   <% if current_user == question.user %>
     <div class="absolute top-4 right-4 flex gap-3 text-gray-500 z-10">
-      <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
-        <i class="fa-regular fa-pen-to-square"></i>
-      <% end %>
-
+      
+        <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
+          <i class="fa-regular fa-pen-to-square"></i>
+        <% end %>
+      
       <%= button_to question_path(question),
             method: :delete,
             data: { turbo_confirm: "Are you sure?" },
