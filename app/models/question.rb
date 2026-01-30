@@ -17,7 +17,7 @@ class Question < ApplicationRecord
     has_many :votes,    dependent: :restrict_with_error, as: :votable
 
     has_many :credit_transactions, as: :source
-    has_many :abuse_reports, as: :reportable, dependent: :destroy
+    has_many :abuse_reports, class_name: "Abuse", as: :reportable, dependent: :destroy
 
     has_one_attached :pdf
 
@@ -32,8 +32,12 @@ class Question < ApplicationRecord
         created_at.to_date
     end
 
+    def editable?
+        !answers.exists? && !comments.exists? && !votes.exists?
+    end
+
     private def check_if_editable?
-        return unless answers.exists? || comments.exists? || votes.exists?
+        return if editable?
 
         errors.add(:base, "Question can not be edited if answers/comments/votes are present")
         throw(:abort)
