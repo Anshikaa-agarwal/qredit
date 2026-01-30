@@ -2,6 +2,26 @@
       class: "block max-w-6xl mx-auto my-6 no-underline" do %>
 <div class="max-w-6xl mx-auto bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
 
+  <!-- Edit/Delete question -->
+  <div class="block max-w-6xl mx-auto my-6 relative">
+  <% if current_user == question.user %>
+    <div class="absolute top-4 right-4 flex gap-3 text-gray-500 z-10">
+
+      <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
+        <i class="fa-regular fa-pen-to-square"></i>
+      <% end %>
+
+      <%= button_to question_path(question),
+            method: :delete,
+            data: { turbo_confirm: "Are you sure?" },
+            class: "hover:text-red-500 bg-transparent border-none p-0" do %>
+        <i class="fa-regular fa-trash-can"></i>
+      <% end %>
+
+    </div>
+  <% end %>
+  </div>
+
   <!-- User -->
   <div class="flex items-center gap-4">
     <%= image_tag(question.user.avatar,
@@ -16,7 +36,6 @@
     </div>
   </div>
 
-
   <!-- Topics -->
   <% if question.topics.any? %>
     <div class="flex flex-wrap gap-2">
@@ -27,8 +46,6 @@
       <% end %>
     </div>
   <% end %>
-
-
 
   <!-- Question -->
   <div>
