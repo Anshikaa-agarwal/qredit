@@ -11,7 +11,10 @@ class ProfilesController < ApplicationController
 
     def update
         if params[:remove_avatar]
-            @user.avatar.delete
+            @user.avatar.attach(
+                io: File.open(Rails.root.join("app/assets/images/placeholder_user_avatar.png")),
+                filename: "placeholder_user_avatar.png",
+            )
         end
 
         if params[:user] && params[:user][:avatar]
