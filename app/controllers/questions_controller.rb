@@ -1,14 +1,15 @@
 class QuestionsController < ApplicationController
-    before_action :set_current_user
+    before_action :authenticate_user!, except: %i[index show]
     before_action :set_current_question, only: %i[show edit update destroy]
+    before_action :authorize_question!, only: %i[edit update destroy]
     before_action :load_topics, only: %i[new show edit update]
 
     def index
-      @questions = Question.all
+      @questions = current_user.questions
     end
 
     def new
-      @question = Question.new
+      @question = current_user.questions.new
     end
 
     def edit
@@ -18,10 +19,8 @@ class QuestionsController < ApplicationController
     end
 
     def create
-      @question = Question.new(question_params)
-      @question.user = @user
+      @question = current_user.questions.new(question_params)
       @question.status = :published if params[:commit] == "Publish"
-      puts @question
 
       if @question.save
         redirect_to @question, notice: "Question was successfully created."
@@ -36,7 +35,7 @@ class QuestionsController < ApplicationController
       if @question.update(question_params)
         redirect_to question_path(@question), notice: "Question updated successfully"
       else
-        render :new, status: :unprocessable_entity
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -51,12 +50,12 @@ class QuestionsController < ApplicationController
 
     private
 
-    def set_current_user
-      @user = current_user
-    end
-
     def set_current_question
       @question = Question.find(params[:id])
+    end
+
+    def authorize_question!
+      redirect_to root_path, alert: "Not authorized" unless @question.user == current_user
     end
 
     def load_topics
