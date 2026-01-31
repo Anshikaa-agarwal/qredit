@@ -32,6 +32,7 @@ class QuestionsController < ApplicationController
     end
 
     def update
+      @question.status = :published if params[:commit] == "Publish"
       if @question.update(question_params)
         redirect_to question_path(@question), notice: "Question updated successfully"
       else
