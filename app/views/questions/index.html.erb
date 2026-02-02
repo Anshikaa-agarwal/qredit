@@ -1,1 +1,17 @@
-questions#index
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-semibold text-gray-800">
+      My Questions
+    </h1>
+
+    <%= link_to new_user_question_path(current_user),
+          class: "flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-100 text-emerald-700 font-medium hover:bg-emerald-200 transition" do %>
+      <i class="fa-solid fa-marker text-sm"></i>
+      <span>Ask question</span>
+    <% end %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render partial: 'question', collection: @questions %>
+  </div>
+</div>
