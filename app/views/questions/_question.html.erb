@@ -1,12 +1,18 @@
 <div class="max-w-6xl mx-auto my-6 relative">
 
-  <!-- Edit/Delete -->
+  <!-- Edit/Delete/Draft -->
   <% if current_user == question.user %>
     <div class="absolute top-4 right-4 flex gap-3 text-gray-500 z-10">
-      
-        <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
-          <i class="fa-regular fa-pen-to-square"></i>
-        <% end %>
+
+      <% if question.draft? %>
+        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+          Draft
+        </span>
+      <% end %>
+
+      <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
+        <i class="fa-regular fa-pen-to-square"></i>
+      <% end %>
       
       <%= button_to question_path(question),
             method: :delete,
