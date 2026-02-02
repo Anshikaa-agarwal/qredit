@@ -7,7 +7,7 @@ class Question < ApplicationRecord
     # associations
     belongs_to :user
 
-    has_many :topic_assignements, as: :topicable
+    has_many :topic_assignements, as: :topicable, dependent: :destroy
     has_many :topics, through: :topic_assignements
 
     has_many :answers,  dependent: :restrict_with_error
