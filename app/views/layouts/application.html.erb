@@ -51,8 +51,8 @@
         <%= link_to "Home", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
     
         <% if user_signed_in? %>
-          <%= link_to "My Questions", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
-          <%= link_to "My Answers", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "My Questions", user_questions_path(current_user) , class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "My Answers", user_answers_path(current_user), class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Credits", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Following", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "My Profile", user_path(current_user), class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>

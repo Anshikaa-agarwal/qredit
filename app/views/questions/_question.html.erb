@@ -20,35 +20,23 @@
   <%= link_to question_path(question), class: "block no-underline" do %>
     <div class="bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
 
-      <!-- User -->
-      <div class="flex items-center gap-4">
-        <%= image_tag(question.user.avatar,
-              class: "w-12 h-12 rounded-full border border-gray-300 object-cover") %>
+      <div class="flex flex-col gap-0">
+        <!-- User -->
+        <%= render partial: "shared/user_details", locals: { user: question.user } %>
 
-        <div>
-          <p class="text-lg font-semibold text-gray-800"><%= question.user.name %></p>
-          <p class="text-sm text-gray-600"><%= question.user.followers.count %> followers</p>
-          <p class="text-xs text-gray-400">
-            Posted <%= question.created_at >= 1.day.ago ? time_ago_in_words(question.created_at) + " ago" : question.posted_at_date %>
-          </p>
-        </div>
+        <!-- Posted time -->
+        <p class="text-xs text-gray-400 mt-1">
+          Posted <%= question.created_at >= 1.day.ago ? time_ago_in_words(question.created_at) + " ago" : question.posted_at_date %>
+        </p>
       </div>
 
       <!-- Topics -->
-      <% if question.topics.any? %>
-        <div class="flex flex-wrap gap-2">
-          <% question.topics.each do |t| %>
-            <span class="bg-orange-50 text-orange-600 border border-orange-100 px-3 py-1 rounded-full text-sm font-medium">
-              <%= t.name %>
-            </span>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render partial: 'shared/display_topics', locals: { topicable: question }%>
 
       <!-- Question -->
       <div>
         <p class="text-xl font-semibold text-gray-800 mb-1"><%= question.title %></p>
-        <p class="text-gray-700 leading-relaxed"><%= markdown(question.content) %></p>
+        <p class="text-gray-600 leading-relaxed"><%= markdown(question.content) %></p>
 
         <% if question.pdf.attached? %>
           <div class="mt-3">
