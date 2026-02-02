@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
     before_action :set_current_question, only: %i[show edit update destroy]
     before_action :authorize_question!, only: %i[edit update destroy]
     before_action :load_topics, only: %i[new show edit update]
+    before_action :authorize_new_question_user!, only: %i[new]
 
     def index
       @questions = current_user.questions
@@ -52,6 +53,10 @@ class QuestionsController < ApplicationController
 
     def set_current_question
       @question = Question.find(params[:id])
+    end
+
+    def authorize_new_question_user!
+      redirect_to root_path, alert: "Not authorized" if params[:user_id].to_i != current_user.id
     end
 
     def authorize_question!
