@@ -10,6 +10,12 @@
         </span>
       <% end %>
 
+       <% if question.updated_at %>
+        <span class="px-3 py-1 text-[11px] font-semibold rounded-full bg-violet-50 text-violet-700 border border-violet-200 tracking-wide">
+          Edited
+        </span>
+      <% end %>
+
       <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
         <i class="fa-regular fa-pen-to-square"></i>
       <% end %>
@@ -32,7 +38,7 @@
 
         <!-- Posted time -->
         <p class="text-xs text-gray-400 mt-1">
-          Posted <%= question.created_at >= 1.day.ago ? time_ago_in_words(question.created_at) + " ago" : question.posted_at_date %>
+          Posted <%= question.created_at >= 1.day.ago ? time_ago_in_words(question.updated_at || question.created_at) + " ago" : question.posted_at_date %>
         </p>
       </div>
 
