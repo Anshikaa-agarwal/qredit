@@ -82,13 +82,13 @@ class Question < ApplicationRecord
     end
 
     private def set_ever_published_flag
-        return if (draft? || ever_published?)
+        return if draft? || ever_published?
 
         self.ever_published = true
     end
 
     private def deduct_user_credits
-        return if (draft? || ever_published?)
+        return if draft? || ever_published?
 
         self.user.decrement!(:credits)
 
