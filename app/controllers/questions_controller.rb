@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
 
     def create
       @question = current_user.questions.new(question_params)
-      @question.status = :published if params[:commit] == "Publish"
+      @question.status = params[:commit] == "Publish" ? :published : :draft
 
       if @question.save
         redirect_to @question, notice: "Question was successfully created."
@@ -37,7 +37,8 @@ class QuestionsController < ApplicationController
     end
 
     def update
-      @question.status = :published if params[:commit] == "Publish"
+      @question.status = params[:commit] == "Publish" ? :published : :draft
+
       if @question.update(question_params)
         redirect_to question_path(@question), notice: "Question updated successfully"
       else

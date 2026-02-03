@@ -4,7 +4,8 @@ class Question < ApplicationRecord
     # callback
     before_update :check_if_editable?
     before_save   :create_url_slug, if: :status_changed?
-    after_create  :deduct_user_credits
+    before_save   :deduct_user_credits
+    before_save   :set_ever_published_flag, if: :published?
 
     # associations
     belongs_to :user
@@ -63,7 +64,10 @@ class Question < ApplicationRecord
     end
 
     private def create_url_slug
-        return if draft?
+        if draft?
+            self.url = nil
+            return
+        end
 
         base_url = title.parameterize
         slug = base_url
@@ -77,8 +81,14 @@ class Question < ApplicationRecord
         self.url = base_url
     end
 
+    private def set_ever_published_flag
+        return if (draft? || ever_published?)
+
+        self.ever_published = true
+    end
+
     private def deduct_user_credits
-        return if self.draft?
+        return if (draft? || ever_published?)
 
         self.user.decrement!(:credits)
 
