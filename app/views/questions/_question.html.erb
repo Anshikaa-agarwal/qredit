@@ -16,7 +16,7 @@
         </span>
       <% end %>
 
-      <%= link_to edit_question_path(question), class: "hover:text-violet-600" do %>
+      <%= link_to edit_question_path(question), class: "hover:text-violet-600", data: { turbo_frame: "_top" } do %>
         <i class="fa-regular fa-pen-to-square"></i>
       <% end %>
       
