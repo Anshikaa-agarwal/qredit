@@ -1,22 +1,33 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
   <!-- Search -->
-  <%= form_with url: root_path,
-        method: :get,
-        scope: :query,
-        data: { turbo_frame: "questions" },
-        class: "flex flex-col sm:flex-row gap-3 items-center" do |f| %>
+  <div class="flex flex-col sm:flex-row gap-3 items-center">
+    <%= form_with url: root_path,
+          method: :get,
+          scope: :query,
+          data: { turbo_frame: "questions" },
+          class: "flex flex-1 gap-3 items-center" do |f| %>
 
-    <div class="flex items-center gap-2 text-sm font-medium text-gray-700">
-      <%= f.label :search_by, "Search by", class: "whitespace-nowrap" %>
-      <%= f.select :search_by, [:title, :topic],
-            class: "border border-violet-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400" %>
-    </div>
+      <div class="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <%= f.label :search_by, "Search by", class: "whitespace-nowrap" %>
+        <%= f.select :search_by, [:title, :topic],
+              class: "border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" %>
+      </div>
 
-    <%= f.text_field :content,
-          placeholder: "Search questions...",
-          class: "flex-1 border border-violet-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400" %>
-  <% end %>
+      <div class="relative flex-1">
+        <%= f.text_field :content,
+              placeholder: "Search questions...",
+              class: "w-full border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" %>
+
+        <!-- Clear -->
+        <%= link_to root_path,
+              class: "absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg font-medium" do %>
+          &times;
+        <% end %>
+      </div>
+
+    <% end %>
+  </div>
 
   <!-- Results -->
   <turbo-frame id="questions">
@@ -24,7 +35,7 @@
       <% if @questions.any? %>
         <%= render partial: "questions/question", collection: @questions %>
       <% else %>
-        <p class="text-grey-400 text-center py-10 text-sm">
+        <p class="text-gray-400 text-center py-10 text-sm">
           No results found
         </p>
       <% end %>
