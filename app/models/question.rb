@@ -30,7 +30,7 @@ class Question < ApplicationRecord
     validate  :pdf_type
 
     def posted_at_date
-        created_at.to_date
+        updated_at.to_date || created_at.to_date
     end
 
     def editable?
