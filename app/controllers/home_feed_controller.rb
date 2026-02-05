@@ -13,7 +13,7 @@ class HomeFeedController < ApplicationController
           @questions = Question.published.where('title ILIKE ?', content_filter)
         end
       else
-        @questions = Question.published
+        @questions = Question.published.order(created_at: :desc)
       end
     end
 
