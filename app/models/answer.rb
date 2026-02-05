@@ -14,4 +14,8 @@ class Answer < ApplicationRecord
 
   # validations
   validates :content, presence: true
+
+  private def posted_at_date
+    created_at.to_date
+  end
 end

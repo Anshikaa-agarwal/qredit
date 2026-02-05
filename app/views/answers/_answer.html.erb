@@ -1,0 +1,17 @@
+<div class="max-w-6xl mx-auto border-l-3 border-violet-200 px-6 py-5 space-y-3 bg-gray-50">
+
+  <!-- User + Time -->
+  <div class="flex items-center justify-between">
+    <%= render partial: "shared/user_details", locals: { user: answer.user } %>
+
+    <p class="text-xs text-gray-400">
+      <%= answer.created_at >= 1.day.ago ? time_ago_in_words(answer.created_at) + " ago" : answer.posted_at_date %>
+    </p>
+  </div>
+
+  <!-- Content -->
+  <div class="text-gray-700 leading-relaxed prose prose-sm max-w-none">
+    <%= markdown(answer.content) %>
+  </div>
+
+</div>

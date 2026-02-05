@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :questions, param: :url do
     patch :publish, on: :member
   end
+<<<<<<< HEAD
+=======
+  resources :questions
+  resources :answers
+>>>>>>> 5983bcd (made controller and some views)
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
