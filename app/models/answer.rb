@@ -15,7 +15,18 @@ class Answer < ApplicationRecord
   # validations
   validates :content, presence: true
 
-  private def posted_at_date
+  # callbacks
+  after_commit :send_question_user_email
+
+  def net_votes
+    votes.upvote.count - votes.downvote.count
+  end
+
+  def posted_at_date
     created_at.to_date
+  end
+
+  private def send_question_user_email
+    UserMailer.with(user: question.user, question: question).answer_posted_email.deliver_now
   end
 end
