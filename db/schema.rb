@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_121648) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_065354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -57,11 +57,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_121648) do
     t.string "content", null: false
     t.datetime "created_at", null: false
     t.bigint "question_id", null: false
-    t.integer "status", default: 0, null: false
+    t.integer "status", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
-    t.index ["user_id", "question_id"], name: "index_answers_on_user_id_and_question_id", unique: true
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
@@ -177,9 +176,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_121648) do
 
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "type", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.integer "value", null: false
     t.bigint "votable_id", null: false
     t.string "votable_type", null: false
     t.index ["user_id", "votable_type", "votable_id"], name: "index_votes_on_user_id_and_votable_type_and_votable_id", unique: true
