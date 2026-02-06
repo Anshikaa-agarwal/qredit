@@ -1,1 +1,5 @@
-answer#new
+<%= turbo_frame_tag "new_answer_frame" do %>
+  <div class="max-w-6xl mx-auto mt-6 bg-white border border-neutral-200 rounded-xl p-6">
+    <%= render partial: 'form', locals: { question: @question, answer: @answer } %>
+  </div>
+<% end %>

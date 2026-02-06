@@ -1,0 +1,10 @@
+<%= turbo_frame_tag id="new_answer_frame" do %>
+  <div class="max-w-6xl mx-auto mt-6 flex justify-end">
+    <%= link_to new_question_answer_path(question),
+          data: { turbo_frame: "new_answer_frame" },
+          class: "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition font-medium text-sm" do %>
+      <i class="fa-regular fa-pen-to-square text-sm"></i>
+      <span>Write answer</span>
+    <% end %>
+  </div>
+<% end %>

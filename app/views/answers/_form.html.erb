@@ -1,0 +1,32 @@
+<%= form_with model: [question, answer], class: "max-w-6xl mx-auto space-y-4" do |f| %>
+
+  <% if answer.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-600 p-3 rounded text-sm">
+      <p class="font-medium mb-1">
+        <%= pluralize(answer.errors.count, "error") %> prevented this question from being saved:
+      </p>
+      <ul class="list-disc ml-5">
+        <% answer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :content, "Your answer",
+          class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <%= f.text_area :content,
+          rows: 5,
+          placeholder: "Write an answer...",
+          class: "w-full border border-neutral-300 rounded-lg px-4 py-3 text-sm bg-white resize-none
+                 focus:outline-none focus:ring-1 focus:ring-violet-200 focus:border-violet-300" %>
+  </div>
+
+  <div class="flex justify-end">
+    <%= f.submit "Post answer",
+          class: "px-5 py-2 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition text-sm font-medium" %>
+  </div>
+
+<% end %>
