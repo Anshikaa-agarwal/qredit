@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   has_many :notifications, dependent: :destroy
 
-  has_many :abuse_reports, class_name: "Abuse", foreign_key: :reported_by_id, dependent: :destroy
+  has_many :abuse_reports, class_name: "Abuse", foreign_key: :reporter_id, dependent: :destroy
 
   has_many :followers_relationships, class_name: "Follower", foreign_key: :followee_id
   has_many :following_relationships, class_name: "Follower", foreign_key: :follower_id

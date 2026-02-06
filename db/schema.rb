@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,10 +19,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
     t.string "reason", null: false
     t.bigint "reportable_id", null: false
     t.string "reportable_type", null: false
-    t.bigint "reported_by_id", null: false
+    t.bigint "reporter_id", null: false
     t.datetime "updated_at", null: false
     t.index ["reportable_type", "reportable_id"], name: "index_abuses_on_reportable"
-    t.index ["reported_by_id"], name: "index_abuses_on_reported_by_id"
+    t.index ["reporter_id"], name: "index_abuses_on_reporter_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -57,11 +57,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
     t.string "content", null: false
     t.datetime "created_at", null: false
     t.bigint "question_id", null: false
-    t.integer "status", default: 0, null: false
+    t.integer "status", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
-    t.index ["user_id", "question_id"], name: "index_answers_on_user_id_and_question_id", unique: true
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
@@ -89,14 +88,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
   end
 
   create_table "credit_transactions", force: :cascade do |t|
-    t.bigint "amount", null: false
     t.datetime "created_at", null: false
-    t.string "reason", null: false
-    t.integer "type", null: false
+    t.string "reason"
+    t.bigint "source_id"
+    t.string "source_type"
+    t.integer "status", null: false
+    t.bigint "units", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["source_type", "source_id"], name: "index_credit_transactions_on_source"
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
-    t.check_constraint "amount > 0"
+    t.check_constraint "units > 0"
   end
 
   create_table "followers", force: :cascade do |t|
@@ -124,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
   create_table "questions", force: :cascade do |t|
     t.string "content", null: false
     t.datetime "created_at", null: false
+    t.boolean "ever_published", default: false, null: false
     t.integer "status", default: 0, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
@@ -173,7 +176,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
 
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "type", null: false
+    t.integer "kind", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "votable_id", null: false
@@ -183,7 +186,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_123113) do
     t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
   end
 
-  add_foreign_key "abuses", "users", column: "reported_by_id"
+  add_foreign_key "abuses", "users", column: "reporter_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
