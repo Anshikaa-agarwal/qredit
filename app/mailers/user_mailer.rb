@@ -5,12 +5,12 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.answer_posted_email.subject
   #
 
-  default from: 'support@qredit.com'
+  default from: "support@qredit.com"
 
   def answer_posted_email
     @user = params[:user]
     @question = params[:question]
 
-    mail(to: @user.email, subject: 'An answer posted on your question!')
+    mail(to: @user.email, subject: "An answer posted on your question!")
   end
 end
