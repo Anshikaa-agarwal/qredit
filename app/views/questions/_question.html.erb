@@ -88,6 +88,7 @@
         <% end %>
       </div>
 
+      <% if question.published? %>
       <!-- Answers / Comments  -->
       <div class="flex items-center justify-end gap-6 pt-4 border-t border-violet-100 text-sm text-gray-500">
       
@@ -106,6 +107,7 @@
         </div>
       
       </div>
+      <% end %>
 
     <% end %>
     <!-- Question LINK ENDS -->

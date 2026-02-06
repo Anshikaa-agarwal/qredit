@@ -8,6 +8,7 @@
 
 <%= render @question %>
 
+<% if @question.published? %>
 <!-- Write Answer -->
 <%= render partial: 'write_answer_btn', locals: { question: @question } %>
 
@@ -20,4 +21,5 @@
   <div class="max-w-6xl mx-auto mt-8 space-y-6">
     <%= render partial: 'answers/answer', collection: @question.answers, as: :answer %>
   </div>
+<% end %>
 <% end %>
