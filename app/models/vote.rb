@@ -1,6 +1,6 @@
 class Vote < ApplicationRecord
     # enum
-    enum :value, { upvote: 0, downvote: 1 }
+    enum :kind, { upvote: 0, downvote: 1 }
 
     # associations
     belongs_to :user
