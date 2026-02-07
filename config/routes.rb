@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [ :show ] do
     patch :update_profile, on: :collection
-    delete "remove_associated_topic/:id", to: "users#remove_associated_topic", as: :remove_associated_topic, on: :collection
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user!, only: [ :update_profile, :remove_associated_topic ]
+    before_action :authenticate_user!, only: [ :update_profile ]
     before_action :set_user, only: [ :show ]
-    before_action :set_current_user, only: [ :update_profile, :remove_associated_topic ]
+    before_action :set_current_user, only: [ :update_profile ]
 
     def show
       @remaining_topics = (Topic.all - @user.topics) if viewing_own_profile?
@@ -23,12 +23,10 @@ class UsersController < ApplicationController
         @current_user.topics << Topic.find(params[:topics])
       end
 
-      redirect_to user_path(@current_user)
-    end
+      if params[:remove_topic]
+        @current_user.topics.delete(Topic.find(params[:remove_topic]))
+      end
 
-    def remove_associated_topic
-      topic = Topic.find(params[:id])
-      @current_user.topics.delete(topic)
       redirect_to user_path(@current_user)
     end
 

@@ -54,8 +54,8 @@
           <%= topic.name %>
           <% if @user == current_user %>
             <%= button_to "x",
-                remove_associated_topic_users_path(topic.id),
-                method: :delete,
+                update_profile_users_path(remove_topic: topic.id),
+                method: :patch,
                 form_class: "inline-block m-0 p-0",
                 class: "ml-2 text-red-800" %>
           <% end %>
