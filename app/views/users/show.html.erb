@@ -2,21 +2,26 @@
 
   <!-- Profile Header -->
   <div class="flex flex-col items-center mb-8">
-    <%= image_tag(current_user.avatar.attached? ? current_user.avatar : 'placeholder_user_avatar.png',
+    <%= image_tag(@user.avatar.attached? ? @user.avatar : 'placeholder_user_avatar.png',
                   class: "w-32 h-32 rounded-full border border-violet-200 mb-3 object-cover") %>
     <h1 class="text-3xl font-semibold text-violet-600 mb-3"><%= @user.name %></h1>
 
-    <%= form_with model: current_user, url: profile_path, method: :patch, class: "w-full max-w-xs" do |f| %>
-      <%= f.file_field :avatar, class: "w-full border border-violet-200 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
-      <%= f.submit "Update Avatar", class: "w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition font-medium text-lg" %>
-    <% end %>
-    
-    <% if @user.avatar.attached? %>
-        <%= button_to 'Remove avatar',
-            profile_path,
+    <% if @user == current_user %>
+      <%= form_with model: current_user,
+            url: update_profile_users_path,
+            method: :patch,
+            class: "w-full max-w-xs" do |f| %>
+        <%= f.file_field :avatar, class: "w-full border border-violet-200 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.submit "Update Avatar", class: "w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition font-medium text-lg" %>
+      <% end %>
+
+      <% if @user.avatar.attached? %>
+        <%= button_to "Remove avatar",
+            update_profile_users_path,
             method: :patch,
             params: { remove_avatar: true },
             class: "mt-2 text-sm text-red-600 hover:text-red-800 underline underline-offset-2 font-medium" %>
+      <% end %>
     <% end %>
   </div>
 
@@ -47,21 +52,33 @@
       <% @user.topics.each do |topic| %>
         <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-md font-semibold border border-orange-200">
           <%= topic.name %>
-          <%= button_to "x", remove_associated_topic_profile_path(topic.id), method: :delete, form_class: "inline-block m-0 p-0", class: "ml-2 text-red-800" %>
+          <% if @user == current_user %>
+            <%= button_to "x",
+                remove_associated_topic_users_path(topic.id),
+                method: :delete,
+                form_class: "inline-block m-0 p-0",
+                class: "ml-2 text-red-800" %>
+          <% end %>
         </span>
       <% end %>
     </div>
   </div>
 
-
   <!-- Add Topics -->
-  <div>
-    <p class="text-lg font-medium text-gray-700 mb-2">Add more topics</p>
-    <%= form_with model: current_user, url: profile_path, method: :patch, class: "flex gap-3 items-center" do |f| %>
-      <%= select_tag :topics, options_from_collection_for_select(@remaining_topics, :id, :name), prompt: "Select a topic",
-            class: "border border-violet-200 rounded px-3 py-2 w-full text-base focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
-      <%= f.submit "Add", class: "bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition font-medium text-base" %>
-    <% end %>
-  </div>
+  <% if @user == current_user %>
+    <div>
+      <p class="text-lg font-medium text-gray-700 mb-2">Add more topics</p>
+      <%= form_with model: current_user,
+            url: update_profile_users_path,
+            method: :patch,
+            class: "flex gap-3 items-center" do |f| %>
+        <%= select_tag :topics,
+              options_from_collection_for_select(@remaining_topics, :id, :name),
+              prompt: "Select a topic",
+              class: "border border-violet-200 rounded px-3 py-2 w-full text-base focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.submit "Add", class: "bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition font-medium text-base" %>
+      <% end %>
+    </div>
+  <% end %>
 
 </div>

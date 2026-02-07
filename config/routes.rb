@@ -3,8 +3,9 @@ Rails.application.routes.draw do
 
   root "home_feed#index"
 
-  resource :profile, only: [ :show, :update ] do
-    delete "remove_associated_topic/:id", to: "profiles#remove_associated_topic", as: :remove_associated_topic
+  resources :users, only: [ :show ] do
+    patch :update_profile, on: :collection
+    delete "remove_associated_topic/:id", to: "users#remove_associated_topic", as: :remove_associated_topic, on: :collection
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
