@@ -1,6 +1,7 @@
 class Vote < ApplicationRecord
+    self.inheritance_column = nil
     # enum
-    enum :kind, { upvote: 0, downvote: 1 }
+    enum :type, { upvote: 0, downvote: 1 }
 
     # associations
     belongs_to :user
