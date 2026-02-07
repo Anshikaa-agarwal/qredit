@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
 
-  has_many :topic_assignements, as: :topicable
+  has_many :topic_assignements, as: :topicable, dependent: :destroy
   has_many :topics, through: :topic_assignements
 
   has_many :credit_transactions, dependent: :destroy

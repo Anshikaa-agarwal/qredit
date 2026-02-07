@@ -176,7 +176,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
 
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "kind", null: false
+    t.integer "type", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "votable_id", null: false
