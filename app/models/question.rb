@@ -4,7 +4,7 @@ class Question < ApplicationRecord
     # callback
     before_update :check_if_editable?
     before_save   :create_url_slug, if: :status_changed?
-    before_save   :deduct_user_credits
+    after_commit  :deduct_user_credits
     before_save   :set_ever_published_flag, if: :published?
 
     # associations

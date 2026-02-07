@@ -66,17 +66,19 @@ class User < ApplicationRecord
   end
 
   def after_verification_settings
-    update!(
-      verified: true,
-      credits: credits + 5,
-      auth_token: SecureRandom.hex(20)
-    )
+    User.transaction do
+      update!(
+        verified: true,
+        credits: credits + 5,
+        auth_token: SecureRandom.hex(20)
+      )
 
-    credit_transactions.create!(
-      reason: "User email verified",
-      status: :earnt,
-      units: 5
-    )
+      credit_transactions.create!(
+        reason: "User email verified",
+        type: :earnt,
+        units: 5
+      )
+    end
   end
 
   def admin?
