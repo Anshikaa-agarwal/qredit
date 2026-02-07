@@ -1,6 +1,8 @@
 class CreditTransaction < ApplicationRecord
+    self.inheritance_column = nil
+
     # enum
-    enum :status, { spent: 0, earnt: 1 }
+    enum :type, { spent: 0, earnt: 1 }
 
     # associations
     belongs_to :user
