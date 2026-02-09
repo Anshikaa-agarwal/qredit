@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_09_070213) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -92,7 +92,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
     t.string "reason"
     t.bigint "source_id"
     t.string "source_type"
-    t.integer "status", null: false
+    t.integer "type", null: false
     t.bigint "units", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -126,7 +126,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
   create_table "questions", force: :cascade do |t|
     t.string "content", null: false
     t.datetime "created_at", null: false
+    t.time "edited_at"
     t.boolean "ever_published", default: false, null: false
+    t.time "posted_at"
     t.integer "status", default: 0, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
@@ -176,7 +178,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_095140) do
 
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "type", null: false
+    t.integer "kind", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "votable_id", null: false
