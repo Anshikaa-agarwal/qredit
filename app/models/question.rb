@@ -82,12 +82,6 @@ class Question < ApplicationRecord
         self.url = base_url
     end
 
-    private def set_ever_published_flag
-        return if draft? || ever_published?
-
-        self.ever_published = true
-    end
-
     private def handle_timestamps
         from, to = changes[:status]
 
@@ -109,16 +103,18 @@ class Question < ApplicationRecord
     end
 
     private def deduct_user_credits
-        return if draft? || ever_published?
+        return if !saved_change_to_status? || posted_at
 
-        self.user.decrement!(:credits)
+        Question.transaction do
+            self.user.decrement!(:credits)
 
-        # logs credit spent
-        credit_transactions.create!(
-            user: self.user,
-            reason: "Question asked",
-            type: :spent,
-            units: 1
-        )
+            # logs credit spent
+            credit_transactions.create!(
+                user: self.user,
+                reason: "Question asked",
+                type: :spent,
+                units: 1
+            )
+        end
     end
 end
