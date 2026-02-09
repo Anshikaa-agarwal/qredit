@@ -1,6 +1,6 @@
 class Abuse < ApplicationRecord
     # associations
-    belongs_to :user, foreign_key: :reporter_id
+    belongs_to :reporter, class_name: 'User'
     belongs_to :reportable, polymorphic: true
 
     # validations
