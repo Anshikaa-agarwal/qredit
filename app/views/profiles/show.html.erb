@@ -1,0 +1,67 @@
+<div class="max-w-3xl mx-auto mt-10 bg-white p-6 rounded border border-violet-200">
+
+  <!-- Profile Header -->
+  <div class="flex flex-col items-center mb-8">
+    <%= image_tag(current_user.avatar.attached? ? current_user.avatar : 'placeholder_user_avatar.png',
+                  class: "w-32 h-32 rounded-full border border-violet-200 mb-3 object-cover") %>
+    <h1 class="text-3xl font-semibold text-violet-600 mb-3"><%= @user.name %></h1>
+
+    <%= form_with model: current_user, url: profile_path, method: :patch, class: "w-full max-w-xs" do |f| %>
+      <%= f.file_field :avatar, class: "w-full border border-violet-200 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      <%= f.submit "Update Avatar", class: "w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition font-medium text-lg" %>
+    <% end %>
+    
+    <% if @user.avatar.attached? %>
+        <%= button_to 'Remove avatar',
+            profile_path,
+            method: :patch,
+            params: { remove_avatar: true },
+            class: "mt-2 text-sm text-red-600 hover:text-red-800 underline underline-offset-2 font-medium" %>
+    <% end %>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 gap-6 mb-8 text-center">
+    <div class="p-3 bg-violet-50 rounded border border-violet-200">
+      <p class="text-base text-gray-600">Followers</p>
+      <p class="text-2xl font-semibold text-violet-600"><%= @user.followers.count %></p>
+    </div>
+    <div class="p-3 bg-violet-50 rounded border border-violet-200">
+      <p class="text-base text-gray-600">Following</p>
+      <p class="text-2xl font-semibold text-violet-600"><%= @user.followees.count %></p>
+    </div>
+    <div class="p-3 bg-violet-50 rounded border border-violet-200">
+      <p class="text-base text-gray-600">Credits</p>
+      <p class="text-2xl font-semibold text-violet-600"><%= @user.credits %></p>
+    </div>
+    <div class="p-3 bg-violet-50 rounded border border-violet-200">
+      <p class="text-base text-gray-600">Questions</p>
+      <p class="text-2xl font-semibold text-violet-600"><%= @user.questions.count %></p>
+    </div>
+  </div>
+
+  <!-- Topics -->
+  <div class="mb-6">
+    <p class="text-lg font-medium text-gray-700 mb-2">Interested Topics</p>
+    <div class="flex flex-wrap gap-2">
+      <% @user.topics.each do |topic| %>
+        <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-md font-semibold border border-orange-200">
+          <%= topic.name %>
+          <%= button_to "x", remove_associated_topic_profile_path(topic.id), method: :delete, form_class: "inline-block m-0 p-0", class: "ml-2 text-red-800" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+
+
+  <!-- Add Topics -->
+  <div>
+    <p class="text-lg font-medium text-gray-700 mb-2">Add more topics</p>
+    <%= form_with model: current_user, url: profile_path, method: :patch, class: "flex gap-3 items-center" do |f| %>
+      <%= select_tag :topics, options_from_collection_for_select(@remaining_topics, :id, :name), prompt: "Select a topic",
+            class: "border border-violet-200 rounded px-3 py-2 w-full text-base focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      <%= f.submit "Add", class: "bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition font-medium text-base" %>
+    <% end %>
+  </div>
+
+</div>
