@@ -17,6 +17,11 @@ class TopicAssignementsController < ApplicationController
     end
 
     private def find_topicable
-        @topicable = params[:topicable_type].constantize.find(params[:topicable_id])
+        topicable_type = params[:topicable_type]
+        unless topicable_type.present? && Module.const_defined?(topicable_type)
+          redirect_to root_path, alert: "Invalid topicable_type"
+          return
+        end
+        @topicable = topicable_type.constantize.find(params[:topicable_id])
     end
 end
