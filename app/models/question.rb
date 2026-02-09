@@ -4,8 +4,9 @@ class Question < ApplicationRecord
     # callback
     before_update :check_if_editable?
     before_save   :create_url_slug, if: :status_changed?
+    before_save   :handle_timestamps, if: :status_changed?
+    before_save   :set_edited_at
     after_commit  :deduct_user_credits
-    before_save   :set_ever_published_flag, if: :published?
 
     # associations
     belongs_to :user
@@ -87,6 +88,26 @@ class Question < ApplicationRecord
         self.ever_published = true
     end
 
+    private def handle_timestamps
+        from, to = changes[:status]
+
+        # draft -> published
+        if [ from, to ] == [ "draft", "published" ]
+            self.posted_at ||= Time.current
+        end
+
+        self.edited_at = nil
+    end
+
+    private def set_edited_at
+        return unless published?
+        return if status_changed?
+
+        if will_save_change_to_title? || will_save_change_to_content?
+            self.edited_at = Time.current
+        end
+    end
+
     private def deduct_user_credits
         return if draft? || ever_published?
 
@@ -96,7 +117,7 @@ class Question < ApplicationRecord
         credit_transactions.create!(
             user: self.user,
             reason: "Question asked",
-            status: :spent,
+            type: :spent,
             units: 1
         )
     end
