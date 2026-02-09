@@ -16,7 +16,7 @@ class Answer < ApplicationRecord
   validates :content, presence: true
 
   # callbacks
-  after_commit :send_question_user_email
+  after_create_commit :send_question_user_email
 
   def net_votes
     votes.upvote.count - votes.downvote.count
