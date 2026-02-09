@@ -51,6 +51,10 @@ class User < ApplicationRecord
     account
   end
 
+  def displayed_avatar
+    avatar.attached? ? avatar : "placeholder_user_avatar.png"
+  end
+
   private
 
   def set_defaults_for_admins

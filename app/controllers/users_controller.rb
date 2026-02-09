@@ -9,22 +9,11 @@ class UsersController < ApplicationController
 
     def update_profile
       if params[:remove_avatar]
-        @current_user.avatar.attach(
-          io: File.open(Rails.root.join("app/assets/images/placeholder_user_avatar.png")),
-          filename: "placeholder_user_avatar.png"
-        )
+        @current_user.avatar.destroy
       end
 
       if params[:user]&.[](:avatar)
         @current_user.update!(user_params)
-      end
-
-      if params[:topics]
-        @current_user.topics << Topic.find(params[:topics])
-      end
-
-      if params[:remove_topic]
-        @current_user.topics.delete(Topic.find(params[:remove_topic]))
       end
 
       redirect_to user_path(@current_user)

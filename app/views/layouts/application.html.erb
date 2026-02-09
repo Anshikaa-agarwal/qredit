@@ -32,7 +32,7 @@
 
     <% if user_signed_in? %>
       <%= link_to user_path(current_user) do %>
-        <%= image_tag current_user.avatar,
+        <%= image_tag current_user.displayed_avatar,
         class: "w-10 h-10 rounded-full border border-amber-200 object-cover hover:ring-2 hover:ring-amber-300 transition" %>
       <% end %>
     <% else %>
