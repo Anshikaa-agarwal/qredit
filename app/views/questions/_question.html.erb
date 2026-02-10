@@ -136,4 +136,17 @@
   </div>
   <!-- Question Container ENDS -->
 
+    <!-- Publish CTA -->
+    <% if question.draft? %>
+      <div class="pt-3 border-t border-neutral-100 flex justify-end">
+        <%= button_to publish_question_path(question),
+              method: :patch,
+              data: { turbo_confirm: "Publish this question?" },
+              class: "text-sm text-violet-600 hover:text-violet-700 font-medium bg-transparent border-none p-0" do %>
+          Publish
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
 </div>
