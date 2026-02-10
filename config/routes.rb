@@ -4,10 +4,8 @@ Rails.application.routes.draw do
   root "home_feed#index"
 
   resources :users, only: [ :show ] do
-    patch :update_profile, on: :collection
+    patch :update_profile, on: :member
   end
-
-  resources :topic_assignements, only: %i[ create destroy ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

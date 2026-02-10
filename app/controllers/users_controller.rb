@@ -16,20 +16,28 @@ class UsersController < ApplicationController
         @current_user.update!(user_params)
       end
 
+      if params[:add_topic_id]
+        @current_user.topics << Topic.find_by(id: params[:add_topic_id])
+      end
+
+      if params[:remove_topic_id]
+        @current_user.topics.destroy(Topic.find_by(id: params[:remove_topic_id]))
+      end
+
       redirect_to user_path(@current_user)
     end
 
     private
 
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
     end
 
     def set_current_user
       @current_user = current_user
     end
 
-    def user_params
+    def user_avatar_params
       params.require(:user).permit(:avatar)
     end
 
