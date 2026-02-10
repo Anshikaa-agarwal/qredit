@@ -37,8 +37,6 @@ class QuestionsController < ApplicationController
     end
 
     def update
-      @question.status = params[:commit] == "Publish" ? :published : :draft
-
       if @question.update(question_params)
         redirect_to question_path(@question), notice: "Question updated successfully"
       else
@@ -58,7 +56,7 @@ class QuestionsController < ApplicationController
     private
 
     def set_current_question
-      @question = Question.find_by(url: params[:id]) || Question.find_by(id: params[:id])
+      @question = Question.find_by(url: params[:url]) || Question.find_by(id: params[:url])
     end
 
     def authorize_question!

@@ -9,7 +9,7 @@ class Question < ApplicationRecord
     before_save   :create_url_slug, if: :status_changed?
     before_save   :handle_timestamps, if: :status_changed?
     before_save   :set_edited_at
-    after_commit  :deduct_user_credits
+    after_save_commit :deduct_user_credits
 
     # associations
     belongs_to :user
@@ -106,18 +106,16 @@ class Question < ApplicationRecord
     end
 
     private def deduct_user_credits
-        return if !saved_change_to_status? || posted_at
+      return unless saved_change_to_status? && published?
 
-        Question.transaction do
-            self.user.decrement!(:credits)
-
-            # logs credit spent
-            credit_transactions.create!(
-                user: self.user,
-                reason: "Question asked",
-                type: :spent,
-                units: 1
-            )
-        end
+      Question.transaction do
+        user.decrement!(:credits)
+        credit_transactions.create!(
+          user: user,
+          reason: "Question asked",
+          type: :spent,
+          units: 1
+        )
+      end
     end
 end
