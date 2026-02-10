@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
     before_action :authenticate_user!, except: %i[index show]
-    before_action :set_current_question, only: %i[show edit update destroy]
+    before_action :set_current_question, only: %i[show edit update destroy publish]
     before_action :authorize_question!, only: %i[edit update destroy]
     before_action :load_topics, only: %i[new show edit update]
 
@@ -50,6 +50,16 @@ class QuestionsController < ApplicationController
       else
         flash.now[:alert] = "Question cannot be deleted"
         render :show, status: :unprocessable_entity
+      end
+    end
+
+    def publish
+      if @question.update(status: :published)
+        p "hello"
+        redirect_to @question, notice: "Question published successfully."
+      else
+        p "bye"
+        redirect_to @question, alert: @question.errors.full_messages.to_sentence
       end
     end
 
