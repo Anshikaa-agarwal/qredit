@@ -16,14 +16,6 @@ class UsersController < ApplicationController
         @current_user.update!(user_params)
       end
 
-      if params[:add_topic_id]
-        @current_user.topics << Topic.find_by(id: params[:add_topic_id])
-      end
-
-      if params[:remove_topic_id]
-        @current_user.topics.destroy(Topic.find_by(id: params[:remove_topic_id]))
-      end
-
       redirect_to user_path(@current_user)
     end
 
