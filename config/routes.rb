@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     patch :update_profile, on: :member
     resources :topic_assignements, only: [ :create, :destroy ]
   end
-  resources :questions
+  resources :questions, param: :url
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

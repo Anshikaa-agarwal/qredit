@@ -1,4 +1,7 @@
 class Question < ApplicationRecord
+    def to_param
+        self.url
+    end
     enum :status, { draft: 0, published: 1, unpublished: 2 }
 
     # callback

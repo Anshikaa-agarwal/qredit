@@ -58,7 +58,7 @@ class QuestionsController < ApplicationController
     private
 
     def set_current_question
-      @question = Question.find(params[:id])
+      @question = Question.find_by(url: params[:url])
     end
 
     def authorize_question!
