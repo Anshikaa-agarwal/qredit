@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
       if params[:filter] == "current-user"
         @questions = current_user.questions
       elsif params[:user_id]
-        @questions = User.find(:user_id).questions
+        @questions = User.find_by(:user_id).questions
       else
         @questions = Question.published
       end
@@ -58,7 +58,7 @@ class QuestionsController < ApplicationController
     private
 
     def set_current_question
-      @question = Question.find_by(url: params[:url])
+      @question = Question.find_by(url: params[:id]) || Question.find_by(params[:id])
     end
 
     def authorize_question!

@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
     def to_param
-        self.url
+        url.presence || id.to_s
     end
     enum :status, { draft: 0, published: 1, unpublished: 2 }
 
