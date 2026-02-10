@@ -56,11 +56,20 @@ class Question < ApplicationRecord
     end
   end
 
+<<<<<<< HEAD
   private def must_have_topics_if_published
     if published? && topics.blank?
       errors.add(:topics, "must be selected when question is published.")
     end
   end
+=======
+    # callback
+    before_update :check_if_editable?
+    before_save   :create_url_slug, if: :status_changed?
+    before_save   :handle_timestamps, if: :status_changed?
+    before_save   :set_edited_at
+    after_save_commit :deduct_user_credits
+>>>>>>> 487ceba (updated create and update question logic and views)
 
   private def pdf_type
     if pdf.attached? && pdf.filename.extension != "pdf"
@@ -106,6 +115,7 @@ class Question < ApplicationRecord
     end
   end
 
+<<<<<<< HEAD
   private def deduct_user_credits
     return unless saved_change_to_status? && published?
 
@@ -117,6 +127,70 @@ class Question < ApplicationRecord
         type: :spent,
         units: 1
       )
+=======
+    private def must_have_topics_if_published
+        if published? && topics.blank?
+            errors.add(:topics, "must be selected when question is published.")
+        end
+    end
+
+    private def pdf_type
+        if pdf.attached? && pdf.filename.extension != "pdf"
+          errors.add(:base, "Attachment must be a PDF file")
+        end
+    end
+
+    private def create_url_slug
+        if draft?
+            self.url = nil
+            return
+        end
+
+        base_url = title.parameterize
+        slug = base_url
+        suffix = 2
+
+        while Question.exists?(url: base_url)
+            base_url = "#{base_url}-#{suffix}"
+            suffix += 1
+        end
+
+        self.url = base_url
+    end
+
+    private def handle_timestamps
+        from, to = changes[:status]
+
+        # draft -> published
+        if [ from, to ] == [ "draft", "published" ]
+            self.posted_at ||= Time.current
+        end
+
+        self.edited_at = nil
+    end
+
+    private def set_edited_at
+        return unless published?
+        return if status_changed?
+
+        if will_save_change_to_title? || will_save_change_to_content?
+            self.edited_at = Time.current
+        end
+    end
+
+    private def deduct_user_credits
+      return unless saved_change_to_status? && published?
+
+      Question.transaction do
+        user.decrement!(:credits)
+        credit_transactions.create!(
+          user: user,
+          reason: "Question asked",
+          type: :spent,
+          units: 1
+        )
+      end
+>>>>>>> 487ceba (updated create and update question logic and views)
     end
   end
 end
