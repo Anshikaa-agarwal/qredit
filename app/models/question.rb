@@ -1,4 +1,5 @@
 class Question < ApplicationRecord
+<<<<<<< HEAD
   def to_param
     url.presence || id.to_s
   end
@@ -48,6 +49,10 @@ class Question < ApplicationRecord
     return if draft?
     if user.credits < 1
       errors.add(:user, "must have atleast 1 credit to ask a question.")
+=======
+    def to_param
+        url.presence || id.to_s
+>>>>>>> 624e123 (added find by id for drafted question with no url)
     end
   end
 
