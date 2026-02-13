@@ -1,0 +1,14 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded border border-violet-200 mt-12 text-center">
+  <h2 class="text-2xl font-semibold mb-6 text-violet-600">Welcome!</h2>
+
+  <p class="mb-4 text-gray-700">
+    Welcome <%= @email %>!
+  </p>
+
+  <p class="mb-6 text-gray-700">
+    You can confirm your account email through the link below:
+  </p>
+
+  <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token),
+        class: "inline-block bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700 transition" %>
+</div>
