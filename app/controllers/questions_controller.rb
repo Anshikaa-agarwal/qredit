@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
 
     def create
       @question = current_user.questions.new(question_params)
-      @question.status = params[:commit] == "Publish" ? :published : :draft
+      @question.status = :draft
 
       if @question.save
         redirect_to @question, notice: "Question was successfully created."

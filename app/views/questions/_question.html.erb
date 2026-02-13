@@ -85,7 +85,15 @@
         <%= button_to publish_question_path(question),
               method: :patch,
               data: { turbo_confirm: "Publish this question?" },
-              class: "text-sm text-violet-600 hover:text-violet-700 font-medium bg-transparent border-none p-0" do %>
+              class: "inline-flex items-center
+                  px-4 py-1.5
+                  rounded-full
+                  border border-violet-300
+                  bg-violet-50
+                  text-violet-700
+                  text-xs font-medium
+                  hover:bg-violet-100
+                  transition" do %>
           Publish
         <% end %>
       </div>
