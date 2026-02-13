@@ -1,0 +1,43 @@
+<% if user_signed_in? %>
+    <%= turbo_frame_tag "#{dom_id(votable)}_vote_button" do %>
+        <% vote = votable.votes.find_by(user: current_user) %>
+            <!-- if vote already exisits -->
+            <% if vote %>
+                <!-- upvote? -->
+                <% if vote.upvote? %>
+                    <%= button_to polymorphic_path([votable, :votes]),
+                        method: :delete,
+                        params: { vote: { type: "upvote" } } do %>
+                            <i class="fa-solid fa-thumbs-up"></i>
+                    <% end %>
+                    <%= button_to polymorphic_path([votable, :votes]),
+                        params: { vote: { type: "downvote" } } do %>
+                            <i class="fa-regular fa-thumbs-down"></i>
+                    <% end %>
+                <!-- downvote? -->
+                <% elsif vote.downvote? %>
+                    <%= button_to polymorphic_path([votable, :votes]),
+                        params: { vote: { type: "upvote" } } do %>
+                            <i class="fa-regular fa-thumbs-up"></i>
+                    <% end %>
+                    <%= button_to polymorphic_path([votable, :votes]),
+                        method: :delete,
+                        params: { vote: { type: "downvote" } } do %>
+                            <i class="fa-solid fa-thumbs-down"></i>
+                    <% end %>
+                <% end %>
+
+            <!-- if vote doesn't exisit -->
+            <% else %>
+                <%= button_to polymorphic_path([votable, :votes]),
+                    params: { vote: { type: "upvote" } } do %>
+                        <i class="fa-regular fa-thumbs-up"></i>
+                <% end %>
+                <%= button_to polymorphic_path([votable, :votes]),
+                    params: { vote: { type: "downvote" } } do %>
+                        <i class="fa-regular fa-thumbs-down"></i>
+                <% end %>
+            <% end %>
+    <% end %>
+<% else %>
+<% end %>

@@ -24,10 +24,6 @@ class Answer < ApplicationRecord
     created_at.to_date
   end
 
-  private def send_question_user_email
-    UserMailer.with(user: question.user, question: question).answer_posted_email.deliver_now
-  end
-
   def handle_vote_count
     prev_net_votes = self.net_votes
     recalculate_net_votes!
@@ -38,6 +34,10 @@ class Answer < ApplicationRecord
     elsif prev_net_votes >= NETVOTE_THRESHOLD && current_net_votes < NETVOTE_THRESHOLD
       revert_credits
     end
+  end
+
+  private def send_question_user_email
+    UserMailer.with(user: question.user, question: question).answer_posted_email.deliver_now
   end
 
   private def recalculate_net_votes!

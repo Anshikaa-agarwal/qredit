@@ -10,8 +10,15 @@ Rails.application.routes.draw do
     resources :followers, only: %i[ create destroy ]
   end
 
-  resources :questions, param: :url do
-    resources :answers
+  concern :votable do
+    resources :votes, only: [ :create, :destroy ]
+  end
+
+  resources :questions, param: :url, concerns: :votable do
+    resources :answers, concerns: :votable do
+      resources :comments, concerns: :votable
+    end
+    resources :comments, concerns: :votable
     patch :publish, on: :member
   end
 

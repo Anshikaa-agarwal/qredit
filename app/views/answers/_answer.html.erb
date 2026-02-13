@@ -5,17 +5,18 @@
   <div class="flex items-center justify-between">
     <%= render partial: "shared/user_details", locals: { user: answer.user } %>
 
-    <div>
-      <%= link_to edit_question_answer_path(answer.question, answer),
-            data: { turbo_frame: "edit_answer_frame" } do%>
-        <i class="fa-regular fa-pen-to-square"></i>
-      <% end %>
-      <%= link_to question_answer_path(answer.question, answer),
-            data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" } do %>
-        <i class="fa-regular fa-trash-can"></i>
-      <% end %>
-
-    </div>
+    <% if answer.user == current_user %>
+      <div>
+        <%= link_to edit_question_answer_path(answer.question, answer),
+              data: { turbo_frame: "edit_answer_frame" } do%>
+          <i class="fa-regular fa-pen-to-square"></i>
+        <% end %>
+        <%= link_to question_answer_path(answer.question, answer),
+              data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" } do %>
+          <i class="fa-regular fa-trash-can"></i>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
 

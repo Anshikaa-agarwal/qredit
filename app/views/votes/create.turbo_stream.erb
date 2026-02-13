@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'flash', partial: 'shared/flash' %>
+
+<%= turbo_stream.replace "#{dom_id(@votable)}_vote_button",
+  partial: "votes/vote_button",
+  locals: { votable: @votable } %>
