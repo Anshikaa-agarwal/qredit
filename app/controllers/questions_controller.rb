@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
       if params[:filter] == "current-user"
         @questions = current_user.questions
       elsif params[:user_id]
-        @questions = User.find_by(:user_id).questions
+        @questions = Question.where(user_id: params[:user_id])
       else
         @questions = Question.published
       end
@@ -55,10 +55,8 @@ class QuestionsController < ApplicationController
 
     def publish
       if @question.update(status: :published)
-        p "hello"
         redirect_to @question, notice: "Question published successfully."
       else
-        p "bye"
         redirect_to @question, alert: @question.errors.full_messages.to_sentence
       end
     end

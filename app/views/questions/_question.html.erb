@@ -16,8 +16,23 @@
         </span>
       <% end %>
 
-      <%= link_to edit_question_path(question), class: "hover:text-violet-600", data: { turbo_frame: "_top" } do %>
-        <i class="fa-regular fa-pen-to-square"></i>
+      <% if question.editable? %>
+        <%= link_to edit_question_path(question),
+              class: "hover:text-violet-600",
+              data: { turbo_frame: "_top" } do %>
+          <i class="fa-regular fa-pen-to-square"></i>
+        <% end %>
+      <% else %>
+        <span
+          class="text-gray-300 cursor-not-allowed relative group">
+          <i class="fa-regular fa-pen-to-square"></i>
+
+          <!-- tooltip -->
+          <span class="absolute right-0 top-6 hidden group-hover:block
+                       bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
+            Cannot edit: answers/comments/votes exist
+          </span>
+        </span>
       <% end %>
 
       <%= button_to question_path(question),

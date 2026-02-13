@@ -9,7 +9,6 @@ class User < ApplicationRecord
 
   # callbacks
   before_create :set_defaults_for_admins
-  after_commit :attach_default_avatar, on: [ :create ]
 
   # associations
   has_many :questions, dependent: :destroy
@@ -83,15 +82,5 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
-  end
-
-  def attach_default_avatar
-    return if avatar.attached?
-
-    avatar.attach(
-      io: File.open(Rails.root.join("app/assets/images/placeholder_user_avatar.png")),
-      filename: "placeholder_user_avatar.png",
-      content_type: "image/png"
-    )
   end
 end

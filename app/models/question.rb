@@ -33,10 +33,6 @@ class Question < ApplicationRecord
     validate  :must_have_topics_if_published
     validate  :pdf_type
 
-    def posted_at_date
-        updated_at.to_date || created_at.to_date
-    end
-
     def editable?
         !answers.exists? && !comments.exists? && !votes.exists?
     end
