@@ -1,8 +1,8 @@
 class Comment < ApplicationRecord
-    # associations
-    belongs_to :user
-    belongs_to :commentable, polymorphic: true
+  # associations
+  belongs_to :user
+  belongs_to :commentable, polymorphic: true
 
-    # validations
-    validates :content, presence: true
+  # validations
+  validates :content, presence: true
 end
