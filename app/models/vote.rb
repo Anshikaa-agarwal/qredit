@@ -14,7 +14,6 @@ class Vote < ApplicationRecord
   after_commit :handle_answer_net_votes, if: -> { votable.is_a?(Answer) }
 
   private def handle_answer_net_votes
-    puts "inside after commit : vote"
     votable.handle_vote_count
   end
 end
