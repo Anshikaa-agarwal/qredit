@@ -53,7 +53,7 @@
         <% if user_signed_in? %>
           <%= link_to "My Questions", questions_path(filter: 'current-user') , class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "My Answers", '/', class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
-          <%= link_to "Credits", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "Credits", "/credits", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Following", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "My Profile", user_path(current_user), class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
     

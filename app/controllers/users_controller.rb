@@ -19,6 +19,11 @@ class UsersController < ApplicationController
     redirect_to user_path(@current_user)
   end
 
+  def credits
+    @credit_count = current_user.credits
+    @transactions = current_user.credit_transactions
+  end
+
   private
 
   def set_user
