@@ -9,15 +9,9 @@ Rails.application.routes.draw do
   end
 
   resources :questions, param: :url do
-<<<<<<< HEAD
     resources :answers
     patch :publish, on: :member
   end
-
-=======
-    patch :publish, on: :member
-  end
->>>>>>> 86f6e21 (added cta to publish)
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

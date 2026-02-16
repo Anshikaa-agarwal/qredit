@@ -18,13 +18,16 @@
         </span>
       <% end %>
 
-      <!-- edit button -->
+      <!-- edit form, if editable? -->
       <% if question.editable? %>
-        <%= link_to edit_question_path(question), class: "hover:text-violet-600", data: { turbo_frame: "_top" } do %>
-          <i class="fa-regular fa-pen-to-square"></i>
+        <%= link_to edit_question_path(question),
+          class: "hover:text-violet-600",
+          data: { turbo_frame: "_top" } do %>
+            <i class="fa-regular fa-pen-to-square"></i>
         <% end %>
       <% else %>
-        <span class="text-gray-300 cursor-not-allowed relative group">
+        <span
+          class="text-gray-300 cursor-not-allowed relative group">
           <i class="fa-regular fa-pen-to-square"></i>
 
           <!-- tooltip -->
@@ -35,7 +38,7 @@
         </span>
       <% end %>
 
-      <!-- delete button -->
+      <!-- delete ques btn -->
       <%= button_to question_path(question),
             method: :delete,
             data: { turbo_confirm: "Are you sure?" },
@@ -59,12 +62,12 @@
 
         <!-- posted_at time -->
         <% if question.published? %>
-          <p class="text-xs text-gray-400 mt-1">
-            Posted
-            <%= question.posted_at >= 1.day.ago ? 
-              time_ago_in_words(question.posted_at) + " ago" : 
-              question.posted_at.to_date %>
-          </p>
+        <p class="text-xs text-gray-400 mt-1">
+          Posted
+          <%= question.posted_at >= 1.day.ago ?
+            time_ago_in_words(question.posted_at) + " ago" :
+            question.posted_at.to_date %>
+        </p>
         <% end %>
       </div>
 
@@ -81,32 +84,32 @@
         <% if question.pdf.attached? %>
           <div class="mt-3">
             <%= link_to question.pdf.filename,
-                        url_for(question.pdf),
-                        class: "text-blue-600 text-sm font-medium hover:underline",
-                        data: { turbo_frame: "_top" } %>
+              url_for(question.pdf),
+              class: "text-blue-600 text-sm font-medium hover:underline",
+              data: { turbo_frame: "_top" } %>
           </div>
         <% end %>
       </div>
 
       <% if question.published? %>
-      <!-- Answers / Comments  -->
-      <div class="flex items-center justify-end gap-6 pt-4 border-t border-violet-100 text-sm text-gray-500">
-      
-        <div class="flex items-center gap-2 hover:text-violet-600 transition">
-          <i class="fa-regular fa-note-sticky text-base"></i>
-          <span>
-            <%= turbo_frame_tag dom_id(question, :answers_count) do %>
-              <%= question.answers.count %>
-            <% end %> answers
-          </span>
+        <!-- Answers / Comments -->
+        <div class="flex items-center justify-end gap-6 pt-4 border-t border-violet-100 text-sm text-gray-500">
+
+          <div class="flex items-center gap-2 hover:text-violet-600 transition">
+            <i class="fa-regular fa-note-sticky text-base"></i>
+            <span>
+              <%= turbo_frame_tag dom_id(question, :answers_count) do %>
+                <%= question.answers.count %>
+              <% end %> answers
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 hover:text-violet-600 transition">
+            <i class="fa-regular fa-comment text-base"></i>
+            <span><%= question.comments.count %> comments</span>
+          </div>
+
         </div>
-      
-        <div class="flex items-center gap-2 hover:text-violet-600 transition">
-          <i class="fa-regular fa-comment text-base"></i>
-          <span><%= question.comments.count %> comments</span>
-        </div>
-      
-      </div>
       <% end %>
 
     <% end %>
@@ -116,37 +119,22 @@
     <% if question.draft? %>
       <div class="pt-3 border-t border-neutral-100 flex justify-end">
         <%= button_to publish_question_path(question),
-              method: :patch,
-              data: { turbo_confirm: "Publish this question?" },
-              class: "inline-flex items-center
-                      px-4 py-1.5
-                      rounded-full
-                      border border-violet-300
-                      bg-violet-50
-                      text-violet-700
-                      text-xs font-medium
-                      hover:bg-violet-100
-                      transition" do %>
+          method: :patch,
+          data: { turbo_confirm: "Publish this question?" },
+          class: "inline-flex items-center
+            px-4 py-1.5
+            rounded-full
+            border border-violet-300
+            bg-violet-50
+            text-violet-700
+            text-xs font-medium
+            hover:bg-violet-100
+            transition" do %>
           Publish
         <% end %>
       </div>
     <% end %>
     <!-- Publish CTA ends-->
-
-  </div>
-  <!-- Question Container ENDS -->
-
-    <!-- Publish CTA -->
-    <% if question.draft? %>
-      <div class="pt-3 border-t border-neutral-100 flex justify-end">
-        <%= button_to publish_question_path(question),
-              method: :patch,
-              data: { turbo_confirm: "Publish this question?" },
-              class: "text-sm text-violet-600 hover:text-violet-700 font-medium bg-transparent border-none p-0" do %>
-          Publish
-        <% end %>
-      </div>
-    <% end %>
 
   </div>
 </div>
