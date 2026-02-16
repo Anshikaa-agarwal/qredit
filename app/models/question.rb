@@ -37,6 +37,10 @@ class Question < ApplicationRecord
     !answers.exists? && !comments.exists? && !votes.exists?
   end
 
+  def vote_by(user)
+    votes.find_by(user: user)
+  end
+
   private def check_if_editable?
     return if editable?
 

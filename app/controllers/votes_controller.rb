@@ -31,7 +31,7 @@ class VotesController < ApplicationController
   end
 
   private def set_vote
-    @vote = Vote.find(user: current_user, votable: @votable)
+    @vote = @votable.votes.find_by(id: params[:id])
   end
 
   private def vote_type_param
@@ -39,12 +39,14 @@ class VotesController < ApplicationController
   end
 
   private def set_votable
-    @votable = if params[:question_url]
-      Question.find_by(url: params[:question_url])
+    @votable = if params[:comment_id]
+      Comment.find(params[:comment_id])
     elsif params[:answer_id]
-      Answer.find_by(id: params[:answer_id])
-    elsif params[:comment_id]
-      Comment.find_by(id: params[:comment_id])
+      Answer.find(params[:answer_id])
+    elsif params[:question_url]
+      Question.find_by!(url: params[:question_url])
+    else
+      raise "No votable found"
     end
   end
 end
