@@ -24,6 +24,10 @@ class Answer < ApplicationRecord
     created_at.to_date
   end
 
+  def vote_by(user)
+    votes.find_by(user: user)
+  end
+
   def handle_vote_count
     prev_net_votes = self.net_votes
     recalculate_net_votes!
