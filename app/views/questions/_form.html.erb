@@ -58,23 +58,12 @@
   <!-- Buttons -->
   <div class="flex gap-3 pt-2">
     <% if @question.new_record? %>
-<<<<<<< HEAD
       <%= f.submit "Save as Draft",
         name: "draft",
         class: "bg-violet-600 text-white px-5 py-2 rounded hover:bg-violet-700 transition-colors duration-200 font-medium shadow-sm" %>
     <% else %>
       <%= f.submit "Save Changes",
         class: "bg-violet-600 text-white px-5 py-2 rounded hover:bg-violet-700 transition font-medium" %>
-=======
-      <%= f.submit "Publish",
-            class: "bg-violet-600 text-white px-5 py-2 rounded hover:bg-violet-700 transition font-medium" %>
-      <%= f.submit "Save as Draft",
-            name: "draft",
-            class: "border border-violet-200 text-violet-600 px-5 py-2 rounded hover:bg-violet-50 transition font-medium" %>
-    <% else %>
-      <%= f.submit "Save Changes",
-            class: "bg-violet-600 text-white px-5 py-2 rounded hover:bg-violet-700 transition font-medium" %>
->>>>>>> 487ceba (updated create and update question logic and views)
     <% end %>
   </div>
 
