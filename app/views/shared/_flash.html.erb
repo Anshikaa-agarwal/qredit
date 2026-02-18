@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "flash" do %>
+  <% flash.each do |type, message| %>
+    <%# Map Rails flash types to Tailwind colors %>
+    <% bg_color, text_color = case type.to_sym
+       when :notice then ["bg-green-100", "text-green-800"]
+       when :alert  then ["bg-red-100", "text-red-800"]
+       else ["bg-gray-100", "text-gray-800"]
+       end %>
+
+    <div class="<%= bg_color %> <%= text_color %> px-4 py-2 rounded-md shadow-sm mb-2 max-w-6xl mx-auto flex items-center justify-between">
+      <span class="text-sm font-medium"><%= message %></span>
+      <button type="button" class="ml-4 text-gray-500 hover:text-gray-700" onclick="this.parentElement.remove()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  <% end %>
+<% end %>

@@ -3,12 +3,12 @@ class QuestionsController < ApplicationController
   before_action :set_current_question, only: %i[show edit update destroy publish]
   before_action :authorize_question!, only: %i[edit update destroy]
   before_action :load_topics, only: %i[new show edit update]
+  before_action :set_user
 
   def index
-    if params[:filter] == "current-user"
-      @questions = current_user.questions
-    elsif params[:user_id]
-      @questions = Question.where(user_id: params[:user_id])
+    if params[:user_id]
+      @heading = @user == current_user ? "My Questions" : "Questions"
+      @questions = Question.where(user: @user)
     else
       @questions = Question.published
     end
@@ -77,5 +77,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :content, :pdf, topic_ids: [])
+  end
+
+  def set_user
+    @user = User.find_by(id: params[:user_id])
   end
 end
