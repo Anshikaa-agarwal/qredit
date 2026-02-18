@@ -1,4 +1,4 @@
-<% following_relationship = current_user.following_relationships.where(followee: user).first %>
+<% following_relationship = current_user.following_relationships.find_by(followee: user) %>
 
 <% if following_relationship %>
   <%= button_to "Unfollow",
