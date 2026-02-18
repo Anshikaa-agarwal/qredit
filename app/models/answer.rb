@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
   # enum
-  enum :status, { draft: 0, published: 1, unpublished: 2 }
+  enum :status, { published: 0, unpublished: 1 }
 
   # associations
   belongs_to :user
@@ -17,10 +17,6 @@ class Answer < ApplicationRecord
 
   # callbacks
   after_create_commit :send_question_user_email
-
-  def net_votes
-    votes.upvote.count - votes.downvote.count
-  end
 
   def posted_at_date
     created_at.to_date
