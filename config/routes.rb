@@ -13,6 +13,12 @@ Rails.application.routes.draw do
   end
 
   get :credits, to: "users#credits"
+  resources :credit_purchases, only: [ :new, :create, :show ] do
+    get :success, on: :collection
+  end
+  resources :stripe_checkouts, only: [ :create ]
+  post "/stripe/webhooks", to: "stripe_webhooks#create"
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

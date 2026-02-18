@@ -9,5 +9,5 @@ class CreditTransaction < ApplicationRecord
   belongs_to :source, polymorphic: true, optional: true
 
   # validations
-  validates :units, numericality: { greater_than_or_equal_to: 0.01 }
+  validates :units, numericality: { only_integer: true, greater_than: 0 }
 end

@@ -1,0 +1,32 @@
+<div data-controller="stripe-checkout"
+     data-stripe-checkout-publishable-key-value="<%= Rails.application.credentials.dig(:stripe, :pk) %>"
+     data-stripe-checkout-url-value="<%= stripe_checkouts_path %>"
+     class="max-w-md mx-auto p-6 bg-white rounded-xl border border-gray-200 shadow-sm text-center">
+
+  <!-- Heading -->
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+    Purchase Credits
+  </h2>
+  <p class="text-sm text-gray-500 mb-6">
+    Choose a package that fits your needs
+  </p>
+
+  <!-- Buttons / Packages -->
+  <div id="package-buttons" class="flex flex-col gap-4">
+    <% PACKAGE_PRICES.each do |key, package| %>
+      <button
+        data-action="click->stripe-checkout#startCheckout"
+        data-package="<%= key %>"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 font-medium
+               hover:bg-gray-50 hover:border-gray-400 transition flex justify-between items-center">
+        
+        <span>Buy <%= package[:unit] %> Credits</span>
+        <span class="font-semibold text-gray-700">₹<%= package[:price] %></span>
+      </button>
+    <% end %>
+  </div>
+
+  <!-- Stripe checkout container -->
+  <div id="checkout-container" class="mt-6"></div>
+
+</div>

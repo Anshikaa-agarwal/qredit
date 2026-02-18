@@ -1,0 +1,2 @@
+class CreditPurchasesController < ApplicationController
+end
