@@ -6,13 +6,12 @@ Rails.application.routes.draw do
   resources :users, only: [ :show ] do
     patch :update_profile, on: :member
     resources :topic_assignements, only: [ :create, :destroy ]
+    resources :followers, only: %i[ create destroy]
   end
 
   resources :questions, param: :url do
     patch :publish, on: :member
   end
-
-  resources :followers, only: %i[ create destroy]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
