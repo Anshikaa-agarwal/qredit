@@ -9,10 +9,10 @@ class VotesController < ApplicationController
 
     respond_to do |format|
       if @vote.save
-        flash.now[:notice] = "Vote casted successfully."
+        flash.now[:notice] = "#{@vote.type.capitalize} casted successfully."
         format.turbo_stream
       else
-        flash.now[:alert] = "Could not cast vote."
+        flash.now[:alert] = "Could not cast #{@vote.type.capitalize}."
         format.html { redirect_back fallback_location: @votable }
       end
     end
@@ -21,10 +21,10 @@ class VotesController < ApplicationController
   def destroy
     respond_to do |format|
       if @vote.destroy
-        flash.now[:notice] = "Vote removed successfully."
+        flash.now[:notice] = "#{@vote.type.capitalize} removed successfully."
         format.turbo_stream
       else
-        flash.now[:alert] = "Could not remove vote."
+        flash.now[:alert] = "Could not remove #{@vote.type.capitalize}."
         format.html { redirect_back fallback_location: @votable }
       end
     end

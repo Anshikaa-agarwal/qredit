@@ -29,21 +29,21 @@ module ApplicationHelper
 
   def nested_dom_id(votable, prefix = nil)
     parts = []
-    case votable
+    case obj
     when Question
-      parts << "question_#{votable.id}"
+      parts << "question_#{obj.id}"
     when Answer
-      parts << "question_#{votable.question.id}"
-      parts << "answer_#{votable.id}"
+      parts << "question_#{obj.question.id}"
+      parts << "answer_#{obj.id}"
     when Comment
-      commentable = votable.commentable
+      commentable = obj.commentable
       if commentable.is_a?(Question)
         parts << "question_#{commentable.id}"
       elsif commentable.is_a?(Answer)
         parts << "question_#{commentable.question.id}"
         parts << "answer_#{commentable.id}"
       end
-      parts << "comment_#{votable.id}"
+      parts << "comment_#{obj.id}"
     end
     prefix ? "#{prefix}_#{parts.join('_')}" : parts.join("_")
   end

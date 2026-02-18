@@ -18,6 +18,6 @@ module VotesHelper
       elements << votable
     end
 
-    vote ? elements << vote : elements << :votes # to delete
+    elements << (vote || :votes)
   end
 end

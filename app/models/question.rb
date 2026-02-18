@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Votable
+
   def to_param
     url.presence || id.to_s
   end

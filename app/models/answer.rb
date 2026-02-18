@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
-  NETVOTE_THRESHOLD = 1
+  include Votable
+  NETVOTE_THRESHOLD = 10
 
   # enum
   enum :status, { published: 0, unpublished: 1 }
@@ -22,10 +23,6 @@ class Answer < ApplicationRecord
 
   def posted_at_date
     created_at.to_date
-  end
-
-  def vote_by(user)
-    votes.find_by(user: user)
   end
 
   def handle_vote_count
