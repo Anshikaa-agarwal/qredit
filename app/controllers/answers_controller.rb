@@ -53,6 +53,7 @@ class AnswersController < ApplicationController
   end
 
   private def authorize_answer!
+    user == current_user
   end
 
   private def answer_content_params
