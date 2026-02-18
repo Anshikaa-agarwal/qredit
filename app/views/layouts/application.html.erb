@@ -44,14 +44,14 @@
     <% end %>
   </nav>
 
-  <div class="flex pt-16 min-h-screen">
+  <div class="pt-16">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-gray-200 px-5 py-6 hidden md:block">
+    <aside class="hidden md:fixed md:inset-y-16 md:left-0 md:w-64 md:bg-white md:border-r md:border-gray-200 md:px-5 md:py-6 md:block">
       <nav class="flex flex-col gap-3 text-base font-medium">
         <%= link_to "Home", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
     
         <% if user_signed_in? %>
-          <%= link_to "My Questions", questions_path(filter: 'current-user') , class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "My Questions", questions_path(filter: 'current-user'), class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "My Answers", '/', class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Credits", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Following", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
@@ -66,19 +66,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 px-8 py-7 text-base">
-      <% if notice %>
-        <div class="mb-5 p-4 rounded-lg bg-green-100 text-green-800 border border-green-200 text-base">
-          <%= notice %>
-        </div>
-      <% end %>
-
-      <% if alert %>
-        <div class="mb-5 p-4 rounded-lg bg-red-100 text-red-800 border border-red-200 text-base">
-          <%= alert %>
-        </div>
-      <% end %>
-
+    <main class="md:ml-64 px-6 md:px-8 py-7 text-base min-h-screen">
       <%= yield %>
     </main>
   </div>
