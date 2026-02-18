@@ -5,22 +5,24 @@ class FollowersController < ApplicationController
   def create
     @relation = current_user.following_relationships.new(followee: @user)
 
-    if @relation.save
-      flash[:notice] = "Successfully followed #{@user.email}"
-      redirect_back fallback_location: root_path
-    else
-      flash[:alert] = "Could not follow #{@user.email}"
-      redirect_back fallback_location: root_path
+    respond_to do |format|
+      if @relation.save
+        flash.now[:notice] = "Successfully followed #{@user.name}"
+        format.turbo_stream
+      else
+        flash.now[:alert] = "Could not follow #{@user.name}"
+      end
     end
   end
 
   def destroy
-    if @destroy_relation.destroy
-      flash[:notice] = "Successfully unfollowed #{@user.email}"
-      redirect_back fallback_location: root_path
-    else
-      flash[:notice] = "Could not unfollow #{@user.email}"
-      redirect_back fallback_location: root_path
+    respond_to do |format|
+      if @destroy_relation.destroy
+        flash.now[:notice] = "Successfully unfollowed #{@user.name}"
+        format.turbo_stream
+      else
+        flash.now[:alert] = "Could not unfollow #{@user.name}"
+      end
     end
   end
 
