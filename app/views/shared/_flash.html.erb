@@ -1,17 +1,38 @@
 <%= turbo_frame_tag "flash" do %>
-  <% flash.each do |type, message| %>
-    <%# Map Rails flash types to Tailwind colors %>
-    <% bg_color, text_color = case type.to_sym
-       when :notice then ["bg-green-100", "text-green-800"]
-       when :alert  then ["bg-red-100", "text-red-800"]
-       else ["bg-gray-100", "text-gray-800"]
-       end %>
+  <div class="fixed top-6 right-6 z-50 space-y-4 w-80">
 
-    <div class="<%= bg_color %> <%= text_color %> px-4 py-2 rounded-md shadow-sm mb-2 max-w-6xl mx-auto flex items-center justify-between">
-      <span class="text-sm font-medium"><%= message %></span>
-      <button type="button" class="ml-4 text-gray-500 hover:text-gray-700" onclick="this.parentElement.remove()">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-  <% end %>
+    <% flash.each do |type, message| %>
+      <% bg, text, border, icon = case type.to_sym
+         when :notice
+           ["bg-green-50", "text-green-800", "border-green-400", "fa-circle-check"]
+         when :alert
+           ["bg-red-50", "text-red-800", "border-red-400", "fa-circle-exclamation"]
+         else
+           ["bg-gray-50", "text-gray-800", "border-gray-300", "fa-bell"]
+         end %>
+
+      <div
+        class="<%= bg %> <%= text %> border-l-4 <%= border %> shadow-xl rounded-2xl p-4 flex items-start justify-between transform transition-all duration-300 ease-out animate-in slide-in-from-right"
+      >
+
+        <div class="flex items-start gap-3">
+          <i class="fa-solid <%= icon %> mt-0.5 text-lg"></i>
+          <p class="text-sm font-medium leading-snug">
+            <%= message %>
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="text-gray-400 hover:text-gray-600 transition"
+          onclick="this.closest('div').remove()"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+      </div>
+
+    <% end %>
+
+  </div>
 <% end %>
