@@ -14,6 +14,14 @@ Rails.application.routes.draw do
     patch :publish, on: :member
   end
 
+  get :credits, to: "users#credits"
+  resources :credit_purchases, only: [ :new, :create, :show ] do
+    get :success, on: :collection
+  end
+  resources :stripe_checkouts, only: [ :create ]
+  post "/stripe/webhooks", to: "stripe_webhooks#create"
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

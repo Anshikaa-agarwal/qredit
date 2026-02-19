@@ -7,6 +7,7 @@
     <meta name="application-name" content="Question Answer Platform">
     <meta name="mobile-web-app-capable" content="yes">
     <script src="https://kit.fontawesome.com/0f5c8d7587.js" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/clover/stripe.js"></script>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -58,7 +59,7 @@
             class: sidebar_link_classes(questions_path(filter: 'current-user')) %>
 
           <%= link_to "My Answers", '/', class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
-          <%= link_to "Credits", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
+          <%= link_to "Credits", "/credits", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "Following", "/", class: "px-4 py-2.5 rounded-lg hover:bg-gray-100" %>
           <%= link_to "My Profile",
               user_path(current_user),

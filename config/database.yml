@@ -101,3 +101,9 @@ production:
     <<: *primary_production
     database: question_answer_platform_production_cable
     migrations_paths: db/cable_migrate
+  test:
+    <<: *default
+    database: question_answer_platform_test
+    username: postgres
+    password: postgres
+    host: localhost
