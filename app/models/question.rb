@@ -39,6 +39,13 @@ class Question < ApplicationRecord
     !answers.exists? && !comments.exists? && !votes.exists?
   end
 
+  def entities_present
+    entities = []
+    entities << "answer(s)" if answers.present?
+    entities << "comment(s)" if comments.present?
+    entities << "vote(s)" if votes.present?
+  end
+
   def vote_by(user)
     votes.find_by(user: user)
   end
