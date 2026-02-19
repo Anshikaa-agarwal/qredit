@@ -53,7 +53,7 @@ class AnswersController < ApplicationController
   end
 
   private def authorize_answer!
-    user == current_user
+    redirect_to root_path, alert: "Not authorized" unless @answer.user == current_user
   end
 
   private def answer_content_params
