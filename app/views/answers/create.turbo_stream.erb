@@ -1,0 +1,4 @@
+<%= turbo_stream.prepend "answers_frame", partial: 'answers/answer', locals: { answer: @answer } %>
+<%= turbo_stream.replace "new_answer_frame", partial: 'questions/write_answer_btn', locals: { question: @question } %>
+
+<%= turbo_stream.replace dom_id(@question, :answers_count), @question.answers.count %>

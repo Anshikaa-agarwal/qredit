@@ -1,0 +1,2 @@
+<%= turbo_stream.remove dom_id(@answer) %>
+<%= turbo_stream.replace dom_id(@question, :answers_count), @question.answers.count %>

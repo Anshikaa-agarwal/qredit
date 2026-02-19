@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, param: :url do
+    resources :answers
     patch :publish, on: :member
   end
 
