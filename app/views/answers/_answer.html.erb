@@ -6,7 +6,6 @@
     <%= render partial: "shared/user_details", locals: { user: answer.user } %>
     
     <% if answer.user == current_user %>
-<<<<<<< HEAD
         <div class="flex items-center gap-1 text-gray-500">
           <!-- Edit Button -->
           <%= link_to edit_question_answer_path(answer.question, answer),
@@ -23,19 +22,6 @@
           <% end %>
         </div>
       <% end %>
-=======
-      <div>
-        <%= link_to edit_question_answer_path(answer.question, answer),
-              data: { turbo_frame: "edit_answer_frame" } do%>
-          <i class="fa-regular fa-pen-to-square"></i>
-        <% end %>
-        <%= link_to question_answer_path(answer.question, answer),
-              data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" } do %>
-          <i class="fa-regular fa-trash-can"></i>
-        <% end %>
-      </div>
-    <% end %>
->>>>>>> 00cafed (create/destroy votes)
   </div>
 
   <p class="text-xs text-gray-400">
