@@ -42,3 +42,7 @@
 /config/credentials/*.key
 # /config/credentials/development.yml.enc
 
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
