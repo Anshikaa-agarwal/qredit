@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_answer,   only: %i[edit update destroy]
   before_action :authorize_answer!, only: %i[edit update destroy]
   before_action :set_question, only: %i[new create edit destroy]
-  before_action :set_answer,   only: %i[edit update destroy]
 
   def index
     @answers = Answer.all
@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_content_params)
     @answer.user = current_user
     @answer.status = :published
 
@@ -58,10 +58,6 @@ class AnswersController < ApplicationController
 
   private def answer_content_params
     params.require(:answer).permit(:content)
-  end
-
-  private def answer_params
-    params.require(:answer).permit(:id, :content)
   end
 
   private def set_answer
