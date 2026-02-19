@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   root "home_feed#index"
 
   resources :users, only: [ :show ] do
+    get "followers_list", to: "users#followers"
     patch :update_profile, on: :member
     resources :topic_assignements, only: [ :create, :destroy ]
+    resources :followers, only: %i[ create destroy ]
   end
 
   resources :questions, param: :url do

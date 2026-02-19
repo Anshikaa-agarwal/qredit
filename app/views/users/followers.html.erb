@@ -1,0 +1,51 @@
+<div class="max-w-6xl mx-auto mt-10 px-4">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- Followers -->
+    <div class="border border-gray-200 rounded-xl p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold text-gray-900">
+          Followers
+        </h2>
+        <span class="text-sm text-gray-500">
+          <%= @followers.count %>
+        </span>
+      </div>
+
+      <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+        <% if @followers.any? %>
+          <%= render partial: 'shared/user_details',
+                     collection: @followers,
+                     as: :user %>
+        <% else %>
+          <p class="text-sm text-gray-500">No followers yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Following -->
+    <div class="border border-gray-200 rounded-xl p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold text-gray-900">
+          Following
+        </h2>
+        <span class="text-sm text-gray-500">
+          <%= @followees.count %>
+        </span>
+      </div>
+
+      <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+        <% if @followees.any? %>
+          <%= render partial: 'shared/user_details',
+                     collection: @followees,
+                     as: :user %>
+        <% else %>
+          <p class="text-sm text-gray-500">Not following anyone yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+</div>

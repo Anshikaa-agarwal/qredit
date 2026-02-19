@@ -1,14 +1,18 @@
 <div class="max-w-6xl mx-auto">
   <div class="flex items-center justify-between mb-6">
+
     <h1 class="text-3xl font-semibold text-gray-800">
-      My Questions
+      <%= @heading %>
     </h1>
 
-    <%= link_to new_question_path,
-          class: "flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-100 text-emerald-700 font-medium hover:bg-emerald-200 transition" do %>
-      <i class="fa-solid fa-marker text-sm"></i>
-      <span>Ask question</span>
+    <% if @user == current_user %>
+      <%= link_to new_question_path,
+            class: "flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-100 text-emerald-700 font-medium hover:bg-emerald-200 transition" do %>
+        <i class="fa-solid fa-marker text-sm"></i>
+        <span>Ask question</span>
+      <% end %>
     <% end %>
+
   </div>
 
   <div class="space-y-6">
