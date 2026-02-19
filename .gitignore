@@ -32,7 +32,7 @@
 
 # Ignore key files for decrypting credentials and more.
 /config/*.key
-/config/*.yml.enc
+# /config/*.yml.enc
 
 
 /app/assets/builds/*
@@ -40,8 +40,5 @@
 
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
-/config/credentials/development.yml.enc
-
-# Ignore key files for decrypting credentials and more.
-/config/credentials/*.key
+# /config/credentials/development.yml.enc
 
