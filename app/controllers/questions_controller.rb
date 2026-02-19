@@ -48,7 +48,6 @@ class QuestionsController < ApplicationController
     if @question.destroy
       redirect_to root_path, notice: "Question deleted successfully"
     else
-      flash.now[:alert] = "Question cannot be deleted"
       render :show, status: :unprocessable_entity
     end
   end
