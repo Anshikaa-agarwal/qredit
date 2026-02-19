@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [ :update_profile ]
+  before_action :authenticate_user!, only: [ :update_profile, :credits ]
   before_action :set_user, only: [ :show ]
   before_action :set_current_user, only: [ :update_profile ]
 
