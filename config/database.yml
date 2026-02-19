@@ -106,3 +106,4 @@ production:
     database: question_answer_platform_test
     username: postgres
     password: postgres
+    host: localhost

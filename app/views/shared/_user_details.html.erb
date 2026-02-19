@@ -1,9 +1,32 @@
-<div class="flex items-center gap-4">
-    <%= image_tag(user.displayed_avatar, class: "w-12 h-12 rounded-full border border-gray-300 object-cover") %>
+<div id="<%= dom_id(user, :details) %>" class="flex items-center gap-4">
 
-    <div>
-        <p class="text-lg font-semibold text-gray-800"><%= user.name %></p>
-        <p class="text-sm text-gray-600"><%= user.followers.count %> followers</p>
+  <%= image_tag(user.displayed_avatar,
+      class: "w-12 h-12 rounded-full border border-gray-200 object-cover") %>
+
+  <div class="flex flex-col">
+    
+    <div class="flex items-center gap-2 text-sm">
+
+      <p class="font-semibold text-gray-900">
+        <%= link_to user.name,
+              user_path(user),
+              data: { turbo_frame: "_top" },
+              class: "hover:underline hover:text-gray-700 transition duration-150" %>
+      </p>
+
+      <span class="text-gray-400">·</span>
+
+      <% if user_signed_in? && current_user != user %>
+        <%= turbo_frame_tag dom_id(user, :follow_section) do %>
+          <%= render partial: "shared/follow_button", locals: { user: user } %>
+        <% end %>
+      <% end %>
+
     </div>
+
+    <p class="text-sm text-gray-500">
+      <%= user.followers.count %> followers
+    </p>
+
+  </div>
 </div>
-  

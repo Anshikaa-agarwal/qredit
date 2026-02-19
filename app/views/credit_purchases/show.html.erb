@@ -1,0 +1,52 @@
+<div class="max-w-xl mx-auto my-10 bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden">
+
+  <!-- Header -->
+  <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 text-center">
+    <h1 class="text-2xl font-bold text-gray-800">Credit Purchase Receipt</h1>
+    <p class="text-sm text-gray-500 mt-1">Order Summary</p>
+  </div>
+
+  <!-- Transaction Details -->
+  <div class="px-6 py-5 space-y-3">
+    <div class="flex justify-between">
+      <span class="text-gray-600 font-medium">Transaction ID:</span>
+      <span class="text-gray-800"><%= @credit_purchase.stripe_transaction_id %></span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-600 font-medium">Date:</span>
+      <span class="text-gray-800"><%= @credit_purchase.created_at.strftime("%B %d, %Y %H:%M") %></span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-600 font-medium">User:</span>
+      <span class="text-gray-800"><%= @credit_purchase.user.email %></span>
+    </div>
+  </div>
+
+  <!-- Purchase Summary -->
+  <div class="px-6 py-5 border-t border-b border-gray-200 space-y-3 bg-gray-50">
+    <div class="flex justify-between">
+      <span class="text-gray-700 font-medium">Credits Purchased:</span>
+      <span class="text-gray-900 font-semibold"><%= @credit_purchase.unit %> units</span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-700 font-medium">Amount Paid:</span>
+      <span class="text-gray-900 font-semibold">$<%= @credit_purchase.amount / 100.0 %></span>
+    </div>
+    <div class="flex justify-between items-center">
+      <span class="text-gray-700 font-medium">Status:</span>
+      <% if @credit_purchase.status.to_sym == :pending %>
+        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">Pending</span>
+      <% elsif @credit_purchase.status.to_sym == :successful %>
+        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Paid</span>
+      <% else %>
+        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">Failed</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Footer / Thank you -->
+  <div class="px-6 py-6 text-center">
+    <p class="text-gray-500">Thank you for your purchase!</p>
+  </div>
+
+</div>

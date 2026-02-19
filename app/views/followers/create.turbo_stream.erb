@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'flash', partial: 'shared/flash' %>
+
+<%= turbo_stream.replace_all "##{dom_id(@user, :details)}" do %>
+  <%= render partial: "shared/user_details", locals: { user: @user } %>
+<% end %>

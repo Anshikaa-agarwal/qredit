@@ -110,7 +110,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_072527) do
     t.index ["followee_id"], name: "index_followers_on_followee_id"
     t.index ["follower_id", "followee_id"], name: "index_followers_on_follower_id_and_followee_id", unique: true
     t.index ["follower_id"], name: "index_followers_on_follower_id"
-    t.check_constraint "follower_id <> followee_id"
   end
 
   create_table "notifications", force: :cascade do |t|
