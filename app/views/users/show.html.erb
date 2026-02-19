@@ -27,14 +27,43 @@
 
   <!-- Stats -->
   <div class="grid grid-cols-2 gap-6 mb-8 text-center">
-    <div class="p-3 bg-violet-50 rounded border border-violet-200">
-      <p class="text-base text-gray-600">Followers</p>
-      <p class="text-2xl font-semibold text-violet-600"><%= @user.followers.count %></p>
-    </div>
-    <div class="p-3 bg-violet-50 rounded border border-violet-200">
-      <p class="text-base text-gray-600">Following</p>
-      <p class="text-2xl font-semibold text-violet-600"><%= @user.followees.count %></p>
-    </div>
+    <%= link_to user_followers_list_path(@user), class: "block group" do %>
+      <div class="p-3 bg-violet-50 rounded border border-violet-200
+                  transition duration-200 ease-in-out
+                  hover:bg-violet-100 hover:border-violet-300
+                  hover:shadow-sm hover:-translate-y-0.5">
+
+        <p class="text-base text-gray-600
+                  group-hover:text-gray-800 transition">
+          Followers
+        </p>
+
+        <p class="text-2xl font-semibold text-violet-600
+                  group-hover:text-violet-700 transition">
+          <%= @user.followers.count %>
+        </p>
+
+      </div>
+    <% end %>
+
+    <%= link_to user_followers_list_path(@user), class: "block group" do %>
+      <div class="p-3 bg-violet-50 rounded border border-violet-200
+                transition duration-200 ease-in-out
+                hover:bg-violet-100 hover:border-violet-300
+                hover:shadow-sm hover:-translate-y-0.5">
+  
+        <p class="text-base text-gray-600
+                  group-hover:text-gray-800 transition">
+          Following
+        </p>
+    
+        <p class="text-2xl font-semibold text-violet-600
+                  group-hover:text-violet-700 transition">
+          <%= @user.followees.count %>
+        </p>
+      </div>
+    <% end %>
+
     <div class="p-3 bg-violet-50 rounded border border-violet-200">
       <p class="text-base text-gray-600">Credits</p>
       <p class="text-2xl font-semibold text-violet-600"><%= @user.credits %></p>
