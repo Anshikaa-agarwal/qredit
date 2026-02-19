@@ -27,7 +27,7 @@ module ApplicationHelper
     end
   end
 
-  def nested_dom_id(votable, prefix = nil)
+  def nested_dom_id(obj, prefix = nil)
     parts = []
     case obj
     when Question
