@@ -7,8 +7,4 @@ class Comment < ApplicationRecord
 
   # validations
   validates :content, presence: true
-
-  def vote_by(user)
-    votes.find_by(user: user)
-  end
 end
