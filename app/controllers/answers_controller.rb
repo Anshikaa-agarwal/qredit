@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
   before_action :set_answer,   only: %i[edit update destroy]
   before_action :authorize_answer!, only: %i[edit update destroy]
-  before_action :set_question, only: %i[new create edit destroy]
+  before_action :set_question, only: %i[new create edit update destroy]
 
   def index
     @answers = Answer.all
@@ -19,6 +19,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
+        flash.now[:notice] = "Successfully answered."
         format.turbo_stream
         format.html { redirect_to @question, notice: "Answer posted successfully" }
       else
@@ -33,6 +34,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_content_params)
+        flash.now[:notice] = "Successfully updated answer."
         format.turbo_stream
         format.html { redirect_to @question, notice: "Answer updated successfully" }
       else
@@ -44,6 +46,7 @@ class AnswersController < ApplicationController
   def destroy
     respond_to do |format|
       if @answer.destroy
+        flash.now[:notice] = "Successfully destroyed answer."
         format.turbo_stream
         format.html { redirect_to @question, notice: "Answer deleted successfully" }
       else
