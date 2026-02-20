@@ -54,15 +54,13 @@ module ApplicationHelper
     case obj
     when Question
       arr << obj
-
     when Answer
-      arr.concat([ obj.question, obj ])
-
+      arr.concat([obj.question, obj])
     when Comment
       if obj.commentable.is_a?(Answer)
-        arr.concat([ obj.commentable.question, obj.commentable, obj ])
+        arr.concat([obj.commentable.question, obj.commentable, obj])
       elsif obj.commentable.is_a?(Question)
-        arr.concat([ obj.commentable, obj ])
+        arr.concat([obj.commentable, obj])
       end
     end
 

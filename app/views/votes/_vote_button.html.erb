@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
   <%= turbo_frame_tag nested_dom_id(votable, 'vote_button') do %>
-    <% vote = votable.vote_by(current_user) %>
+    <% vote = (votable.vote_by(current_user) || votable.votes.new) %>
 
     <div class="flex items-center gap-4">
       <!-- Vote Count -->
