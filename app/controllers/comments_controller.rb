@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_comment!, only: %i[edit update destroy]
   before_action :set_commentable
+  before_action :authorize_comment!, only: %i[edit update destroy]
   before_action :set_comment, only: %i[ destroy ]
 
   def new
@@ -21,6 +21,9 @@ class CommentsController < ApplicationController
         format.html { redirect_back fallback_location: (@commentable&.question || @commentable) }
       end
     end
+  end
+
+  def edit
   end
 
   def update
@@ -43,13 +46,14 @@ class CommentsController < ApplicationController
         format.turbo_stream
         format.html { redirect_to @question, notice: "Comment deleted successfully" }
       else
-        lash.now[:alert] = "Could not delete comment."
+        flash.now[:alert] = "Could not delete comment."
         format.html { redirect_back fallback_location: (@commentable&.question || @commentable) }
       end
     end
   end
 
   private def authorize_comment!
+    set_comment
     redirect_to root_path, alert: "Not authorized" unless @comment.user == current_user
   end
 

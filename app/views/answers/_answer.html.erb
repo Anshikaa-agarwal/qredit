@@ -39,4 +39,11 @@
         <%= render partial: 'votes/vote_button', locals: { votable: answer } %>
   </div>
 </div>
+
+  <!-- Answers -->
+  <%= turbo_frame_tag id="answers_frame" do %>
+    <div class="relative pl-6 border-l border-gray-300">
+      <%= render partial: 'comments/comment', collection: answer.comments, as: :comment %>
+    </div>
+  <% end %>
 <% end %>

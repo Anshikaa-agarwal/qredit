@@ -1,42 +1,47 @@
 <%= turbo_frame_tag dom_id(comment) do %>
-<div class="max-w-6xl mx-auto border-l-3 border-violet-200 bg-white px-6 py-3 my-8 space-y-3 ">
+  <div class="max-w-6xl ml-10 mt-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 shadow-xs">
 
-  <!-- User + Time -->
-  <div class="flex items-center justify-between">
-    <%= render partial: "shared/user_details", locals: { user: comment.user } %>
+    <!-- User + Actions -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <%= render partial: "shared/user_details", locals: { user: comment.user } %>
+      </div>
 
-    <% if comment.user == current_user %>
-        <div class="flex items-center gap-1 text-gray-500">
-          <!-- Edit Button -->
-          <%= link_to edit_polymorphic_path(set_parent_chain(commetable, comment), comment),
+      <% if comment.user == current_user %>
+        <div class="flex items-center gap-1 text-gray-400">
+          <!-- Edit -->
+          <%= link_to edit_polymorphic_path(set_parent_chain(comment.commentable) + [comment]),
                 data: { turbo_frame: "edit_comment_frame" },
-                class: "p-2 rounded hover:bg-violet-100 hover:text-violet-600 transition" do %>
+                class: "p-1.5 rounded hover:bg-violet-100 hover:text-violet-600 transition text-sm" do %>
             <i class="fa-regular fa-pen-to-square"></i>
           <% end %>
 
-          <!-- Delete Button -->
-          <%= link_to polymorphic_path(set_parent_chain(commetable, comment), comment),
-                data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" },
-                class: "p-2 rounded hover:bg-red-100 hover:text-red-600 transition" do %>
+          <!-- Delete -->
+          <%= link_to polymorphic_path(set_parent_chain(comment.commentable)+ [comment]),
+                data: { turbo_method: :delete, turbo_confirm: "Delete this comment?" },
+                class: "p-1.5 rounded hover:bg-red-100 hover:text-red-600 transition text-sm" do %>
             <i class="fa-regular fa-trash-can"></i>
           <% end %>
         </div>
       <% end %>
-  </div>
-
-  <p class="text-xs text-gray-400">
-      <%= answer.created_at >= 1.day.ago ? time_ago_in_words(comment.created_at) + " ago" : comment.posted_at_date %>
-  </p>
-
-  <!-- Content -->
-  <%= turbo_frame_tag id="edit_answer_frame" do %>
-    <div class="text-gray-700 leading-relaxed prose prose-sm max-w-none">
-      <%= markdown(comment.content) %>
     </div>
-  <% end %>
 
-  <div class="mt-4 flex items-center gap-2">
-        <%= render partial: 'votes/vote_button', locals: { votable: comment } %>
+    <!-- Time -->
+    <p class="text-[11px] text-gray-400 mt-1">
+      <%= comment.created_at >= 1.day.ago ? time_ago_in_words(comment.created_at) + " ago" : comment.posted_at_date %>
+    </p>
+
+    <!-- Content -->
+    <%= turbo_frame_tag id="edit_comment_frame" do %>
+      <div class="text-gray-700 text-sm leading-relaxed mt-2">
+        <%= markdown(comment.content) %>
+      </div>
+    <% end %>
+
+    <!-- Votes -->
+    <div class="mt-2 flex items-center gap-2">
+      <%= render partial: 'votes/vote_button', locals: { votable: comment } %>
+    </div>
+
   </div>
-</div>
 <% end %>
