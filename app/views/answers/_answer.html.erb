@@ -4,12 +4,12 @@
   <!-- User + Time -->
   <div class="flex items-center justify-between">
     <%= render partial: "shared/user_details", locals: { user: answer.user } %>
-
+    
     <% if answer.user == current_user %>
         <div class="flex items-center gap-1 text-gray-500">
           <!-- Edit Button -->
           <%= link_to edit_question_answer_path(answer.question, answer),
-                data: { turbo_frame: "edit_answer_frame" },
+                data: { turbo_frame: "edit_answer_#{answer.id}" },
                 class: "p-2 rounded hover:bg-violet-100 hover:text-violet-600 transition" do %>
             <i class="fa-regular fa-pen-to-square"></i>
           <% end %>
@@ -29,7 +29,7 @@
   </p>
 
   <!-- Content -->
-  <%= turbo_frame_tag id="edit_answer_frame" do %>
+  <%= turbo_frame_tag id="edit_answer_#{answer.id}" do %>
     <div class="text-gray-700 leading-relaxed prose prose-sm max-w-none">
       <%= markdown(answer.content) %>
     </div>
