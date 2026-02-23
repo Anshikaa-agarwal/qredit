@@ -49,7 +49,7 @@
   <!-- Question Container -->
   <div class="bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
 
-    <!-- Header (NOT clickable) -->
+    <!-- Header -->
     <div class="flex flex-col gap-0">
       <%= render partial: "shared/user_details", locals: { user: question.user } %>
 
@@ -64,7 +64,7 @@
     </div>
 
 
-    <!-- Clickable Content Area ONLY -->
+    <!-- Clickable Content Area -->
     <%= link_to question_path(question),
           class: "block no-underline space-y-6",
           data: { turbo_frame: "_top" } do %>
@@ -85,7 +85,7 @@
     <!-- End Clickable Area -->
 
 
-    <!-- PDF (outside main link to avoid nested anchor issues) -->
+    <!-- PDF -->
     <% if question.pdf.attached? %>
       <div class="mt-3">
         <%= link_to question.pdf.filename,

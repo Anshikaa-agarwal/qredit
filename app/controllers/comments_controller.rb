@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable
   before_action :authorize_comment!, only: %i[edit update destroy]
-  before_action :set_comment, only: %i[ destroy ]
+  before_action :set_comment, only: %i[ edit update destroy ]
 
   def new
     @comment = @commentable.comments.new
@@ -33,8 +33,7 @@ class CommentsController < ApplicationController
         format.turbo_stream
         format.html { redirect_back fallback_location: (@commentable&.question || @commentable) }
       else
-        flash.now[:alert] = "Could not update comment."
-        format.html { redirect_back fallback_location: (@commentable&.question || @commentable) }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end

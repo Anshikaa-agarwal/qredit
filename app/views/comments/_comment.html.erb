@@ -11,7 +11,7 @@
         <div class="flex items-center gap-1 text-gray-400">
           <!-- Edit -->
           <%= link_to edit_polymorphic_path(set_parent_chain(comment.commentable) + [comment]),
-                data: { turbo_frame: "edit_comment_frame" },
+                data: { turbo_frame: "edit_comment_#{comment.id}" },
                 class: "p-1.5 rounded hover:bg-violet-100 hover:text-violet-600 transition text-sm" do %>
             <i class="fa-regular fa-pen-to-square"></i>
           <% end %>
@@ -32,7 +32,7 @@
     </p>
 
     <!-- Content -->
-    <%= turbo_frame_tag id="edit_comment_frame" do %>
+    <%= turbo_frame_tag id="edit_comment_#{comment.id}" do %>
       <div class="text-gray-700 text-sm leading-relaxed mt-2">
         <%= markdown(comment.content) %>
       </div>

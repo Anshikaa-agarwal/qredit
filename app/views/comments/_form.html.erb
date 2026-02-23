@@ -1,13 +1,13 @@
-<%= form_with model: set_parent_chain(comment.commentable) + [comment], class: "max-w-6xl mx-auto space-y-4" do |f| %>
+<%= form_with model: set_parent_chain(comment.commentable) + [comment], class: "max-w-6xl mx-auto my-5 space-y-4" do |f| %>
 
   <div>
     <%= f.label :content, "Your comment",
-          class: "block text-sm font-medium text-gray-700 mb-1" %>
+          class: "block text-sm font-medium text-neutral-700 my-2" %>
 
     <%= f.text_area :content,
           rows: 5,
           placeholder: "Write an answer...",
-          class: "w-full border border-neutral-300 rounded-lg px-4 py-3 text-sm bg-white resize-none
+          class: "w-full border border-neutral-300 rounded-lg px-4 py-3 text-sm text-neutral-600 bg-white resize-none
                  focus:outline-none focus:ring-1 focus:ring-violet-200 focus:border-violet-300
                  #{'border-red-500 focus:ring-red-200 focus:border-red-500' if comment.errors[:content].any?}" %>
 
