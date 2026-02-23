@@ -47,4 +47,25 @@ module ApplicationHelper
     end
     prefix ? "#{prefix}_#{parts.join('_')}" : parts.join("_")
   end
+
+  def set_parent_chain(obj)
+    arr = []
+
+    case obj
+    when Question
+      arr << obj
+
+    when Answer
+      arr.concat([ obj.question, obj ])
+
+    when Comment
+      if obj.commentable.is_a?(Answer)
+        arr.concat([ obj.commentable.question, obj.commentable, obj ])
+      elsif obj.commentable.is_a?(Question)
+        arr.concat([ obj.commentable, obj ])
+      end
+    end
+
+    arr
+  end
 end
