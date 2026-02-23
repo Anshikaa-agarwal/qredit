@@ -2,3 +2,4 @@
 
 <%= turbo_stream.replace nested_dom_id(@comment.commentable, :new_comment_frame), partial: 'comments/post_comment_btn', locals: { commentable: @comment.commentable } %>
 <%= turbo_stream.prepend nested_dom_id(@comment.commentable, :comments_frame), partial: 'comments/comment', locals: { comment: @comment } %>
+<%= turbo_stream.replace dom_id(@comment.commentable, :comments_count), @comment.commentable.comments.count %>

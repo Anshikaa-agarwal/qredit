@@ -111,24 +111,39 @@
           <!-- Answers + Comments -->
           <div class="flex-1 flex items-end justify-end">
             <div class="flex items-center gap-6 text-sm text-gray-500">
-
-              <div class="flex items-center gap-2 hover:text-violet-600 transition">
+                    
+              <!-- Answers Tab -->
+              <%= link_to question_path(question, tab: :answers),
+                    data: { turbo_frame: dom_id(question, :question_content) },
+                    class: "flex items-center gap-2 transition hover:text-violet-600 #{'text-violet-600 font-semibold' if @active_tab == :answers}" do %>
+          
                 <i class="fa-regular fa-note-sticky text-base"></i>
+         
                 <span>
                   <%= turbo_frame_tag dom_id(question, :answers_count) do %>
-                    <%= question.answers.count %>
+                    <%= question.answers.size %>
                   <% end %>
                   answers
                 </span>
-              </div>
-
-              <div class="flex items-center gap-2 hover:text-violet-600 transition">
+          
+              <% end %>
+          
+              <!-- Comments Tab -->
+              <%= link_to question_path(question, tab: :comments),
+                    data: { turbo_frame: dom_id(question, :question_content) },
+                    class: "flex items-center gap-2 transition hover:text-violet-600 #{'text-violet-600 font-semibold' if @active_tab == :comments }" do %>
+          
                 <i class="fa-regular fa-comment text-base"></i>
+          
                 <span>
-                  <%= question.comments.count %> comments
+                  <%= turbo_frame_tag dom_id(question, :comments_count) do %>
+                    <%= question.comments.size %>
+                  <% end %>
+                  comments
                 </span>
-              </div>
-
+          
+              <% end %>
+          
             </div>
           </div>
 

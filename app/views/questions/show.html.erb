@@ -6,22 +6,51 @@
   </ul>
 <% end %>
 
-<%= render @question %>
+<%= turbo_frame_tag "question_show" do %>
 
-<% if @question.published? %>
-  <% if user_signed_in? %>
-    <!-- Write Answer -->
-    <%= render partial: 'write_answer_btn', locals: { question: @question } %>
+  <%= render @question %>
+
+  <% if @question.published? %>
+
+    <% if @active_tab == :answers %>
+
+      <% if user_signed_in? %>
+        <%= render partial: 'write_answer_btn', locals: { question: @question } %>
+      <% end %>
+
+      <p class="max-w-6xl mx-auto mt-6 mb-3 px-1 text-xl font-semibold text-gray-600">
+        Answers
+      </p>
+
+      <%= turbo_frame_tag "answers_frame" do %>
+        <div class="max-w-6xl mx-auto mt-8 space-y-6">
+          <%= render partial: 'answers/answer',
+                     collection: @question.answers,
+                     as: :answer %>
+        </div>
+      <% end %>
+
+    <% else %>
+
+      <% if user_signed_in? %>
+        <%= render partial: 'comments/post_comment_btn',
+                   locals: { commentable: @question } %>
+      <% end %>
+
+      <p class="max-w-6xl mx-auto mt-6 mb-3 px-1 text-xl font-semibold text-gray-600">
+        Comments
+      </p>
+
+      <%= turbo_frame_tag dom_id(@question, :comments_frame) do %>
+        <div class="max-w-6xl mx-auto mt-8">
+          <%= render partial: 'comments/comment',
+                     collection: @question.comments,
+                     as: :comment %>
+        </div>
+      <% end %>
+
+    <% end %>
+
   <% end %>
 
-  <p class="max-w-6xl mx-auto mt-6 mb-3 px-1 text-xl font-semibold text-gray-600">
-    Answers
-  </p>
-  
-  <!-- Answers -->
-  <%= turbo_frame_tag id="answers_frame" do %>
-    <div class="max-w-6xl mx-auto mt-8 space-y-6">
-      <%= render partial: 'answers/answer', collection: @question.answers, as: :answer %>
-    </div>
-  <% end %>
 <% end %>

@@ -22,6 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @active_tab = params[:tab] == "comments" ? :comments : :answers
   end
 
   def create
