@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @commentable.answers.new(comment_content_params)
+    @comment = @commentable.comments.new(comment_content_params)
     @comment.user = current_user
 
     respond_to do |format|

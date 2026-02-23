@@ -38,10 +38,21 @@
   <div class="mt-4 flex items-center gap-2">
         <%= render partial: 'votes/vote_button', locals: { votable: answer } %>
   </div>
+
+  <%= turbo_frame_tag nested_dom_id(answer, :new_comment_frame) do %>
+  <div class="max-w-6xl mx-auto mt-6 flex justify-end">
+    <%= link_to new_question_answer_comment_path(answer.question, answer),
+          data: { turbo_frame: nested_dom_id(answer, :new_comment_frame) },
+          class: "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition font-medium text-sm" do %>
+      <i class="fa-regular fa-pen-to-square text-sm"></i>
+      <span>Post comment</span>
+    <% end %>
+  </div>
+<% end %>
 </div>
 
   <!-- Answers -->
-  <%= turbo_frame_tag id="answers_frame" do %>
+  <%= turbo_frame_tag nested_dom_id(answer, :comments_frame) do %>
     <div class="relative pl-6 border-l border-gray-300">
       <%= render partial: 'comments/comment', collection: answer.comments, as: :comment %>
     </div>
