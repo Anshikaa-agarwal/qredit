@@ -1,0 +1,3 @@
+<%= turbo_frame_tag nested_dom_id(@comment.commentable, :new_comment_frame) do %>
+  <%= render partial: 'form', locals: { comment: @comment } %>
+<% end %>

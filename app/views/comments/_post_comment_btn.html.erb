@@ -1,0 +1,10 @@
+<%= turbo_frame_tag nested_dom_id(commentable, :new_comment_frame) do %>
+  <div class="max-w-6xl mx-auto mt-6 flex justify-end">
+    <%= link_to new_polymorphic_path(set_parent_chain(commentable) + [:comment]),
+          data: { turbo_frame: nested_dom_id(commentable, :new_comment_frame) },
+          class: "inline-flex items-center gap-1 px-3 py-1.5 text-sm text-neutral-500 border border-neutral-200 rounded-full hover:text-neutral-800 hover:border-neutral-300 hover:bg-neutral-50 transition font-medium" do %>
+      <i class="fa-regular fa-comment text-xs"></i>
+      <span>Add comment</span>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,35 @@
+<%= form_with model: set_parent_chain(comment.commentable) + [comment], class: "max-w-6xl mx-auto my-5 space-y-4" do |f| %>
+
+  <div>
+    <%= f.label :content, "Your comment",
+          class: "block text-sm font-medium text-neutral-700 my-2" %>
+
+    <%= f.text_area :content,
+          rows: 5,
+          placeholder: "Write an answer...",
+          class: "w-full border border-neutral-300 rounded-lg px-4 py-3 text-sm text-neutral-600 bg-white resize-none
+                 focus:outline-none focus:ring-1 focus:ring-violet-200 focus:border-violet-300
+                 #{'border-red-500 focus:ring-red-200 focus:border-red-500' if comment.errors[:content].any?}" %>
+
+    <% if comment.errors[:content].any? %>
+      <p class="text-red-600 text-sm mt-1">Content <%= comment.errors[:content].first %></p>
+    <% end %>
+  </div>
+
+  <% parent_question = comment.commentable.is_a?(Question) ? 
+                      comment.commentable : 
+                      comment.commentable.question %>
+
+  <div class="flex justify-end">
+    <%= link_to question_path(parent_question),
+          data: { turbo_frame: "_top" },
+          class: "inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-violet-600 transition mr-auto" do %>
+      <i class="fa-solid fa-arrow-left text-xs"></i>
+      <span>Back</span>
+    <% end %>
+
+    <%= f.submit "Post comment",
+          class: "px-5 py-2 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition text-sm font-medium" %>
+  </div>
+
+<% end %>
