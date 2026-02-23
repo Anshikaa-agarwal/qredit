@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Votable
+
   def to_param
     url.presence || id.to_s
   end
@@ -35,6 +37,13 @@ class Question < ApplicationRecord
 
   def editable?
     !answers.exists? && !comments.exists? && !votes.exists?
+  end
+
+  def entities_present
+    entities = []
+    entities << "answer(s)" if answers.present?
+    entities << "comment(s)" if comments.present?
+    entities << "vote(s)" if votes.present?
   end
 
   private def check_if_editable?

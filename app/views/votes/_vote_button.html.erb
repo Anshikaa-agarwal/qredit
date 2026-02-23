@@ -1,0 +1,49 @@
+<% if user_signed_in? %>
+  <%= turbo_frame_tag nested_dom_id(votable, 'vote_button') do %>
+    <% vote = votable.vote_by(current_user) %>
+
+    <div class="flex items-center gap-4">
+      <!-- Vote Count -->
+      <span class="text-lg font-semibold text-gray-700">
+        <%= votable.votes.upvote.count %>
+      </span>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-2">
+
+        <%# UPVOTE %>
+        <% if vote&.upvote? %>
+          <%= button_to polymorphic_path(set_parent_chain(votable) + [vote]),
+              method: :delete,
+              class: "px-3 py-2 rounded-lg bg-green-100 text-green-700 hover:bg-green-200 transition" do %>
+            <i class="fa-solid fa-thumbs-up"></i>
+          <% end %>
+        <% else %>
+          <%= button_to polymorphic_path(set_parent_chain(votable) + [:votes]),
+              method: :post,
+              params: { vote: { type: "upvote" } },
+              class: "px-3 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-green-600 transition" do %>
+            <i class="fa-regular fa-thumbs-up"></i>
+          <% end %>
+        <% end %>
+
+        <%# DOWNVOTE %>
+        <% if vote&.downvote? %>
+          <%= button_to polymorphic_path(set_parent_chain(votable) + [vote]),
+              method: :delete,
+              class: "px-3 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition" do %>
+            <i class="fa-solid fa-thumbs-down"></i>
+          <% end %>
+        <% else %>
+          <%= button_to polymorphic_path(set_parent_chain(votable) + [:votes]),
+              method: :post,
+              params: { vote: { type: "downvote" } },
+              class: "px-3 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600 transition" do %>
+            <i class="fa-regular fa-thumbs-down"></i>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+<% end %>

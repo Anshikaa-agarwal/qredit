@@ -26,4 +26,46 @@ module ApplicationHelper
       "#{base} text-gray-700 hover:bg-gray-100"
     end
   end
+
+  def nested_dom_id(obj, prefix = nil)
+    parts = []
+    case obj
+    when Question
+      parts << "question_#{obj.id}"
+    when Answer
+      parts << "question_#{obj.question.id}"
+      parts << "answer_#{obj.id}"
+    when Comment
+      commentable = obj.commentable
+      if commentable.is_a?(Question)
+        parts << "question_#{commentable.id}"
+      elsif commentable.is_a?(Answer)
+        parts << "question_#{commentable.question.id}"
+        parts << "answer_#{commentable.id}"
+      end
+      parts << "comment_#{obj.id}"
+    end
+    prefix ? "#{prefix}_#{parts.join('_')}" : parts.join("_")
+  end
+
+  def set_parent_chain(obj)
+    arr = []
+
+    case obj
+    when Question
+      arr << obj
+
+    when Answer
+      arr.concat([ obj.question, obj ])
+
+    when Comment
+      if obj.commentable.is_a?(Answer)
+        arr.concat([ obj.commentable.question, obj.commentable, obj ])
+      elsif obj.commentable.is_a?(Question)
+        arr.concat([ obj.commentable, obj ])
+      end
+    end
+
+    arr
+  end
 end
