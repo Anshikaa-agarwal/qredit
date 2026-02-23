@@ -8,4 +8,8 @@ class Comment < ApplicationRecord
 
   # validations
   validates :content, presence: true
+
+  def posted_at_date
+    created_at.to_date
+  end
 end
