@@ -66,12 +66,11 @@ class QuestionsController < ApplicationController
 
   def set_current_question
     @question = Question.includes(
-  :topics,
-  :votes,
-  comments: [ :user, { votes: :user } ],
-  answers: [ :user, :votes, { comments: [ :user, { votes: :user } ] } ],
-  pdf_attachment: :blob
-).find_by(url: params[:url]) || Question.find_by(id: params[:url])
+                        :topics, :votes,
+                        comments: [ :user, { votes: :user } ],
+                        answers: [ :user, :votes, { comments: [ :user, { votes: :user } ] } ],
+                        pdf_attachment: :blob
+    ).find_by(url: params[:url]) || Question.find_by(id: params[:url])
   end
 
   def authorize_question!
