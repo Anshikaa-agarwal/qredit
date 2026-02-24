@@ -36,7 +36,7 @@ class Question < ApplicationRecord
   validate  :pdf_type
 
   def editable?
-    !answers.exists? && !comments.exists? && !votes.exists?
+    answers.empty? && comments.empty? && votes.empty?
   end
 
   def entities_present

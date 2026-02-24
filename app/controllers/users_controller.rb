@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     end
 
     if params[:user]&.[](:avatar)
-      @current_user.update!(user_params)
+      @current_user.update!(user_avatar_params)
     end
 
     redirect_to user_path(@current_user)

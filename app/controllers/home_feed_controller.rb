@@ -7,13 +7,20 @@ class HomeFeedController < ApplicationController
 
       if params[:query][:search_by] == "topic"
         topic_filter = Topic.sanitize_sql_like(term) + "%"
-        @questions = Question.where.associated(:topics).and(Topic.where("name ILIKE ?", topic_filter))
+        @questions = Question.includes(:topics)
+                             .joins(:topics)
+                             .where("topics.name ILIKE ?", topic_filter)
+                             .distinct
       else
         content_filter = Question.sanitize_sql_like(term) + "%"
-        @questions = Question.published.where("title ILIKE ?", content_filter)
+        @questions = Question.published
+                             .includes(:topics)
+                             .where("title ILIKE ?", content_filter)
       end
     else
-      @questions = Question.published.order(created_at: :desc)
+      @questions = Question.published
+                           .includes(:topics)
+                           .order(created_at: :desc)
     end
   end
 

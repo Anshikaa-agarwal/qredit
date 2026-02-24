@@ -8,9 +8,10 @@ class QuestionsController < ApplicationController
   def index
     if params[:user_id]
       @heading = @user == current_user ? "My Questions" : "Questions"
-      @questions = Question.where(user: @user)
+      @questions = Question.includes(:topics, :votes, :answers, :comments, pdf_attachment: :blob)
+                           .where(user: @user)
     else
-      @questions = Question.published
+      @questions = Question.published.includes(:topics, :votes, :answers, :comments, pdf_attachment: :blob)
     end
   end
 
@@ -64,7 +65,13 @@ class QuestionsController < ApplicationController
   private
 
   def set_current_question
-    @question = Question.find_by(url: params[:url]) || Question.find_by(id: params[:url])
+    @question = Question.includes(
+  :topics,
+  :votes,
+  comments: [:user, { votes: :user }],
+  answers: [:user, :votes, { comments: [:user, { votes: :user }] }],
+  pdf_attachment: :blob
+).find_by(url: params[:url]) || Question.find_by(id: params[:url])
   end
 
   def authorize_question!
