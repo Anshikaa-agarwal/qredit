@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_current_user, only: [ :update_profile ]
 
   def show
-    @remaining_topics = (Topic.all - @current_user.topics) if viewing_own_profile?
+    @remaining_topics = Topic.where.not(id: @user.topics.select(:id)) if viewing_own_profile?
   end
 
   def update_profile
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     end
 
     if params[:user]&.[](:avatar)
-      @current_user.update!(user_params)
+      @current_user.update!(user_avatar_params)
     end
 
     redirect_to user_path(@current_user)
@@ -21,13 +21,13 @@ class UsersController < ApplicationController
 
   def credits
     @credit_count = current_user.credits
-    @transactions = current_user.credit_transactions
+    @transactions = current_user.credit_transactions.includes(:source)
   end
 
   def followers
     @user = User.find_by(id: params[:user_id])
-    @followers = @user.followers
-    @followees = @user.followees
+    @followers = @user.followers.includes(avatar_attachment: :blob)
+    @followees = @user.followees.includes(avatar_attachment: :blob)
   end
 
   private

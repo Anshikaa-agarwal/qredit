@@ -1,23 +1,20 @@
 class HomeFeedController < ApplicationController
-  before_action :set_current_user
-
   def index
+    scope = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ]).published
     if params[:query]
       term = params[:query][:content].to_s.strip
 
       if params[:query][:search_by] == "topic"
         topic_filter = Topic.sanitize_sql_like(term) + "%"
-        @questions = Question.where.associated(:topics).and(Topic.where("name ILIKE ?", topic_filter))
+        @questions = scope.joins(:topics)
+                        .where("topics.name ILIKE ?", topic_filter)
+                        .distinct
       else
         content_filter = Question.sanitize_sql_like(term) + "%"
-        @questions = Question.published.where("title ILIKE ?", content_filter)
+        @questions = scope.where("title ILIKE ?", content_filter)
       end
     else
-      @questions = Question.published.order(created_at: :desc)
+      @questions = scope.order(created_at: :desc)
     end
-  end
-
-  private def set_current_user
-    @user = current_user
   end
 end

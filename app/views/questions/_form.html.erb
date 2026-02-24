@@ -5,7 +5,7 @@
   <% if @question.errors.any? %>
     <div class="bg-red-50 border border-red-200 text-red-600 p-3 rounded text-sm">
       <p class="font-medium mb-1">
-        <%= pluralize(@question.errors.count, "error") %> prevented this question from being saved:
+        <%= pluralize(@question.errors.size, "error") %> prevented this question from being saved:
       </p>
       <ul class="list-disc ml-5">
         <% @question.errors.each do |error| %>
