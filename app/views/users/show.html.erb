@@ -40,7 +40,7 @@
 
         <p class="text-2xl font-semibold text-violet-600
                   group-hover:text-violet-700 transition">
-          <%= @user.followers.count %>
+          <%= @user.followers.size %>
         </p>
 
       </div>
@@ -59,7 +59,7 @@
     
         <p class="text-2xl font-semibold text-violet-600
                   group-hover:text-violet-700 transition">
-          <%= @user.followees.count %>
+          <%= @user.followees.size %>
         </p>
       </div>
     <% end %>
@@ -80,7 +80,7 @@
 
         <p class="text-2xl font-semibold text-violet-600
                   group-hover:text-violet-700 transition">
-          <%= @user.questions.count %>
+          <%= @user.questions.size %>
         </p>
 
       </div>

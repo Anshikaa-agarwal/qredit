@@ -6,12 +6,12 @@ class QuestionsController < ApplicationController
   before_action :set_user
 
   def index
+    base = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ])
     if params[:user_id]
       @heading = @user == current_user ? "My Questions" : "Questions"
-      @questions = Question.includes(:topics, :votes, :answers, :comments, pdf_attachment: :blob)
-                           .where(user: @user)
+      @questions = base.where(user: @user)
     else
-      @questions = Question.published.includes(:topics, :votes, :answers, :comments, pdf_attachment: :blob)
+      @questions = base
     end
   end
 
@@ -68,8 +68,8 @@ class QuestionsController < ApplicationController
     @question = Question.includes(
   :topics,
   :votes,
-  comments: [:user, { votes: :user }],
-  answers: [:user, :votes, { comments: [:user, { votes: :user }] }],
+  comments: [ :user, { votes: :user } ],
+  answers: [ :user, :votes, { comments: [ :user, { votes: :user } ] } ],
   pdf_attachment: :blob
 ).find_by(url: params[:url]) || Question.find_by(id: params[:url])
   end
