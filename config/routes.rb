@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   concern :reportable do
-    resources :abuses, only: [ :new, :create ]
+    resources :abuses, only: [ :create ]
   end
 
   resources :questions, param: :url, concerns: [ :votable, :reportable ] do
