@@ -1,5 +1,5 @@
 class Abuse < ApplicationRecord
-  ABUSE_THRESHOLD = 1
+  ABUSE_THRESHOLD = 3
 
   # associations
   belongs_to :reporter, class_name: "User"

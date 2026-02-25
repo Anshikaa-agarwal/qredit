@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
   include Votable, Reportable
-  NETVOTE_THRESHOLD = 1
+  NETVOTE_THRESHOLD = 10
 
   # enum
   enum :status, { published: 0, unpublished: 1 }
