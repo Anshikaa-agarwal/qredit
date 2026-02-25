@@ -1,22 +1,28 @@
 <div class="max-w-6xl mx-auto my-6 relative">
 
-  <!-- Edit/Delete/Draft STARTS -->
-  <% if current_user == question.user %>
-    <div class="absolute top-4 right-4 flex gap-3 text-gray-500 z-10">
-      <% if question.draft? %>
-        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-          Draft
-        </span>
-      <% end %>
+  <!-- Status + Actions -->
+  <div class="absolute top-4 right-4 flex items-center gap-3 text-gray-500 z-10">
 
-      <!-- edited status -->
-      <% if question.edited_at %>
-        <span class="px-3 py-1 text-[11px] font-semibold rounded-full bg-violet-50 text-violet-700 border border-violet-200 tracking-wide">
-          Edited
-        </span>
-      <% end %>
+    <% if question.draft? %>
+      <span class="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+        Draft
+      </span>
+    <% end %>
 
-      <!-- edit form, if editable? -->
+    <% if question.edited_at %>
+      <span class="px-3 py-1 text-xs font-semibold rounded-full bg-violet-50 text-violet-700 border border-violet-200">
+        Edited
+      </span>
+    <% end %>
+
+    <% if question.reported_by(current_user) %>
+      <span class="px-3 py-1 text-xs font-semibold rounded-full bg-rose-50 text-rose-600 border border-rose-200">
+        Reported
+      </span>
+    <% end %>
+
+    <% if current_user == question.user %>
+
       <% if question.editable? %>
         <%= link_to edit_question_path(question),
           class: "hover:text-violet-600",
@@ -30,7 +36,7 @@
           <!-- tooltip -->
           <span class="absolute right-0 top-6 hidden group-hover:block
                        bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
-            Cannot edit: <%= question.entities_present.join(' & ') %> exist
+            Cannot edit: <%= question.entities_present&.join(' & ') %> exist
           </span>
         </span>
       <% end %>
@@ -38,16 +44,19 @@
       <%= button_to question_path(question),
             method: :delete,
             data: { turbo_confirm: "Are you sure?" },
-            class: "hover:text-red-500 bg-transparent border-none p-0" do %>
-        <i class="fa-regular fa-trash-can"></i>
+            class: "hover:text-red-500 bg-transparent border-none p-0 transition" do %>
+        <i class="fa-regular fa-trash-can text-base"></i>
       <% end %>
-    </div>
-  <% end %>
-  <!-- Edit/Delete/Draft ENDS -->
 
+    <% else %>
+      <!-- Report button -->
+      <%= render "shared/report_button", reportable: question %>
+    <% end %>
+
+  </div>
 
   <!-- Question Container -->
-  <div class="bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
+  <div class="relative bg-white border border-violet-100 rounded-xl p-7 space-y-6 shadow-sm">
 
     <!-- Header -->
     <div class="flex flex-col gap-0">
@@ -66,7 +75,7 @@
 
     <!-- Clickable Content Area -->
     <%= link_to question_path(question),
-          class: "block no-underline space-y-6",
+          class: "block no-underline space-y-6 relative z-0",
           data: { turbo_frame: "_top" } do %>
 
       <%= render partial: 'shared/display_topics', locals: { topicable: question } %>

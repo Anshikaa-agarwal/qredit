@@ -4,24 +4,35 @@
   <!-- User + Time -->
   <div class="flex items-center justify-between">
     <%= render partial: "shared/user_details", locals: { user: answer.user } %>
-    
-    <% if answer.user == current_user %>
-        <div class="flex items-center gap-1 text-gray-500">
-          <!-- Edit Button -->
-          <%= link_to edit_question_answer_path(answer.question, answer),
-                data: { turbo_frame: "edit_answer_#{answer.id}" },
-                class: "p-2 rounded hover:bg-violet-100 hover:text-violet-600 transition" do %>
-            <i class="fa-regular fa-pen-to-square"></i>
-          <% end %>
 
-          <!-- Delete Button -->
-          <%= link_to question_answer_path(answer.question, answer),
-                data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" },
-                class: "p-2 rounded hover:bg-red-100 hover:text-red-600 transition" do %>
-            <i class="fa-regular fa-trash-can"></i>
-          <% end %>
-        </div>
+    <div class="flex items-center gap-1 text-gray-500">
+
+      <!-- Reported status -->
+      <% if answer.reported_by(current_user) %>
+        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-rose-50 text-rose-600 border border-rose-200">
+          Reported
+        </span>
       <% end %>
+
+      <% if answer.user == current_user %>
+        <!-- Edit Button -->
+        <%= link_to edit_question_answer_path(answer.question, answer),
+              data: { turbo_frame: "edit_answer_#{answer.id}" },
+              class: "p-2 rounded hover:bg-violet-100 hover:text-violet-600 transition" do %>
+          <i class="fa-regular fa-pen-to-square"></i>
+        <% end %>
+
+        <!-- Delete Button -->
+        <%= link_to question_answer_path(answer.question, answer),
+              data: { turbo_method: :delete, turbo_confirm: "Delete this answer?" },
+              class: "p-2 rounded hover:bg-red-100 hover:text-red-600 transition" do %>
+          <i class="fa-regular fa-trash-can"></i>
+        <% end %>
+      <% end %>
+
+      <!-- Report button -->
+      <%= render "shared/report_button", reportable: answer %>
+    </div>
   </div>
 
   <p class="text-xs text-gray-400">

@@ -11,6 +11,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @commentable.comments.new(comment_content_params)
     @comment.user = current_user
+    @comment.status = :published
 
     respond_to do |format|
       if @comment.save

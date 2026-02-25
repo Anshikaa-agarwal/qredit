@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  include Votable
+  include Votable, Reportable
 
   def to_param
     url.presence || id.to_s
@@ -24,7 +24,6 @@ class Question < ApplicationRecord
   has_many :votes,    dependent: :restrict_with_error, as: :votable
 
   has_many :credit_transactions, as: :source
-  has_many :abuse_reports, class_name: "Abuse", as: :reportable, dependent: :destroy
 
   has_one_attached :pdf
 

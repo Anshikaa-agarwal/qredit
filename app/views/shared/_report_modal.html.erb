@@ -1,0 +1,40 @@
+<div id="report-modal-<%= dom_id(reportable) %>"
+     data-controller="modal"
+     class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+  <div class="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
+
+    <h2 class="text-lg font-semibold mb-4">Report Content</h2>
+
+    <%= form_with model: set_parent_chain(reportable) + [Abuse.new],
+                  local: true do |f| %>
+
+      <div class="space-y-3 max-h-64 overflow-y-auto">
+
+        <% ABUSE_REASONS.each do |key, value| %>
+          <label class="flex gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+            <%= f.radio_button :reason, key, required: true %>
+            <div>
+              <p class="font-medium text-sm"><%= value[:heading] %></p>
+              <p class="text-xs text-gray-500"><%= value[:content] %></p>
+            </div>
+          </label>
+        <% end %>
+
+      </div>
+
+      <div class="mt-5 flex justify-end gap-3">
+        <button type="button"
+                data-action="click->modal#close"
+                data-modal-id="report-modal-<%= dom_id(reportable) %>"
+                class="text-sm text-gray-500">
+          Cancel
+        </button>
+
+        <%= f.submit "Submit",
+              class: "bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

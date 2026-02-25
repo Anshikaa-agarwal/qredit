@@ -7,8 +7,19 @@
         <%= render partial: "shared/user_details", locals: { user: comment.user } %>
       </div>
 
-      <% if comment.user == current_user %>
-        <div class="flex items-center gap-1 text-gray-400">
+      <div class="flex items-center gap-1 text-gray-400">
+
+        <!-- Reported status -->
+        <% if comment.reported_by(current_user) %>
+          <span class="px-3 py-1 text-xs font-semibold rounded-full bg-rose-50 text-rose-600 border border-rose-200">
+            Reported
+          </span>
+        <% end %>
+
+        <!-- Report btn -->
+        <%= render "shared/report_button", reportable: comment %>
+  
+        <% if comment.user == current_user %>
           <!-- Edit -->
           <%= link_to edit_polymorphic_path(set_parent_chain(comment.commentable) + [comment]),
                 data: { turbo_frame: "edit_comment_#{comment.id}" },
@@ -22,8 +33,9 @@
                 class: "p-1.5 rounded hover:bg-red-100 hover:text-red-600 transition text-sm" do %>
             <i class="fa-regular fa-trash-can"></i>
           <% end %>
-        </div>
-      <% end %>
+        <% end %>
+
+      </div>
     </div>
 
     <!-- Time -->
