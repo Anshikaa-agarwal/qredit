@@ -16,6 +16,9 @@
           </span>
         <% end %>
 
+        <!-- Abuse tag -->
+        <%= render 'shared/abusive_tag', reportable: comment %>
+
         <!-- Report btn -->
         <%= render "shared/report_button", reportable: comment %>
   

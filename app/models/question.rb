@@ -110,7 +110,10 @@ class Question < ApplicationRecord
   end
 
   private def deduct_user_credits
-    return unless saved_change_to_status? && published?
+    return unless saved_change_to_status?
+
+    from, to = saved_change_to_status
+    return unless (from == "draft" || from == "unpublished") && to == "published"
 
     Question.transaction do
       user.decrement!(:credits)

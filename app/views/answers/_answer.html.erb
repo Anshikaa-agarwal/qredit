@@ -14,6 +14,9 @@
         </span>
       <% end %>
 
+      <!-- Abuse tag -->
+      <%= render 'shared/abusive_tag', reportable: answer %>
+
       <% if answer.user == current_user %>
         <!-- Edit Button -->
         <%= link_to edit_question_answer_path(answer.question, answer),

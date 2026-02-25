@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
   include Votable, Reportable
-  NETVOTE_THRESHOLD = 10
+  NETVOTE_THRESHOLD = 1
 
   # enum
   enum :status, { published: 0, unpublished: 1 }
@@ -52,7 +52,8 @@ class Answer < ApplicationRecord
       user.credit_transactions.create!(
         reason: "Answer reached #{NETVOTE_THRESHOLD} net votes.",
         type: :earnt,
-        units: 1
+        units: 1,
+        source: self
       )
     end
   end

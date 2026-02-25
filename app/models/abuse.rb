@@ -1,5 +1,5 @@
 class Abuse < ApplicationRecord
-  ABUSE_THRESHOLD = 3
+  ABUSE_THRESHOLD = 1
 
   # associations
   belongs_to :reporter, class_name: "User"
@@ -26,8 +26,15 @@ class Abuse < ApplicationRecord
     message: "already reported this content" }
 
   private def check_and_unpublish
+    p "check_and_unpublish callback"
+    p reportable.abuse_reports.count
     if reportable.abuse_reports.count >= ABUSE_THRESHOLD
-      reportable.status = :unpublished
+      p "hello"
+      Abuse.transaction do
+        reportable.update(status: :unpublished)
+
+        reportable.abuse_revert_credits
+      end
     end
   end
 end

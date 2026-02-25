@@ -21,6 +21,9 @@
       </span>
     <% end %>
 
+    <!-- abuse tag -->
+    <%= render 'shared/abusive_tag', reportable: question %>
+
     <% if current_user == question.user %>
 
       <% if question.editable? %>
