@@ -80,8 +80,8 @@
 
                 <!-- Reason  -->
                 <td class="px-6 py-4 text-sm">
-                  <% if t.source.present? %>
-                    <%= link_to t.reason.presence || "View details",
+                  <% if t.source.present? && set_parent_chain(t.source).present? %>
+                    <%= link_to t.reason || "View details",
                           set_parent_chain(t.source),
                           class: "text-indigo-600 hover:underline font-medium" %>
                   <% else %>
