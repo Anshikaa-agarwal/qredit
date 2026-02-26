@@ -13,8 +13,6 @@ module Reportable
 
   def abuse_revert_credits
     credits_awarded = credit_transactions.earnt.sum(:units)
-    p self.credit_transactions
-    p "credits_awarded: #{credits_awarded}"
     if credits_awarded > 0
       User.transaction do
         user.decrement!(:credits, credits_awarded)
