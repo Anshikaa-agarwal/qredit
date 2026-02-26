@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Question Answer Platform" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Question Answer Platform">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="https://kit.fontawesome.com/0f5c8d7587.js" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/clover/stripe.js"></script>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+<body class="bg-gray-50 text-gray-800 text-base">
+  <!-- Top Navbar -->
+  <nav class="fixed top-0 inset-x-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-50">
+    <div class="text-2xl font-bold text-violet-600">
+      Qredit
+    </div>
+
+    <% unless user_signed_in? %>
+      <div class="flex items-center gap-4 text-base">
+        <%= link_to "Login", new_user_session_path, class: "px-5 py-2.5 rounded-lg border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white transition" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "px-5 py-2.5 rounded-lg bg-violet-600 text-white hover:bg-violet-700 transition" %>
+      </div>
+    <% end %>
+  </nav>
+
+  <div class="pt-16">
+    <!-- Sidebar -->
+    <aside class="hidden md:fixed md:inset-y-16 md:left-0 md:w-64 md:bg-white md:border-r md:border-gray-200 md:px-5 md:py-6 md:block">
+      <nav class="flex flex-col gap-3 text-base font-medium">
+        <%= link_to "Dashboard",
+            "/admin",
+            class: sidebar_link_classes(admin_root_path) %>
+
+        <%= link_to "Questions",
+            admin_questions_path,
+            class: sidebar_link_classes(admin_questions_path) %>
+
+        <%= link_to "Users",
+            admin_users_path,
+            class: sidebar_link_classes(admin_users_path) %>
+
+        <%= button_to "Log out",
+                destroy_user_session_path,
+                method: :delete,
+                class: "mt-4 w-full text-left px-4 py-2.5 rounded-lg text-violet-600 hover:bg-violet-50 hover:text-violet-700 transition font-medium" %>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 px-6 md:px-8 py-7 text-base min-h-screen">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </main>
+  </div>
+</body>
+</html>
