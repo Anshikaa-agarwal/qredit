@@ -3,6 +3,13 @@ Rails.application.routes.draw do
 
   root "home_feed#index"
 
+  namespace :admin do
+    root "dashboard#index"
+
+    resources :users, only: %i[ index show ]
+    resources :questions, only: %i[ index show ]
+  end
+
   resources :users, only: [ :show ] do
     get "followers_list", to: "users#followers"
     patch :update_profile, on: :member
