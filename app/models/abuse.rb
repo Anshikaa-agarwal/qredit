@@ -26,10 +26,8 @@ class Abuse < ApplicationRecord
     message: "already reported this content" }
 
   private def check_and_unpublish
-    p "check_and_unpublish callback"
     p reportable.abuse_reports.count
     if reportable.abuse_reports.count >= ABUSE_THRESHOLD
-      p "hello"
       Abuse.transaction do
         reportable.update(status: :unpublished)
 
