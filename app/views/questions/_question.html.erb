@@ -30,7 +30,7 @@
           <!-- tooltip -->
           <span class="absolute right-0 top-6 hidden group-hover:block
                        bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
-            Cannot edit: <%= question.entities_present.join(' & ') %> exist
+            Cannot edit: <%= question.entities_present&.join(' & ') %> exist
           </span>
         </span>
       <% end %>
