@@ -1,0 +1,22 @@
+<div class="max-w-2xl mx-auto px-6 py-8">
+  
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-medium text-gray-800">
+      Topics
+    </h1>
+
+    <%= link_to "Add topic",
+          new_admin_topic_path,
+          data: { turbo_frame: "new_topic_frame" },
+          class: "text-sm text-gray-600 hover:text-black transition" %>
+  </div>
+
+  <%= turbo_frame_tag id="new_topic_frame" %>
+
+  <%= turbo_frame_tag id="admin_topics_list" do %>
+    <div class="space-y-4">
+      <%= render partial: "topic", collection: @topics %>
+    </div>
+  <% end %>
+
+</div>

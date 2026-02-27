@@ -1,0 +1,6 @@
+<%= turbo_stream.update 'flash', partial: 'shared/flash' %>
+
+<%= turbo_stream.replace id='new_topic_frame', '' %>
+<%= turbo_stream.prepend "admin_topics_list",
+      partial: "topic",
+      locals: { topic: @topic } %>
