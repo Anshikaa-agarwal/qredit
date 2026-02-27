@@ -1,1 +1,23 @@
-admin::questions#index
+<div class="max-w-7xl mx-auto px-6 pt-5 pb-10">
+
+  <!-- Filters -->
+  <div class="mb-10">
+    <%= render 'filter_form' %>
+  </div>
+
+  <!-- Results -->
+  <turbo-frame id="questions">
+    <div class="space-y-4">
+      <% if @questions.any? %>
+        <%= render partial: "question", collection: @questions %>
+      <% else %>
+        <div class="text-center py-16">
+          <p class="text-gray-400 text-sm">
+            No results found
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </turbo-frame>
+
+</div>

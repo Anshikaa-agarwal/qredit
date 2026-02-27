@@ -6,4 +6,8 @@ class Topic < ApplicationRecord
 
   # validations
   validates :name, presence: true, uniqueness: true
+
+  def engagement_score
+    0.8 * (questions.sum(&:engagement_score)) + 0.2 * (users.size)
+  end
 end

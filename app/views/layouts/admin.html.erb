@@ -56,6 +56,10 @@
             admin_users_path,
             class: sidebar_link_classes(admin_users_path) %>
 
+        <%= link_to "Topics",
+            admin_topics_path,
+            class: sidebar_link_classes(admin_topics_path) %>
+
         <%= button_to "Log out",
                 destroy_user_session_path,
                 method: :delete,

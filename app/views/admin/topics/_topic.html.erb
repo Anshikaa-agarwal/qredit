@@ -2,7 +2,6 @@
   <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
 
     <div class="flex items-center gap-12 text-md">
-      
       <span class="text-gray-900 w-40 truncate">
         <%= topic.name %>
       </span>
@@ -19,8 +18,8 @@
 
     <%= button_to admin_topic_path(topic),
           method: :delete,
-          class: "text-xs text-gray-400 hover:text-gray-700 transition" do %>
-      Delete
+          class: "text-sm text-gray-400 hover:text-red-700 transition" do %>
+                <i class="fa-regular fa-trash-can"></i>
     <% end %>
 
   </div>

@@ -26,9 +26,14 @@
 
     <!-- Questions by Topic -->
     <div class="bg-white rounded-lg shadow-sm p-6">
+      <div class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-medium text-gray-700 mb-4">
         Questions by Topic
       </h2>
+
+      <%= link_to "View all topics", admin_topics_path,
+              class: "text-sm text-blue-600 hover:text-blue-800 font-medium" %>
+      </div>
 
       <%= pie_chart @questions_by_topic %>
     </div>
