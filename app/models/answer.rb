@@ -20,6 +20,10 @@ class Answer < ApplicationRecord
   # callbacks
   after_create_commit :send_question_user_email
 
+  # scopes
+  scope :from_date, ->(from) { where(posted_at: from.to_date.beginning_of_day..) }
+  scope :till_date, ->(to) { where(posted_at: ..to.to_date.end_of_day) }
+
   def posted_at_date
     created_at.to_date
   end
