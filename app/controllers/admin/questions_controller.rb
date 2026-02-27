@@ -9,6 +9,6 @@ class Admin::QuestionsController < Admin::BaseController
     @questions = @questions.joins(:topics).where(topics: Topic.find_by(id: topic_query)) if topic_query.present?
     @questions = @questions.reorder("created_at #{sort_by}") if sort_by.present?
     @questions = @questions.from_date(from) if from.present?
-    @questions = @questions.to_date(to) if to.present?
+    @questions = @questions.till_date(to) if to.present?
   end
 end
