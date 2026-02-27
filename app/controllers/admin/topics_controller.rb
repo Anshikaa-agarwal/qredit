@@ -1,5 +1,5 @@
 class Admin::TopicsController < Admin::BaseController
-  before_action :set_topic, only: %i[ edit update destroy ]
+  before_action :set_topic, only: %i[ destroy ]
 
   def index
     @topics = Topic.includes(:questions, :users).all
@@ -17,19 +17,21 @@ class Admin::TopicsController < Admin::BaseController
         flash.now[:notice] = "New topic added."
         format.turbo_stream
       else
-        flash.now[:alert] = "Could not add topic."
         format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
 
-  def edit
-  end
-
-  def update
-  end
-
   def destroy
+    respond_to do |format|
+      if @topic.destroy
+        flash.now[:notice] = "Topic deleted."
+        format.turbo_stream
+      else
+        flash.now[:alert] = @topic.errors.full_messages.to_sentence
+        format.turbo_stream
+      end
+    end
   end
 
   private def topic_params

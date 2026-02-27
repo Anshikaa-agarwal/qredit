@@ -1,0 +1,5 @@
+<%= turbo_stream.update "flash", partial: "shared/flash" %>
+
+<% if @topic.destroyed? %>
+  <%= turbo_stream.remove dom_id(@topic) %>
+<% end %>

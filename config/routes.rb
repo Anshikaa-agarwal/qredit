@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
     resources :users, only: %i[ index show ]
     resources :questions, only: %i[ index show ]
-    resources :topics, except: %i[ edit update ]
+    resources :topics, only: %i[ index new create destroy ]
   end
 
   resources :users, only: [ :show ] do
