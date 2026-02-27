@@ -2,7 +2,7 @@ class Admin::TopicsController < Admin::BaseController
   before_action :set_topic, only: %i[ destroy ]
 
   def index
-    scope = Topic.includes(:users, questions: [ :answers, :comments, :votes ]).all
+    scope = Topic.includes(:users, questions: [ :answers, :comments, :votes ])
     @topics = scope.order(created_at: :desc)
     @most_engaging_topic = scope.max_by(&:engagement_score)
     @least_engaging_topic = scope.min_by(&:engagement_score)
