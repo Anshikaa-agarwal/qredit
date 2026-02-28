@@ -71,6 +71,12 @@
           <%= link_to "My Profile",
               user_path(current_user),
               class: sidebar_link_classes(user_path(current_user)) %>
+
+          <% if current_user&.admin? %>
+            <%= link_to "Admin Portal",
+              admin_root_path,
+              class: sidebar_link_classes(admin_root_path) %>
+          <% end %>
     
           <%= button_to "Log out",
                 destroy_user_session_path,

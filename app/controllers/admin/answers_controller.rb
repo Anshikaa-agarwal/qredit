@@ -1,6 +1,6 @@
 class Admin::AnswersController < Admin::BaseController
   def index
-    @answers = Answer.includes(:votes, :comments, :user).order(created_at: :desc)
+    @answers = Answer.includes(:question, :votes, :comments, :user).order(created_at: :desc)
     sort_by = params[:sort]
     from = params[:from]
     to = params[:to]
