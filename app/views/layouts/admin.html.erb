@@ -44,7 +44,7 @@
     <!-- Sidebar -->
     <aside class="hidden md:fixed md:inset-y-16 md:left-0 md:w-64 md:bg-white md:border-r md:border-gray-200 md:px-5 md:py-6 md:block">
       <nav class="flex flex-col gap-3 text-base font-medium">
-        <%= link_to "Home",
+        <%= link_to "Admin Portal",
             "/admin",
             class: sidebar_link_classes(admin_root_path) %>
 
@@ -67,6 +67,10 @@
         <%= link_to "Topics",
             admin_topics_path,
             class: sidebar_link_classes(admin_topics_path) %>
+
+        <%= link_to "Home",
+            root_path,
+            class: sidebar_link_classes(root_path) %>
 
         <%= button_to "Log out",
                 destroy_user_session_path,
