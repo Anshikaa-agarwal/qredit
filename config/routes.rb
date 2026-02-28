@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
 
-    resources :users, only: %i[ index show ]
+    resources :users, only: %i[ index show ] do
+      patch :disable, on: :member
+    end
     resources :questions, only: %i[ index show ]
     resources :topics, only: %i[ index new create destroy ]
   end

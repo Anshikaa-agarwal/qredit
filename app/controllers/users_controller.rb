@@ -30,6 +30,10 @@ class UsersController < ApplicationController
     @followees = @user.followees.includes(avatar_attachment: :blob)
   end
 
+  def active_for_authentication?
+    super && !self.disabled?
+  end
+
   private
 
   def set_user

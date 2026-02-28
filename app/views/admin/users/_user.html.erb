@@ -1,15 +1,32 @@
 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition duration-200">
-  
-  <div class="space-y-1">
-    <%= link_to user_path(user), class: "text-lg font-semibold text-slate-800 hover:text-slate-600 transition" do %>
-      <%= user.name %>
-    <% end %>
 
-    <p class="text-sm text-slate-500"><%= user.email %></p>
+  <!-- Header -->
+  <div class="flex items-start justify-between">
+    <div class="space-y-1">
+      <%= link_to user_path(user), class: "text-lg font-semibold text-slate-800 hover:text-slate-600 transition" do %>
+        <%= user.name %>
+      <% end %>
+      <p class="text-sm text-slate-500"><%= user.email %></p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <% if user.disabled? %>
+        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">
+          Disabled
+        </span>
+      <% else %>
+        <%= button_to "Disable user",
+            disable_admin_user_path(user),
+            method: :patch,
+            data: { turbo_confirm: "Are you sure you want to disable this user?" },
+            class: "text-sm font-semibold text-red-600 hover:text-red-700 transition duration-150" %>
+        <% end %>
+    </div>
   </div>
 
   <div class="my-5 h-px bg-slate-100"></div>
 
+  <!-- Stats -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-y-5 gap-x-6">
     <% { Questions: user.questions.size, Answers: user.answers.size, Comments: user.comments.size, Votes: user.votes.size }.each do |label, value| %>
       <div class="space-y-1">
