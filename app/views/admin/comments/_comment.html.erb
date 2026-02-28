@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(answer, :admin) do %>
+<%= turbo_frame_tag dom_id(comment, :admin) do %>
   <div class="border border-gray-200 rounded-2xl px-7 py-6 mb-6 hover:border-violet-300 hover:bg-gray-50/40 transition">
 
     <div class="flex items-start justify-between">
@@ -12,42 +12,32 @@
             Question
           </p>
 
-          <%= link_to question_path(answer.question),
+          <%= link_to question_path(comment.parent_question),
                 data: { turbo_frame: "_top" },
                 class: "text-sm font-medium text-violet-600 hover:text-violet-700 hover:underline transition" do %>
-            <%= answer.question.title %>
+            <%= comment.parent_question.title %>
           <% end %>
         </div>
 
-        <!-- Answer Content -->
+        <!-- Comment Content -->
         <div class="text-gray-800 text-base leading-relaxed">
-          <%= answer.content %>
+          <%= comment.content %>
         </div>
 
         <!-- User Details -->
         <div class="mt-3 scale-[0.90] origin-left">
-          <%= render "shared/user_details", user: answer.user %>
+          <%= render "shared/user_details", user: comment.user %>
         </div>
 
       </div>
 
-      <!-- Stats + Admin Action -->
-      <div class="flex items-center gap-10 text-sm text-gray-500">
-
-        <!-- Comments -->
-        <div class="text-center">
-          <p class="text-base font-semibold text-gray-800">
-            <%= answer.comments.size %>
-          </p>
-          <p class="text-xs tracking-wide text-gray-400 uppercase">
-            Comments
-          </p>
-        </div>
+      <!-- Stats -->
+        <div class="flex items-center gap-10 text-sm text-gray-500">
 
         <!-- Upvotes -->
         <div class="text-center">
           <p class="text-base font-semibold text-violet-600">
-            <%= answer.upvotes_count %>
+            <%= comment.upvotes_count %>
           </p>
           <p class="text-xs tracking-wide text-gray-400 uppercase">
             Upvotes
@@ -57,7 +47,7 @@
         <!-- Downvotes -->
         <div class="text-center">
           <p class="text-base font-semibold text-gray-400">
-            <%= answer.downvotes_count %>
+            <%= comment.downvotes_count %>
           </p>
           <p class="text-xs tracking-wide text-gray-400 uppercase">
             Downvotes
@@ -66,7 +56,7 @@
 
         <!-- Admin Action -->
         <div class="text-center">
-          <% if answer.unpublished? %>
+          <% if comment.unpublished? %>
             <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">
               Unpublished
             </span>
@@ -75,9 +65,9 @@
             </p>
           <% else %>
             <%= button_to "Unpublish",
-                unpublish_admin_answer_path(answer),
+                unpublish_admin_comment_path(comment),
                 method: :patch,
-                data: { turbo_confirm: "Are you sure you want to unpublish this answer?" },
+                data: { turbo_confirm: "Are you sure you want to unpublish this comment?" },
                 class: "text-sm font-semibold text-red-600 hover:text-red-700 transition" %>
             <p class="text-xs tracking-wide text-gray-400 uppercase mt-1">
               Action

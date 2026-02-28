@@ -9,4 +9,15 @@ class Admin::AnswersController < Admin::BaseController
     @answers = @answers.from_date(from) if from.present?
     @answers = @answers.till_date(to) if to.present?
   end
+
+  def unpublish
+    @answer = Answer.find_by(id: params[:id])
+    @answer.status = :unpublished
+
+    if @answer.save
+      redirect_to admin_answers_path, notice: "Answer unpublished successfully."
+    else
+      redirect_to admin_answers_path, alert: "Could not unpublish answer."
+    end
+  end
 end

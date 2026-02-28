@@ -19,4 +19,12 @@ class Comment < ApplicationRecord
   def posted_at_date
     created_at.to_date
   end
+
+  def parent_question
+    if commentable.is_a?(Question)
+      self.commentable
+    else
+      self.commentable.question
+    end
+  end
 end

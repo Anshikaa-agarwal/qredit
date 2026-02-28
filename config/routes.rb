@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   root "home_feed#index"
 
+  concern :unpublishable do
+    patch :unpublish, on: :member
+  end
+
   namespace :admin do
     root "dashboard#index"
 
@@ -10,7 +14,8 @@ Rails.application.routes.draw do
       patch :disable, on: :member
     end
     resources :questions, only: %i[ index show ]
-    resources :answers, only: %i[ index ]
+    resources :answers, only: %i[ index ], concerns: %i[ unpublishable ]
+    resources :comments, only: %i[ index ], concerns: %i[ unpublishable ]
     resources :topics, only: %i[ index new create destroy ]
   end
 
