@@ -12,7 +12,7 @@ class Admin::CommentsController < Admin::BaseController
 
   def unpublish
     @comment = Comment.find_by(id: params[:id])
-    @comment.disabled = true
+    @comment.status = :unpublished
 
     if @comment.save
       redirect_to admin_comments_path, notice: "Comment unpublished successfully."
