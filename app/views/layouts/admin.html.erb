@@ -28,8 +28,13 @@
 <body class="bg-gray-50 text-gray-800 text-base">
   <!-- Top Navbar -->
   <nav class="fixed top-0 inset-x-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-50">
-    <div class="text-2xl font-bold text-violet-600">
-      Qredit
+    <div class="flex items-center gap-3">
+      <span class="text-2xl font-bold text-violet-600">
+        Qredit
+      </span>
+      <span class="text-sm px-2 py-1 bg-red-100 text-red-600 rounded">
+        Admin
+      </span>
     </div>
 
     <% unless user_signed_in? %>
@@ -44,7 +49,7 @@
     <!-- Sidebar -->
     <aside class="hidden md:fixed md:inset-y-16 md:left-0 md:w-64 md:bg-white md:border-r md:border-gray-200 md:px-5 md:py-6 md:block">
       <nav class="flex flex-col gap-3 text-base font-medium">
-        <%= link_to "Admin Portal",
+        <%= link_to "Dashboard",
             "/admin",
             class: sidebar_link_classes(admin_root_path) %>
 
@@ -68,7 +73,7 @@
             admin_topics_path,
             class: sidebar_link_classes(admin_topics_path) %>
 
-        <%= link_to "Home",
+        <%= link_to "Back to Site",
             root_path,
             class: sidebar_link_classes(root_path) %>
 
