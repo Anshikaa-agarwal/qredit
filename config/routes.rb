@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get "topics/:name", to: "topics#show"
+    get "feed", to: "feeds#index"
   end
 
   resources :users, only: [ :show ] do

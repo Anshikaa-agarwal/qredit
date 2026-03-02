@@ -38,6 +38,9 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find_by(id: params[:id])
+    unless @user
+      redirect_to root_path, alert: "No user found."
+    end
   end
 
   def set_current_user
