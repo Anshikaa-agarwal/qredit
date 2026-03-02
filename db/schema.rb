@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_11_072527) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_25_084024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "abuses", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "reason", null: false
+    t.integer "reason", null: false
     t.bigint "reportable_id", null: false
     t.string "reportable_type", null: false
     t.bigint "reporter_id", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_072527) do
   end
 
   create_table "answers", force: :cascade do |t|
+    t.boolean "abusive", default: false
     t.string "content", null: false
     t.datetime "created_at", null: false
     t.integer "net_votes", default: 0
@@ -66,10 +67,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_072527) do
   end
 
   create_table "comments", force: :cascade do |t|
+    t.boolean "abusive", default: false
     t.bigint "commentable_id", null: false
     t.string "commentable_type", null: false
     t.string "content", null: false
     t.datetime "created_at", null: false
+    t.integer "status"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
@@ -124,6 +127,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_072527) do
   end
 
   create_table "questions", force: :cascade do |t|
+    t.boolean "abusive", default: false
     t.string "content", null: false
     t.datetime "created_at", null: false
     t.datetime "edited_at"

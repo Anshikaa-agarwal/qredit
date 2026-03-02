@@ -1,6 +1,6 @@
 class HomeFeedController < ApplicationController
   def index
-    scope = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ]).published
+    scope = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, :abuse_reports, user: [ :followers, avatar_attachment: :blob ]).published
     if params[:query]
       term = params[:query][:content].to_s.strip
 

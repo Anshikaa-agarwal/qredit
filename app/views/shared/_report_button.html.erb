@@ -1,0 +1,19 @@
+<% return if !user_signed_in? || !reportable.published? %>
+
+<% unless current_user == reportable.user ||
+         reportable.abuse_reports.exists?(reporter: current_user) %>
+
+  <div data-controller="modal">
+  
+  <button type="button"
+          data-action="click->modal#open"
+          data-modal-id="report-modal-<%= dom_id(reportable) %>"
+          class="text-gray-400 hover:text-red-500 transition">
+    <i class="fa-regular fa-flag"></i>
+  </button>
+
+  <%= render "shared/report_modal", reportable: reportable %>
+
+</div>
+
+<% end %>

@@ -1,5 +1,8 @@
 class Comment < ApplicationRecord
-  include Votable
+  include Votable, Reportable
+
+  # enum
+  enum :status, { published: 0, unpublished: 1 }
 
   # associations
   belongs_to :user

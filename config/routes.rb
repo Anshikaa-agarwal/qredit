@@ -14,11 +14,15 @@ Rails.application.routes.draw do
     resources :votes, only: [ :create, :destroy ]
   end
 
-  resources :questions, param: :url, concerns: :votable do
-    resources :answers, concerns: :votable do
-      resources :comments, concerns: :votable
+  concern :reportable do
+    resources :abuses, only: [ :create ]
+  end
+
+  resources :questions, param: :url, concerns: [ :votable, :reportable ] do
+    resources :answers, concerns: [ :votable, :reportable ] do
+      resources :comments, concerns: [ :votable, :reportable ]
     end
-    resources :comments, concerns: :votable
+    resources :comments, concerns: [ :votable, :reportable ]
     patch :publish, on: :member
   end
 
