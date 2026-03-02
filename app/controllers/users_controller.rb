@@ -26,8 +26,12 @@ class UsersController < ApplicationController
 
   def followers
     @user = User.find_by(id: params[:user_id])
-    @followers = @user.followers.includes(avatar_attachment: :blob)
-    @followees = @user.followees.includes(avatar_attachment: :blob)
+    if @user
+      @followers = @user.followers.includes(avatar_attachment: :blob)
+      @followees = @user.followees.includes(avatar_attachment: :blob)
+    else
+      redirect_back fallback_location: root_path, alert: "User not found."
+    end
   end
 
   private
