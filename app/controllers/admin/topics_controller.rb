@@ -43,5 +43,8 @@ class Admin::TopicsController < Admin::BaseController
 
   private def set_topic
     @topic = Topic.find_by(id: params[:id])
+    unless @topic
+      redirect_back fallback_location: root_path, alert: "No topic found"
+    end
   end
 end

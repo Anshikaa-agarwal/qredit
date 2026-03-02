@@ -12,6 +12,9 @@ class Admin::CommentsController < Admin::BaseController
 
   def unpublish
     @comment = Comment.find_by(id: params[:id])
+    unless @comment
+      redirect_back fallback_location: root_path, alert: "No comment found."
+    end
     @comment.status = :unpublished
 
     if @comment.save

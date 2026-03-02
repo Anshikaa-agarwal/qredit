@@ -12,6 +12,9 @@ class Admin::AnswersController < Admin::BaseController
 
   def unpublish
     @answer = Answer.find_by(id: params[:id])
+    unless @answer
+      redirect_back fallback_location: root_path, alert: "No answer found."
+    end
     @answer.status = :unpublished
 
     if @answer.save
