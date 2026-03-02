@@ -71,6 +71,10 @@ class QuestionsController < ApplicationController
                         answers: [ :user, :votes, { comments: [ :user, { votes: :user } ] } ],
                         pdf_attachment: :blob
     ).find_by(url: params[:url]) || Question.find_by(id: params[:url])
+
+    unless @question
+      redirect_back fallback_location: root_path, alert: "Question not found."
+    end
   end
 
   def authorize_question!
@@ -87,5 +91,9 @@ class QuestionsController < ApplicationController
 
   def set_user
     @user = User.find_by(id: params[:user_id])
+
+    unless @user
+      redirect_back fallback_location: root_path, alert: "User not found."
+    end
   end
 end

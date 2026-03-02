@@ -21,8 +21,10 @@ class AbusesController < ApplicationController
       Answer.find(params[:answer_id])
     elsif params[:question_url]
       Question.find_by!(url: params[:question_url])
-    else
-      raise "No reportable found"
+    end
+
+    unless @reportable
+      redirect_back fallback_location: root_path, alert: "Some error occured."
     end
   end
 

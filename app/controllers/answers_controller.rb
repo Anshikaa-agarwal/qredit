@@ -65,9 +65,17 @@ class AnswersController < ApplicationController
 
   private def set_answer
     @answer = Answer.find_by(id: params[:id])
+
+    unless @answer
+      redirect_back fallback_location: root_path, alert: "Answer not found."
+    end
   end
 
   private def set_question
     @question = Question.find_by(url: params[:question_url])
+
+    unless @question
+      redirect_back fallback_location: root_path, alert: "Question not found."
+    end
   end
 end

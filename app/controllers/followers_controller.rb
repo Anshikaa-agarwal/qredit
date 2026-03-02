@@ -28,6 +28,10 @@ class FollowersController < ApplicationController
 
   private def set_user
     @user = User.find_by(id: params[:user_id])
+
+    unless @user
+      redirect_back fallback_location: root_path, alert: "User not found."
+    end
   end
 
   private def set_destroy_relation

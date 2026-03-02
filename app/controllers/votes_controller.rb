@@ -32,6 +32,10 @@ class VotesController < ApplicationController
 
   private def set_vote
     @vote = @votable.votes.find_by(id: params[:id])
+
+    unless @vote
+      redirect_back fallback_location: root_path, alert: "Vote not found."
+    end
   end
 
   private def vote_type_param
@@ -45,8 +49,10 @@ class VotesController < ApplicationController
       Answer.find(params[:answer_id])
     elsif params[:question_url]
       Question.find_by!(url: params[:question_url])
-    else
-      raise "No votable found"
+    end
+
+    unless @votable
+      redirect_back fallback_location: root_path, alert: "Some error occured."
     end
   end
 end
