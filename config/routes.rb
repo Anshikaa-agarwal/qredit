@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     resources :topics, only: %i[ index new create destroy ]
   end
 
+  namespace :api do
+    get "topics/:name", to: "topics#show"
+  end
+
   resources :users, only: [ :show ] do
     get "followers_list", to: "users#followers"
     patch :update_profile, on: :member
