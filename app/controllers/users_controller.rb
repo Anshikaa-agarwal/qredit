@@ -26,18 +26,29 @@ class UsersController < ApplicationController
 
   def followers
     @user = User.find_by(id: params[:user_id])
-    @followers = @user.followers.includes(avatar_attachment: :blob)
-    @followees = @user.followees.includes(avatar_attachment: :blob)
+    if @user
+      @followers = @user.followers.includes(avatar_attachment: :blob)
+      @followees = @user.followees.includes(avatar_attachment: :blob)
+    else
+      redirect_back fallback_location: root_path, alert: "User not found."
+    end
   end
 
   private
 
   def set_user
     @user = User.find_by(id: params[:id])
+    unless @user
+      redirect_back fallback_location: root_path, alert: "User not found."
+    end
   end
 
   def set_current_user
     @current_user = current_user
+
+    unless @current_user
+      redirect_back fallback_location: root_path, alert: "User not logged in."
+    end
   end
 
   def user_avatar_params

@@ -59,16 +59,22 @@ class CommentsController < ApplicationController
 
   private def set_commentable
     @commentable = if params[:answer_id]
-      Answer.find(params[:answer_id])
+      Answer.find_by(id: params[:answer_id])
     elsif params[:question_url]
-      Question.find_by!(url: params[:question_url])
-    else
-      raise "No commentable found"
+      Question.find_by(url: params[:question_url])
+    end
+
+    unless @commentable
+      redirect_back fallback_location: root_path, alert: "Some error occured."
     end
   end
 
   private def set_comment
     @comment = @commentable.comments.find_by(id: params[:id])
+
+    unless @comment
+      redirect_back fallback_location: root_path, alert: "Comment not found."
+    end
   end
 
   private def comment_content_params

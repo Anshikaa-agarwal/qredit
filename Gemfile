@@ -58,7 +58,7 @@ group :development, :test do
   gem "bundler-audit", require: false
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", "~> 8.0.2", require: false
+  gem "brakeman", "~> 8.0.4", require: false
 
   gem "faraday", ">= 2.14.1"
 

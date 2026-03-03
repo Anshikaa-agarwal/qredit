@@ -29,9 +29,17 @@ class TopicAssignementsController < ApplicationController
     elsif params[:question_id]
       @topicable = Question.find_by(id: params[:question_id])
     end
+
+    unless @topicable
+      redirect_back fallback_location: root_path, alert: "Some error occured."
+    end
   end
 
   private def set_topic_assignement
     @topic_assignement = TopicAssignement.find_by(id: params[:id])
+
+    unless @topic_assignement
+      redirect_back fallback_location: root_path, alert: "No such topic assignement exists."
+    end
   end
 end
