@@ -1,0 +1,39 @@
+<%= turbo_frame_tag id="new_topic_frame" do %>
+  <div class="my-8">
+
+    <%= form_with model: [:admin, @topic], class: "space-y-6" do |f| %>
+
+      <div class="space-y-2">
+        <%= f.label :name, "Topic name",
+              class: "block text-sm text-gray-600" %>
+
+        <%= f.text_field :name,
+              class: "w-full px-3 py-2.5 text-sm border border-gray-300
+                      rounded-md focus:outline-none focus:ring-1
+                      focus:ring-gray-400 focus:border-gray-400 transition" %>
+
+        <% if @topic.errors[:name].any? %>
+          <p class="text-red-500 text-xs">
+            <%= @topic.errors[:name].first %>
+          </p>
+        <% end %>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+
+        <%= link_to "Back",
+              admin_topics_path,
+              class: "px-4 py-2 text-sm border border-gray-300
+                      rounded-md text-gray-600 hover:bg-gray-50
+                      transition" %>
+
+        <%= f.submit "Save",
+              class: "px-5 py-2 text-sm bg-violet-400 text-white
+                      rounded-md hover:bg-black transition" %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+<% end %>

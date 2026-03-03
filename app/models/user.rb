@@ -55,6 +55,10 @@ class User < ApplicationRecord
     avatar.attached? ? avatar : "placeholder_user_avatar.png"
   end
 
+  def admin?
+    role == "admin"
+  end
+
   private
 
   def set_defaults_for_admins
@@ -78,9 +82,5 @@ class User < ApplicationRecord
         units: 5
       )
     end
-  end
-
-  def admin?
-    role == "admin"
   end
 end

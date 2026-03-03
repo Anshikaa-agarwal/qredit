@@ -28,16 +28,16 @@
 <body class="bg-gray-50 text-gray-800 text-base">
   <!-- Top Navbar -->
   <nav class="fixed top-0 inset-x-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-50">
-    <div class="text-2xl font-bold text-violet-600">
-      Qredit
+    <div class="flex items-center gap-3">
+      <span class="text-2xl font-bold text-violet-600">
+        Qredit
+      </span>
+      <span class="text-sm px-2 py-1 bg-red-100 text-red-600 rounded">
+        Admin
+      </span>
     </div>
 
-    <% if user_signed_in? %>
-      <%= link_to user_path(current_user) do %>
-        <%= image_tag current_user.displayed_avatar,
-        class: "w-10 h-10 rounded-full border border-amber-200 object-cover hover:ring-2 hover:ring-amber-300 transition" %>
-      <% end %>
-    <% else %>
+    <% unless user_signed_in? %>
       <div class="flex items-center gap-4 text-base">
         <%= link_to "Login", new_user_session_path, class: "px-5 py-2.5 rounded-lg border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white transition" %>
         <%= link_to "Sign Up", new_user_registration_path, class: "px-5 py-2.5 rounded-lg bg-violet-600 text-white hover:bg-violet-700 transition" %>
@@ -49,38 +49,38 @@
     <!-- Sidebar -->
     <aside class="hidden md:fixed md:inset-y-16 md:left-0 md:w-64 md:bg-white md:border-r md:border-gray-200 md:px-5 md:py-6 md:block">
       <nav class="flex flex-col gap-3 text-base font-medium">
-        <%= link_to "Home",
-            "/",
+        <%= link_to "Dashboard",
+            "/admin",
+            class: sidebar_link_classes(admin_root_path) %>
+
+        <%= link_to "Questions",
+            admin_questions_path,
+            class: sidebar_link_classes(admin_questions_path) %>
+
+        <%= link_to "Answers",
+            admin_answers_path,
+            class: sidebar_link_classes(admin_answers_path) %>
+
+        <%= link_to "Comments",
+            admin_comments_path,
+            class: sidebar_link_classes(admin_comments_path) %>
+
+        <%= link_to "Users",
+            admin_users_path,
+            class: sidebar_link_classes(admin_users_path) %>
+
+        <%= link_to "Topics",
+            admin_topics_path,
+            class: sidebar_link_classes(admin_topics_path) %>
+
+        <%= link_to "Back to Site",
+            root_path,
             class: sidebar_link_classes(root_path) %>
-    
-        <% if user_signed_in? %>
-          <%= link_to "My Questions",
-            questions_path(user_id: current_user),
-            class: sidebar_link_classes(questions_path(user_id: current_user)) %>
 
-          <%= link_to "Credits",
-            '/credits',
-            class: sidebar_link_classes(credits_path) %>
-
-          <%= link_to "Followers",
-            user_followers_list_path(current_user),
-            class: sidebar_link_classes(user_followers_list_path(current_user)) %>
-
-          <%= link_to "My Profile",
-              user_path(current_user),
-              class: sidebar_link_classes(user_path(current_user)) %>
-
-          <% if current_user&.admin? %>
-            <%= link_to "Admin Portal",
-              admin_root_path,
-              class: sidebar_link_classes(admin_root_path) %>
-          <% end %>
-    
-          <%= button_to "Log out",
+        <%= button_to "Log out",
                 destroy_user_session_path,
                 method: :delete,
                 class: "mt-4 w-full text-left px-4 py-2.5 rounded-lg text-violet-600 hover:bg-violet-50 hover:text-violet-700 transition font-medium" %>
-        <% end %>
       </nav>
     </aside>
 

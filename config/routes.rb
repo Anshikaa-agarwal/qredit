@@ -3,6 +3,22 @@ Rails.application.routes.draw do
 
   root "home_feed#index"
 
+  concern :unpublishable do
+    patch :unpublish, on: :member
+  end
+
+  namespace :admin do
+    root "dashboard#index"
+
+    resources :users, only: %i[ index ] do
+      patch :disable, on: :member
+    end
+    resources :questions, only: %i[ index show ]
+    resources :answers, only: %i[ index ], concerns: %i[ unpublishable ]
+    resources :comments, only: %i[ index ], concerns: %i[ unpublishable ]
+    resources :topics, only: %i[ index new create destroy ]
+  end
+
   resources :users, only: [ :show ] do
     get "followers_list", to: "users#followers"
     patch :update_profile, on: :member

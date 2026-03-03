@@ -1,0 +1,83 @@
+<%= turbo_frame_tag dom_id(comment, :admin) do %>
+  <div class="border border-gray-200 rounded-2xl px-7 py-6 mb-6 hover:border-violet-300 hover:bg-gray-50/40 transition">
+
+    <div class="flex items-start justify-between">
+
+      <!-- Left Content -->
+      <div class="flex flex-col gap-4 max-w-3xl w-full">
+
+        <!-- Question Reference -->
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide">
+            Question
+          </p>
+
+          <%= link_to question_path(comment.parent_question),
+                data: { turbo_frame: "_top" },
+                class: "text-sm font-medium text-violet-600 hover:text-violet-700 hover:underline transition" do %>
+            <%= comment.parent_question.title %>
+          <% end %>
+        </div>
+
+        <!-- Comment Content -->
+        <div class="text-gray-800 text-base leading-relaxed">
+          <%= comment.content %>
+        </div>
+
+        <!-- User Details -->
+        <div class="mt-3 scale-[0.90] origin-left">
+          <%= render "shared/user_details", user: comment.user %>
+        </div>
+
+      </div>
+
+      <!-- Stats -->
+        <div class="flex items-center gap-10 text-sm text-gray-500">
+
+        <!-- Upvotes -->
+        <div class="text-center">
+          <p class="text-base font-semibold text-violet-600">
+            <%= comment.upvotes_count %>
+          </p>
+          <p class="text-xs tracking-wide text-gray-400 uppercase">
+            Upvotes
+          </p>
+        </div>
+
+        <!-- Downvotes -->
+        <div class="text-center">
+          <p class="text-base font-semibold text-gray-400">
+            <%= comment.downvotes_count %>
+          </p>
+          <p class="text-xs tracking-wide text-gray-400 uppercase">
+            Downvotes
+          </p>
+        </div>
+
+        <!-- Admin Action -->
+        <div class="text-center">
+          <% if comment.unpublished? %>
+            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">
+              Unpublished
+            </span>
+            <p class="text-xs tracking-wide text-gray-400 uppercase mt-1">
+              Status
+            </p>
+          <% else %>
+            <%= button_to "Unpublish",
+                unpublish_admin_comment_path(comment),
+                method: :patch,
+                data: { turbo_confirm: "Are you sure you want to unpublish this comment?" },
+                class: "text-sm font-semibold text-red-600 hover:text-red-700 transition" %>
+            <p class="text-xs tracking-wide text-gray-400 uppercase mt-1">
+              Action
+            </p>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+<% end %>

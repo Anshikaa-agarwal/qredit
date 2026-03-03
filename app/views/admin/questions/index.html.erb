@@ -1,0 +1,40 @@
+<div class="max-w-7xl mx-auto px-6 pt-5 pb-10">
+
+  <!-- Page Header -->
+  <div class="mb-8">
+    <p class="text-sm text-gray-500">
+      Admin / Questions
+    </p>
+    <div class="flex items-center justify-between mt-2">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">
+          Questions Management
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">
+          View, filter and manage all questions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="mb-10">
+    <%= render 'filter_form' %>
+  </div>
+
+  <!-- Results -->
+  <turbo-frame id="admin_questions_list">
+    <div class="space-y-4">
+      <% if @questions.any? %>
+        <%= render partial: "question", collection: @questions %>
+      <% else %>
+        <div class="text-center py-16">
+          <p class="text-gray-400 text-sm">
+            No results found
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </turbo-frame>
+
+</div>

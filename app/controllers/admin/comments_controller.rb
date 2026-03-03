@@ -1,0 +1,30 @@
+class Admin::CommentsController < Admin::BaseController
+  before_action :set_comment, only: %i[unpublish]
+  def index
+    @comments = Comment.includes(:votes, :user).order(created_at: :desc)
+    sort_by = params[:sort]
+    from = params[:from]
+    to = params[:to]
+
+    @comments = @comments.reorder("created_at #{sort_by}") if sort_by.present?
+    @comments = @comments.from_date(from) if from.present?
+    @comments = @comments.till_date(to) if to.present?
+  end
+
+  def unpublish
+    @comment.status = :unpublished
+
+    if @comment.save
+      redirect_to admin_comments_path, notice: "Comment unpublished successfully."
+    else
+      redirect_to admin_comments_path, alert: "Could not unpublish comment."
+    end
+  end
+
+  private def set_comment
+    @comment = Comment.find_by(id: params[:id])
+    unless @comment
+      redirect_back fallback_location: root_path, alert: "No comment found."
+    end
+  end
+end

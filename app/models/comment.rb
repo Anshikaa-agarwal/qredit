@@ -12,7 +12,19 @@ class Comment < ApplicationRecord
   # validations
   validates :content, presence: true
 
+  # scopes
+  scope :from_date, ->(from) { where(created_at: from.to_date.beginning_of_day..) }
+  scope :till_date, ->(to) { where(created_at: ..to.to_date.end_of_day) }
+
   def posted_at_date
     created_at.to_date
+  end
+
+  def parent_question
+    if commentable.is_a?(Question)
+      commentable
+    else
+      commentable.question
+    end
   end
 end

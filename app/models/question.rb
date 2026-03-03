@@ -34,6 +34,15 @@ class Question < ApplicationRecord
   validate  :must_have_topics_if_published
   validate  :pdf_type
 
+  # scopes
+  scope :from_date, ->(from) { where(posted_at: from.to_date.beginning_of_day..) }
+  scope :till_date, ->(to) { where(posted_at: ..to.to_date.end_of_day) }
+
+  # scores and ratings
+  def engagement_score
+    (0.5 * answers.size + 0.3 * votes.size + 0.2 * comments.size)
+  end
+
   def editable?
     answers.empty? && comments.empty? && votes.empty?
   end
