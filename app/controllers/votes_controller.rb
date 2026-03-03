@@ -44,11 +44,11 @@ class VotesController < ApplicationController
 
   private def set_votable
     @votable = if params[:comment_id]
-      Comment.find(params[:comment_id])
+      Comment.find_by(id: params[:comment_id])
     elsif params[:answer_id]
-      Answer.find(params[:answer_id])
+      Answer.find_by(id: params[:answer_id])
     elsif params[:question_url]
-      Question.find_by!(url: params[:question_url])
+      Question.find_by(url: params[:question_url])
     end
 
     unless @votable

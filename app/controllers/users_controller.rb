@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [ :update_profile, :credits ]
-  before_action :set_user, only: [ :show ]
+  before_action :set_user, only: [ :show, :followers ]
   before_action :set_current_user, only: [ :update_profile ]
 
   def show
@@ -25,13 +25,8 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @user = User.find_by(id: params[:user_id])
-    if @user
-      @followers = @user.followers.includes(avatar_attachment: :blob)
-      @followees = @user.followees.includes(avatar_attachment: :blob)
-    else
-      redirect_back fallback_location: root_path, alert: "User not found."
-    end
+    @followers = @user.followers.includes(avatar_attachment: :blob)
+    @followees = @user.followees.includes(avatar_attachment: :blob)
   end
 
   private

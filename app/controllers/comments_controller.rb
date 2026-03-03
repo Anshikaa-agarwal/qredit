@@ -59,9 +59,9 @@ class CommentsController < ApplicationController
 
   private def set_commentable
     @commentable = if params[:answer_id]
-      Answer.find(params[:answer_id])
+      Answer.find_by(id: params[:answer_id])
     elsif params[:question_url]
-      Question.find_by!(url: params[:question_url])
+      Question.find_by(url: params[:question_url])
     end
 
     unless @commentable
