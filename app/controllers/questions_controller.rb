@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_current_question, only: %i[show edit update destroy publish]
   before_action :authorize_question!, only: %i[edit update destroy]
   before_action :load_topics, only: %i[new show edit update]
-  before_action :set_user
+  before_action :set_user, only: [ :index ]
 
   def index
     base = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ])
@@ -71,6 +71,10 @@ class QuestionsController < ApplicationController
                         answers: [ :user, :votes, { comments: [ :user, { votes: :user } ] } ],
                         pdf_attachment: :blob
     ).find_by(url: params[:url]) || Question.find_by(id: params[:url])
+
+    unless @question
+      redirect_back fallback_location: root_path, alert: "Question not found."
+    end
   end
 
   def authorize_question!
@@ -87,5 +91,6 @@ class QuestionsController < ApplicationController
 
   def set_user
     @user = User.find_by(id: params[:user_id])
+    redirect_back fallback_location: root_path, alert: "User not found." unless @user
   end
 end

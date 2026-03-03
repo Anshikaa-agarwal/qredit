@@ -16,13 +16,15 @@ class AbusesController < ApplicationController
 
   private def set_reportable
     @reportable = if params[:comment_id]
-      Comment.find(params[:comment_id])
+      Comment.find_by(id: params[:comment_id])
     elsif params[:answer_id]
-      Answer.find(params[:answer_id])
+      Answer.find_by(id: params[:answer_id])
     elsif params[:question_url]
-      Question.find_by!(url: params[:question_url])
-    else
-      raise "No reportable found"
+      Question.find_by(url: params[:question_url])
+    end
+
+    unless @reportable
+      redirect_back fallback_location: root_path, alert: "Some error occured."
     end
   end
 
