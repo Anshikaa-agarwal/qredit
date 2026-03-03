@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   end
 
   def active_for_authentication?
-    super && !self.disabled?
+    super && !disabled?
   end
 
   private

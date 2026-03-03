@@ -22,9 +22,9 @@ class Comment < ApplicationRecord
 
   def parent_question
     if commentable.is_a?(Question)
-      self.commentable
+      commentable
     else
-      self.commentable.question
+      commentable.question
     end
   end
 end

@@ -1,4 +1,5 @@
 class Admin::AnswersController < Admin::BaseController
+  before_action :set_answer, only: %i[ unpublish ]
   def index
     @answers = Answer.includes(:question, :votes, :comments, :user).order(created_at: :desc)
     sort_by = params[:sort]
@@ -11,16 +12,19 @@ class Admin::AnswersController < Admin::BaseController
   end
 
   def unpublish
-    @answer = Answer.find_by(id: params[:id])
-    unless @answer
-      redirect_back fallback_location: root_path, alert: "No answer found."
-    end
     @answer.status = :unpublished
 
     if @answer.save
       redirect_to admin_answers_path, notice: "Answer unpublished successfully."
     else
       redirect_to admin_answers_path, alert: "Could not unpublish answer."
+    end
+  end
+
+  private def set_answer
+    @answer = Answer.find_by(id: params[:id])
+    unless @answer
+      redirect_back fallback_location: root_path, alert: "No answer found."
     end
   end
 end
