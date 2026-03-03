@@ -28,6 +28,28 @@
             params: { remove_avatar: true },
             class: "mt-2 text-sm text-red-600 hover:text-red-800 underline underline-offset-2 font-medium" %>
       <% end %>
+
+      <% if @user.auth_token.present? %>
+        <div class="mt-4 w-full max-w-md bg-gray-50 border border-gray-200 rounded p-3 text-left">
+          <p class="text-sm font-medium text-gray-600 mb-1">
+            Authentication Token
+          </p>
+
+          <div class="flex items-center justify-between bg-white border border-gray-300 rounded px-3 py-2">
+            <code class="text-sm text-gray-800 break-all">
+              <%= @user.auth_token %>
+            </code>
+          </div>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Keep this token private. It allows API access to your account.
+          </p>
+        </div>
+      <% else %>
+        <div class="mt-4 text-sm text-gray-500">
+          No authentication token generated. Contact admin.
+        </div>
+      <% end %>
     <% end %>
   </div>
 
