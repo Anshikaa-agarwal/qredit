@@ -87,6 +87,9 @@
     <!-- Main Content -->
     <main class="md:ml-64 px-6 md:px-8 py-7 text-base min-h-screen">
       <%= render "shared/flash" %>
+      <%= turbo_stream_from "notifications_#{current_user.id}" if current_user %>
+      <div id="notifications" class="fixed top-6 right-6 z-50 space-y-4 w-80">
+      </div>
       <%= yield %>
     </main>
   </div>

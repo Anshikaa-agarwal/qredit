@@ -11,6 +11,7 @@ class Question < ApplicationRecord
   before_save   :create_url_slug, if: :status_changed?
   before_save   :handle_timestamps, if: :status_changed?
   before_save   :set_edited_at
+  after_save_commit :notify_users
   after_save_commit :deduct_user_credits
 
   # associations
@@ -52,6 +53,27 @@ class Question < ApplicationRecord
     entities << "answer(s)" if answers.present?
     entities << "comment(s)" if comments.present?
     entities << "vote(s)" if votes.present?
+  end
+
+  def notify_users
+    return if draft? || edited_at
+
+    users_to_notify = User.joins(:topics).where(topics: { id: topic_ids }).distinct
+
+    users_to_notify.each do |user|
+      notification = Notification.create!(
+        user: user,
+        notifiable: self,
+        message: "#{self.user.name} posted a new question."
+      )
+
+      broadcast_prepend_to(
+        "notifications_#{user.id}",
+        target: "notifications",
+        partial: "notifications/notification",
+        locals: { notification: notification }
+      )
+    end
   end
 
   private def check_if_editable?

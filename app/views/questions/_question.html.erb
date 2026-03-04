@@ -46,7 +46,7 @@
 
       <%= button_to question_path(question),
             method: :delete,
-            data: { turbo_confirm: "Are you sure?" },
+            data: { turbo_confirm: "Are you sure?", turbo_frame: "_top" },
             class: "hover:text-red-500 bg-transparent border-none p-0 transition" do %>
         <i class="fa-regular fa-trash-can text-base"></i>
       <% end %>
