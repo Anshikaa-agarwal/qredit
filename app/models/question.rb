@@ -12,6 +12,7 @@ class Question < ApplicationRecord
   before_save   :handle_timestamps, if: :status_changed?
   before_save   :set_edited_at
   after_save_commit :notify_users
+  after_save_commit :update_home_feed
   after_save_commit :deduct_user_credits
 
   # associations
@@ -64,7 +65,7 @@ class Question < ApplicationRecord
       notification = Notification.create!(
         user: user,
         notifiable: self,
-        message: "#{self.user.name} posted a new question."
+        message: "#{self.user.name} posted a new question to a topic you follow."
       )
 
       broadcast_prepend_to(
@@ -74,6 +75,16 @@ class Question < ApplicationRecord
         locals: { notification: notification }
       )
     end
+  end
+
+  def update_home_feed
+    return if draft? || edited_at
+
+    broadcast_update_to(
+    "questions_feed",
+    target: "new_questions_banner",
+    partial: "questions/new_question_banner"
+  )
   end
 
   private def check_if_editable?
