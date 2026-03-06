@@ -8,6 +8,7 @@ class User < ApplicationRecord
   enum :role, { admin: 0, regular: 1 }
 
   # callbacks
+  before_validation :set_username
   before_create :set_defaults_for_admins
 
   # associations
@@ -42,6 +43,10 @@ class User < ApplicationRecord
 
   def after_confirmation
     after_verification_settings
+  end
+
+  def set_username
+    self.username ||= email.split("@").first if email.present?
   end
 
   def self.from_omniauth(access_token)
