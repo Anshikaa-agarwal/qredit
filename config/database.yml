@@ -83,27 +83,18 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: question_answer_platform_development
+
+test:
+  <<: *default
+  database: question_answer_platform_test
+
 production:
-  primary: &primary_production
-    <<: *default
-    database: question_answer_platform_production
-    username: anshika
-    password: vinsoltest
-  cache:
-    <<: *primary_production
-    database: question_answer_platform_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: question_answer_platform_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: question_answer_platform_production_cable
-    migrations_paths: db/cable_migrate
-  test:
-    <<: *default
-    database: question_answer_platform_test
-    username: postgres
-    password: postgres
-    host: localhost
+  url: <%= ENV["DATABASE_URL"] %>
