@@ -13,6 +13,9 @@ Question.delete_all
 Topic.delete_all
 User.delete_all
 
+# Disable email callback while seeding
+Answer.skip_callback(:create, :after, :send_question_user_email)
+
 # Create users
 users = [
   { name: "Alice Johnson", email: "alice@example.com" },
@@ -95,5 +98,8 @@ questions.each do |question|
     )
   end
 end
+
+# Re-enable callback
+Answer.set_callback(:create, :after, :send_question_user_email)
 
 puts "Seed data created successfully!"
