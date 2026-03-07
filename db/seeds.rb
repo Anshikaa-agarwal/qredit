@@ -15,17 +15,16 @@ User.delete_all
 
 # Create users
 users = [
-  { name: "Alice Johnson", username: "alice", email: "alice@example.com" },
-  { name: "Bob Smith", username: "bob", email: "bob@example.com" },
-  { name: "Charlie Lee", username: "charlie", email: "charlie@example.com" },
-  { name: "David Kumar", username: "david", email: "david@example.com" },
-  { name: "Emma Brown", username: "emma", email: "emma@example.com" }
+  { name: "Alice Johnson", email: "alice@example.com" },
+  { name: "Bob Smith", email: "bob@example.com" },
+  { name: "Charlie Lee", email: "charlie@example.com" },
+  { name: "David Kumar", email: "david@example.com" },
+  { name: "Emma Brown", email: "emma@example.com" }
 ]
 
 users = users.map do |u|
   User.create!(
     name: u[:name],
-    username: u[:username],
     email: u[:email],
     password: "password123",
     confirmed_at: Time.now
