@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find_by(id: params[:id])
+    @user = User.includes(:topics, :topic_assignements, avatar_attachment: :blob).find_by(id: params[:id])
     unless @user
       redirect_back fallback_location: root_path, alert: "User not found."
     end
