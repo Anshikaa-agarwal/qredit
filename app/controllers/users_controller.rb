@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @user = User.find_by(username: params[:username])
+    @user = User.find_by(username: params[:user_username])
     if @user
       @followers = @user.followers.includes(avatar_attachment: :blob)
       @followees = @user.followees.includes(avatar_attachment: :blob)
