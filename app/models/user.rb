@@ -50,7 +50,16 @@ class User < ApplicationRecord
   end
 
   def set_username
-    self.username ||= email.split("@").first if email.present?
+    return if self.username
+
+    base_username = email.split("@").first if email.present?
+    check_username = base_username
+    count = 1
+    while User.exists?(username: check_username)
+      check_username += count.to_s
+      count += 1
+    end
+    self.username ||= check_username
   end
 
   def self.from_omniauth(access_token)
