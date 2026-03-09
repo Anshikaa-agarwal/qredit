@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     get "feed", to: "feeds#index"
   end
 
-  resources :users, only: [ :show ] do
+  resources :users, param: :username, only: [ :show ] do
     get "followers_list", to: "users#followers"
     patch :update_profile, on: :member
     resources :topic_assignements, only: [ :create, :destroy ]

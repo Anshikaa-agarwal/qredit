@@ -24,8 +24,8 @@ class TopicAssignementsController < ApplicationController
   end
 
   private def set_topicable
-    if params[:user_id]
-      @topicable = User.find_by(id: params[:user_id])
+    if params[:user_username]
+      @topicable = User.find_by(username: params[:user_username])
     elsif params[:question_id]
       @topicable = Question.find_by(id: params[:question_id])
     end

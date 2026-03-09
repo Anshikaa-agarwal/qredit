@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
 
   def index
     base = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ])
-    if params[:user_id]
+    if params[:username]
       @heading = @user == current_user ? "My Questions" : "Questions"
       @questions = base.where(user: @user)
     else
@@ -90,7 +90,7 @@ class QuestionsController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find_by(username: params[:username])
     redirect_back fallback_location: root_path, alert: "User not found." unless @user
   end
 end

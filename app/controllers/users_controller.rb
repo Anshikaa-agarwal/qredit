@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find_by(username: params[:username])
     if @user
       @followers = @user.followers.includes(avatar_attachment: :blob)
       @followees = @user.followees.includes(avatar_attachment: :blob)
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.includes(:topics, :topic_assignements, avatar_attachment: :blob).find_by(id: params[:id])
+    @user = User.includes(:topics, :topic_assignements, avatar_attachment: :blob).find_by(username: params[:username])
     unless @user
       redirect_back fallback_location: root_path, alert: "User not found."
     end

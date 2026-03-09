@@ -27,7 +27,7 @@ class FollowersController < ApplicationController
   end
 
   private def set_user
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find_by(username: params[:username])
 
     unless @user
       redirect_back fallback_location: root_path, alert: "User not found."

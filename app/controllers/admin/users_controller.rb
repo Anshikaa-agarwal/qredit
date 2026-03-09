@@ -15,7 +15,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   private def set_user
-    @user = User.find_by(id: params[:id])
+    @user = User.find_by(username: params[:id])
     unless @user
       redirect_back fallback_location: root_path, alert: "User not found"
     end
