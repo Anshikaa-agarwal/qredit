@@ -11,6 +11,8 @@ class Question < ApplicationRecord
   before_save   :create_url_slug, if: :status_changed?
   before_save   :handle_timestamps, if: :status_changed?
   before_save   :set_edited_at
+  after_save_commit :notify_users
+  after_save_commit :update_home_feed
   after_save_commit :deduct_user_credits
 
   # associations
@@ -52,6 +54,24 @@ class Question < ApplicationRecord
     entities << "answer(s)" if answers.present?
     entities << "comment(s)" if comments.present?
     entities << "vote(s)" if votes.present?
+  end
+
+  def notify_users
+    return if draft? || edited_at
+
+    users_to_notify = User.joins(:topics).where(topics: { id: topic_ids }).distinct
+
+    NotifyUserOnQuestionPostedJob.perform_later(self, users_to_notify.to_a)
+  end
+
+  def update_home_feed
+    return if draft? || edited_at
+
+    broadcast_update_to(
+    "questions_feed",
+    target: "new_questions_banner",
+    partial: "questions/new_question_banner"
+  )
   end
 
   private def check_if_editable?

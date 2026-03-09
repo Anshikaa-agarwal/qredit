@@ -31,6 +31,12 @@
     <% end %>
   </div>
 
+  <!-- n new questions -->
+  <% if user_signed_in? %>
+    <%= turbo_stream_from "questions_feed" %>
+    <div id="new_questions_banner"></div>
+  <% end %>
+
   <!-- Results -->
   <turbo-frame id="questions">
     <div class="space-y-6">
