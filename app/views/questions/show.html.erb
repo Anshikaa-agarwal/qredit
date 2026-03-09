@@ -29,13 +29,18 @@
       </p>
 
       <%= turbo_frame_tag "answers_frame" do %>
-        <div class="max-w-6xl mx-auto mt-8 space-y-6">
-          <%= render partial: 'answers/answer',
-                     collection: @question.answers,
-                     as: :answer %>
-        </div>
+        <% if @question.answers.any? %>
+          <div class="max-w-6xl mx-auto mt-8 space-y-6">
+            <%= render partial: 'answers/answer',
+                       collection: @question.answers,
+                       as: :answer %>
+          </div>
+        <% else %>
+          <p id="<%= dom_id(@question, :no_answers) %>" class="max-w-6xl mx-auto mt-8 text-gray-500">
+            No answers yet.
+          </p>
+        <% end %>
       <% end %>
-
     <% else %>
 
       <% if user_signed_in? %>
