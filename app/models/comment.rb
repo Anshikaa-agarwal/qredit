@@ -23,7 +23,7 @@ class Comment < ApplicationRecord
   def commentable_preview
     if commentable.respond_to?(:title)
       commentable.title
-    elsif commentable.respond_to(:content)
+    elsif commentable.respond_to?(:content)
       commentable.content.truncate(30)
     end
   end
