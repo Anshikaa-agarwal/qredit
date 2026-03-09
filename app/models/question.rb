@@ -61,20 +61,7 @@ class Question < ApplicationRecord
 
     users_to_notify = User.joins(:topics).where(topics: { id: topic_ids }).distinct
 
-    users_to_notify.each do |user|
-      notification = Notification.create!(
-        user: user,
-        notifiable: self,
-        message: "#{self.user.name} posted a new question to a topic you follow."
-      )
-
-      broadcast_prepend_to(
-        "notifications_#{user.id}",
-        target: "notifications",
-        partial: "notifications/notification",
-        locals: { notification: notification }
-      )
-    end
+    NotifyUserOnQuestionPostedJob.perform_later(self, users_to_notify.to_a)
   end
 
   def update_home_feed
