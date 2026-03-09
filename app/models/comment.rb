@@ -20,11 +20,11 @@ class Comment < ApplicationRecord
     created_at.to_date
   end
 
-  def parent_question
-    if commentable.is_a?(Question)
-      commentable
+  def commentable_preview
+    if commentable.respond_to?(:title)
+      commentable.title
     else
-      commentable.question
+      commentable.content.truncate(30)
     end
   end
 end
