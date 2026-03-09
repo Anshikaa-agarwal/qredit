@@ -9,7 +9,7 @@
         <!-- Question Reference -->
         <div>
           <p class="text-xs text-gray-400 uppercase tracking-wide">
-            <%= comment.commentable.class %>
+            <%= comment.commentable_type %>
           </p>
 
           <%= link_to polymorphic_path(set_parent_chain(comment.commentable)),
