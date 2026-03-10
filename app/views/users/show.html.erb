@@ -119,11 +119,12 @@
   <div class="mb-6">
     <p class="text-lg font-medium text-gray-700 mb-2">Interested Topics</p>
     <div class="flex flex-wrap gap-2">
+      <% assignements = current_user.topic_assignements.all%>
       <% @user.topics.each do |topic| %>
         <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-md font-semibold border border-orange-200">
           <%= topic.name %>
           <% if @user == current_user %>
-            <% assignement = current_user.topic_assignements.find_by(topic_id: topic.id)%>
+            <% assignement = assignements.find {|t| t.topic_id == topic.id } %>
             <%= button_to "x",
                 user_topic_assignement_path(current_user, assignement.id),
                 method: :delete,

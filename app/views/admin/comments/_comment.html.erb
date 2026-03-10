@@ -9,13 +9,13 @@
         <!-- Question Reference -->
         <div>
           <p class="text-xs text-gray-400 uppercase tracking-wide">
-            Question
+            <%= comment.commentable_type %>
           </p>
 
-          <%= link_to question_path(comment.parent_question),
+          <%= link_to polymorphic_path(set_parent_chain(comment.commentable)),
                 data: { turbo_frame: "_top" },
                 class: "text-sm font-medium text-violet-600 hover:text-violet-700 hover:underline transition" do %>
-            <%= comment.parent_question.title %>
+            <%= comment.commentable_preview %>
           <% end %>
         </div>
 

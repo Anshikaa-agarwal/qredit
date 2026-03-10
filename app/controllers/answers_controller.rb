@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
-  before_action :set_answer,   only: %i[edit update destroy]
+  before_action :set_answer,   only: %i[show edit update destroy]
   before_action :authorize_answer!, only: %i[edit update destroy]
   before_action :set_question, only: %i[new create edit update destroy]
 
@@ -10,6 +10,9 @@ class AnswersController < ApplicationController
 
   def new
     @answer = @question.answers.new
+  end
+
+  def show
   end
 
   def create

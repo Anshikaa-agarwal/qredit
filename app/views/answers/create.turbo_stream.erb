@@ -1,5 +1,7 @@
 <%= turbo_stream.update 'flash', partial: 'shared/flash' %>
 
+<%= turbo_stream.remove dom_id(@question, :no_answers) %>
+
 <%= turbo_stream.prepend "answers_frame", partial: 'answers/answer', locals: { answer: @answer } %>
 <%= turbo_stream.replace "new_answer_frame", partial: 'questions/write_answer_btn', locals: { question: @question } %>
 

@@ -1,3 +1,10 @@
 <%= turbo_stream.update 'flash', partial: 'shared/flash' %>
+<% unless @answer.question.answers.any? %>
+  <%= turbo_stream.append "answers_frame" do %>
+    <p id="<%= dom_id(@answer.question, :no_answers) %>" class="max-w-6xl mx-auto mt-8 text-gray-500">
+      No answers yet.
+    </p>
+  <% end %>
+<% end %>
 <%= turbo_stream.remove dom_id(@answer) %>
 <%= turbo_stream.replace dom_id(@question, :answers_count), @question.answers.count %>

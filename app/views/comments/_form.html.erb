@@ -6,7 +6,7 @@
 
     <%= f.text_area :content,
           rows: 5,
-          placeholder: "Write an answer...",
+          placeholder: "Write a comment...",
           class: "w-full border border-neutral-300 rounded-lg px-4 py-3 text-sm text-neutral-600 bg-white resize-none
                  focus:outline-none focus:ring-1 focus:ring-violet-200 focus:border-violet-300
                  #{'border-red-500 focus:ring-red-200 focus:border-red-500' if comment.errors[:content].any?}" %>

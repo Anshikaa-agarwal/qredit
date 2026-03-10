@@ -15,7 +15,13 @@
 
   </div>
 
-  <div class="space-y-6">
-    <%= render partial: 'question', collection: @questions %>
-  </div>
+  <% if @questions.any? %>
+    <div class="space-y-6">
+      <%= render partial: 'question', collection: @questions %>
+    </div>
+  <% else %>
+    <div class="text-center mt-12 text-gray-500">
+      <p class="text-lg">No questions yet.</p>
+    </div>
+  <% end %>
 </div>
