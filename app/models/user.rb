@@ -12,7 +12,7 @@ class User < ApplicationRecord
   enum :role, { admin: 0, regular: 1 }
 
   # callbacks
-  before_validation :set_username
+  before_validation :set_username, on: :create
   before_create :set_defaults_for_admins
 
   # associations
@@ -56,7 +56,7 @@ class User < ApplicationRecord
     check_username = base_username
     count = 1
     while User.exists?(username: check_username)
-      check_username += count.to_s
+      check_username = base_username + count.to_s
       count += 1
     end
     self.username ||= check_username
