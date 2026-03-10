@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def set_username
-    return if self.username
+    return if username
 
     base_username = email.split("@").first if email.present?
     check_username = base_username
