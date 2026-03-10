@@ -28,19 +28,12 @@
         Answers
       </p>
 
-      <%= turbo_frame_tag "answers_frame" do %>
-        <% if @question.answers.any? %>
-          <div class="max-w-6xl mx-auto mt-8 space-y-6">
-            <%= render partial: 'answers/answer',
-                       collection: @question.answers,
-                       as: :answer %>
-          </div>
-        <% else %>
-          <p id="<%= dom_id(@question, :no_answers) %>" class="max-w-6xl mx-auto mt-8 text-gray-500">
-            No answers yet.
-          </p>
-        <% end %>
-      <% end %>
+      <div class="max-w-6xl mx-auto mt-8 space-y-6">
+        <%= render partial: 'answers/answer',
+                   collection: @question.answers,
+                   as: :answer %>
+      </div>
+
     <% else %>
 
       <% if user_signed_in? %>
@@ -52,16 +45,12 @@
         Comments
       </p>
 
-      <%= turbo_frame_tag dom_id(@question, :comments_frame) do %>
-        <div class="max-w-6xl mx-auto mt-8">
-          <%= render partial: 'comments/comment',
-                     collection: @question.comments,
-                     as: :comment %>
-        </div>
-      <% end %>
-
-    <% end %>
+      <div class="max-w-6xl mx-auto mt-8">
+        <%= render partial: 'comments/comment',
+                   collection: @question.comments,
+                   as: :comment %>
+      </div>
 
   <% end %>
-
+<% end %>
 <% end %>

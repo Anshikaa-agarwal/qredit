@@ -126,32 +126,24 @@
                     
               <!-- Answers Tab -->
               <%= link_to question_path(question, tab: :answers),
-                    data: { turbo_frame: dom_id(question, :question_content) },
                     class: "flex items-center gap-2 transition hover:text-violet-600 #{'text-violet-600 font-semibold' if @active_tab == :answers}" do %>
-          
+
                 <i class="fa-regular fa-note-sticky text-base"></i>
          
                 <span>
-                  <%= turbo_frame_tag dom_id(question, :answers_count) do %>
-                    <%= question.answers.size %>
-                  <% end %>
-                  answers
+                  <%= question.answers.size %> answers
                 </span>
           
               <% end %>
           
               <!-- Comments Tab -->
               <%= link_to question_path(question, tab: :comments),
-                    data: { turbo_frame: dom_id(question, :question_content) },
-                    class: "flex items-center gap-2 transition hover:text-violet-600 #{'text-violet-600 font-semibold' if @active_tab == :comments }" do %>
-          
+                    class: "flex items-center gap-2 transition hover:text-violet-600 #{'text-violet-600 font-semibold' if @active_tab == :comments}" do %>
+
                 <i class="fa-regular fa-comment text-base"></i>
           
                 <span>
-                  <%= turbo_frame_tag dom_id(question, :comments_count) do %>
-                    <%= question.comments.size %>
-                  <% end %>
-                  comments
+                  <%= question.comments.size %> comments
                 </span>
           
               <% end %>
