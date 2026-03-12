@@ -8,7 +8,7 @@ export default class extends Controller {
   }
 
   async startCheckout(event) {
-    const packageKey = event.target.dataset.package
+    const packageKey = event.currentTarget.dataset.package
   
     const response = await fetch(this.urlValue, {
       method: "POST",
