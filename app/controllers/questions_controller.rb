@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   before_action :set_user, only: [ :index ]
 
   def index
-    base = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, user: [ :followers, avatar_attachment: :blob ])
+    base = Question.with_attached_pdf.includes(:topics, :votes, :answers, :comments, :abuse_reports, user: [ :followers, avatar_attachment: :blob ])
     if params[:username]
       @heading = @user == current_user ? "My Questions" : "Questions"
       @questions = base.where(user: @user)
