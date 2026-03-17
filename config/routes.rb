@@ -41,9 +41,9 @@ Rails.application.routes.draw do
 
   resources :questions, param: :url, concerns: [ :votable, :reportable ] do
     resources :answers, concerns: [ :votable, :reportable ] do
-      resources :comments, concerns: [ :votable, :reportable ]
+      resources :comments, except: %i[ index show ], concerns: [ :votable, :reportable ]
     end
-    resources :comments, concerns: [ :votable, :reportable ]
+    resources :comments, except: %i[ index show ], concerns: [ :votable, :reportable ]
     patch :publish, on: :member
   end
 
@@ -67,9 +67,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-
-
-  resources :photos do
-    get "preview", on: :collection
-  end
 end
