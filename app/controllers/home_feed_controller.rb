@@ -5,12 +5,12 @@ class HomeFeedController < ApplicationController
       term = params[:query][:content].to_s.strip
 
       if params[:query][:search_by] == "topic"
-        topic_filter = Topic.sanitize_sql_like(term) + "%"
+        topic_filter = "%" + Topic.sanitize_sql_like(term) + "%"
         @questions = scope.joins(:topics)
                         .where("topics.name ILIKE ?", topic_filter)
                         .distinct
       else
-        content_filter = Question.sanitize_sql_like(term) + "%"
+        content_filter = "%" + Question.sanitize_sql_like(term) + "%"
         @questions = scope.where("title ILIKE ?", content_filter)
       end
     else

@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # constants
+  VALID_AVATAR_EXTENSIONS = %w[ jpg jpeg png avif webp ]
+
   def to_param
     username.presence || id.to_s
   end
@@ -40,6 +43,7 @@ class User < ApplicationRecord
   # validations
   validates :name,  presence: true
   validates :credits, numericality: :only_integer
+  validate  :avatar_image_format
   # password and email are validated with devise.
 
   # attachments
@@ -59,7 +63,7 @@ class User < ApplicationRecord
       check_username = "#{base_username}#{SecureRandom.hex(3)}"
     end
 
-    username = check_username
+    self.username = check_username
   end
 
   def self.from_omniauth(access_token)
@@ -70,7 +74,11 @@ class User < ApplicationRecord
   end
 
   def displayed_avatar
-    avatar.attached? ? avatar : "placeholder_user_avatar.png"
+    if avatar.attached? && avatar.persisted?
+      avatar
+    else
+      "placeholder_user_avatar.png"
+    end
   end
 
   def admin?
@@ -99,6 +107,13 @@ class User < ApplicationRecord
         type: :earnt,
         units: 5
       )
+    end
+  end
+
+  def avatar_image_format
+    if avatar.attached? && !avatar.filename.extension.in?(VALID_AVATAR_EXTENSIONS)
+      avatar.purge
+      errors.add(:avatar, "must be an image of valid extension.")
     end
   end
 end

@@ -12,24 +12,24 @@
                   class: "w-32 h-32 rounded-full border border-violet-200 mb-3 object-cover") %>
     <h1 class="text-3xl font-semibold text-violet-600 mb-3"><%= @user.name %></h1>
 
-    <% if @user == current_user %>
-      <%= form_with model: current_user,
-            url: update_profile_user_path(current_user),
+    <% if @user == @current_user %>
+      <%= form_with model: @current_user,
+            url: update_profile_user_path(@current_user),
             method: :patch,
             class: "w-full max-w-xs" do |f| %>
         <%= f.file_field :avatar, class: "w-full border border-violet-200 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
         <%= f.submit "Update Avatar", class: "w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition font-medium text-lg" %>
       <% end %>
 
-      <% if @user.avatar.attached? %>
+      <% if @current_user.avatar.attached? %>
         <%= button_to "Remove avatar",
-            update_profile_user_path(current_user),
+            update_profile_user_path(@current_user),
             method: :patch,
             params: { remove_avatar: true },
             class: "mt-2 text-sm text-red-600 hover:text-red-800 underline underline-offset-2 font-medium" %>
       <% end %>
 
-      <% if @user.auth_token.present? %>
+      <% if @current_user.auth_token.present? %>
         <div class="mt-4 w-full max-w-md bg-gray-50 border border-gray-200 rounded p-3 text-left">
           <p class="text-sm font-medium text-gray-600 mb-1">
             Authentication Token

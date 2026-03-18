@@ -8,7 +8,8 @@ class Question < ApplicationRecord
 
   # callback
   before_update :check_if_editable?
-  before_save   :create_url_slug, if: :status_changed?
+  before_save   :create_url_slug, if: -> { will_save_change_to_status? || will_save_change_to_title? }
+
   before_save   :handle_timestamps, if: :status_changed?
   before_save   :set_edited_at
   after_save_commit :notify_users
@@ -34,6 +35,7 @@ class Question < ApplicationRecord
   validates :title, :content, presence: true, if: :published?
   validate  :atleast_1_credit_needed, on: :publish
   validate  :must_have_topics_if_published
+  validate  :ensure_minimum_fields_present, on: :create
   validate  :pdf_type
 
   # scopes
@@ -91,6 +93,12 @@ class Question < ApplicationRecord
   private def must_have_topics_if_published
     if published? && topics.blank?
       errors.add(:topics, "must be selected when question is published.")
+    end
+  end
+
+  private def ensure_minimum_fields_present
+    unless title.present? || content.present? || topics.exists?
+      errors.add(:base, "Add a title, content, or topic.")
     end
   end
 

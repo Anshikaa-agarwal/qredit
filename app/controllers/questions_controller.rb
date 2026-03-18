@@ -23,6 +23,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    if @question.draft?
+      authorize_question!
+    end
     @active_tab = params[:tab] == "comments" ? :comments : :answers
   end
 
