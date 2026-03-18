@@ -54,12 +54,12 @@ class User < ApplicationRecord
 
     base_username = email.split("@").first if email.present?
     check_username = base_username
-    count = 1
+
     while User.exists?(username: check_username)
-      check_username = base_username + count.to_s
-      count += 1
+      check_username = "#{base_username}#{SecureRandom.hex(3)}"
     end
-    self.username ||= check_username
+
+    username = check_username
   end
 
   def self.from_omniauth(access_token)

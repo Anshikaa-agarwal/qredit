@@ -19,7 +19,7 @@ gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # 'devise' gem for google based authetication
-gem "devise"
+gem "devise", "~> 5.0.3"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 # redcarpet gem for markdown format
