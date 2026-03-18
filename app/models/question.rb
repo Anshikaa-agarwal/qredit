@@ -8,7 +8,8 @@ class Question < ApplicationRecord
 
   # callback
   before_update :check_if_editable?
-  before_save   :create_url_slug, if: :status_changed?
+  before_save   :create_url_slug, if: -> { will_save_change_to_status? || will_save_change_to_title? }
+
   before_save   :handle_timestamps, if: :status_changed?
   before_save   :set_edited_at
   after_save_commit :notify_users
