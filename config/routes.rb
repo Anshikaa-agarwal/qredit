@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   end
 
   get :credits, to: "users#credits"
-  resources :credit_purchases, only: [ :new, :create, :show ] do
+  resources :credit_purchases, param: :stripe_transaction_id, only: [ :new, :create, :show ] do
     get :success, on: :collection
   end
   resources :stripe_checkouts, only: [ :create ]

@@ -1,4 +1,8 @@
 class CreditPurchase < ApplicationRecord
+  def to_param
+    stripe_transaction_id
+  end
+
   # enum
   enum :status, { pending: 0, successful: 1, failed: 2 }
 
