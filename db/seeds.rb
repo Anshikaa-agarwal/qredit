@@ -8,98 +8,181 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # Clear old data
+CreditTransaction.delete_all
+CreditPurchase.delete_all
+Vote.delete_all
+Comment.delete_all
 Answer.delete_all
 Question.delete_all
 Topic.delete_all
 User.delete_all
 
-# Disable email callback while seeding
-Answer.skip_callback(:create, :after, :send_question_user_email)
-
-# Create users
-users = [
-  { name: "Alice Johnson", email: "alice@example.com" },
-  { name: "Bob Smith", email: "bob@example.com" },
-  { name: "Charlie Lee", email: "charlie@example.com" },
-  { name: "David Kumar", email: "david@example.com" },
-  { name: "Emma Brown", email: "emma@example.com" }
-]
-
-users = users.map do |u|
-  User.create!(
-    name: u[:name],
-    email: u[:email],
-    password: "password123",
-    confirmed_at: Time.now
-  )
-end
-
-# Create topics
+# create topics
 topics = [
-  "Ruby on Rails",
-  "Programming",
-  "Web Development",
-  "JavaScript",
-  "Databases"
+  "Environment",
+  "Politics",
+  "Literature",
+  "Books",
+  "Travel",
+  "India",
+  "Education",
+  "General Knowledge",
+  "Exams",
+  "Career"
 ]
 
-topics = topics.map { |t| Topic.create!(name: t) }
+topics.map { |t| Topic.create!(name: t) }
 
-# Create questions
-questions = [
+# Create user
+users = [
   {
-    title: "What is Ruby on Rails?",
-    content: "Can someone explain what Rails is used for?"
+    name: "Admin User",
+    username: "admin",
+    email: "admin@example.com",
+    password: "password123",
+    password_confirmation: "password123",
+    role: 0,
+    verified: true,
+    confirmed_at: Time.current
   },
   {
-    title: "How does MVC work?",
-    content: "I want to understand MVC architecture in web frameworks."
+    name: "John Doe",
+    username: "johndoe",
+    email: "john@example.com",
+    password: "password123",
+    password_confirmation: "password123",
+    role: 1,
+    verified: true,
+    confirmed_at: Time.current
   },
   {
-    title: "What is REST API?",
-    content: "What does REST mean and why is it important?"
+    name: "Jane Smith",
+    username: "janesmith",
+    email: "jane@example.com",
+    password: "password123",
+    password_confirmation: "password123",
+    role: 1,
+    verified: false,
+    confirmed_at: Time.current
   },
   {
-    title: "Best way to learn Ruby?",
-    content: "Any good resources for beginners?"
+    name: "Alice Johnson",
+    username: "alicejohnson",
+    email: "alice@example.com",
+    password: "password123",
+    password_confirmation: "password123",
+    role: 1,
+    verified: true,
+    confirmed_at: Time.current
   },
   {
-    title: "How to deploy Rails apps?",
-    content: "Which platforms support free Rails deployment?"
+    name: "Bob Brown",
+    username: "bobbrown",
+    email: "bob@example.com",
+    password: "password123",
+    password_confirmation: "password123",
+    role: 1,
+    verified: false,
+    confirmed_at: Time.current
   }
 ]
 
-questions = questions.map do |q|
-  Question.create!(
-    title: q[:title],
-    content: q[:content],
-    user: users.sample,
-    status: 0,
-    posted_at: Time.now
-  )
+users.each do |attrs|
+  user = User.find_or_initialize_by(email: attrs[:email])
+  user.assign_attributes(attrs)
+  user.save!
 end
 
-# Create answers
-answers = [
-  "Ruby on Rails is a web framework written in Ruby that follows MVC architecture.",
-  "MVC stands for Model View Controller. It separates application logic.",
-  "REST is an architectural style used for building APIs.",
-  "The best way to learn Ruby is by building small projects.",
-  "You can deploy Rails apps on platforms like Render or Fly.io."
+puts "Seeded #{User.count} users."
+
+# Create questions
+question_records = [
+  {
+    title: "What are the main causes of climate change?",
+    content: "I want to understand the major human and natural factors contributing to climate change.",
+    user: User.find_by!(email: "john@example.com"),
+    status: 0,
+    posted_at: Time.current - 5.days,
+    topics: [ "Environment", "General Knowledge" ]
+  },
+  {
+    title: "How does the Indian Parliament function?",
+    content: "Can someone explain the structure and role of Lok Sabha and Rajya Sabha in simple terms?",
+    user: User.find_by!(email: "jane@example.com"),
+    status: 0,
+    posted_at: Time.current - 4.days,
+    topics: [ "Politics", "India", "Education" ]
+  },
+  {
+    title: "Which books should I read to improve my English literature knowledge?",
+    content: "I am looking for beginner-friendly books and classics to better understand English literature.",
+    user: User.find_by!(email: "alice@example.com"),
+    status: 0,
+    posted_at: Time.current - 3.days,
+    topics: [ "Literature", "Books", "Education" ]
+  },
+  {
+    title: "What are the best places to visit in North India during winter?",
+    content: "I am planning a trip and would like suggestions for scenic and budget-friendly destinations.",
+    user: User.find_by!(email: "bob@example.com"),
+    status: 0,
+    posted_at: Time.current - 2.days,
+    topics: [ "Travel", "India" ]
+  },
+  {
+    title: "How should I prepare for competitive exams effectively?",
+    content: "I often lose consistency while studying. What strategies help with preparation and revision?",
+    user: User.find_by!(email: "john@example.com"),
+    status: 0,
+    posted_at: Time.current - 1.day,
+    topics: [ "Exams", "Education", "Career" ]
+  },
+  {
+    title: "What is the difference between UPSC and SSC exams?",
+    content: "I want to know the eligibility, syllabus, and career opportunities in both exams.",
+    user: User.find_by!(email: "jane@example.com"),
+    status: 0,
+    posted_at: Time.current - 12.hours,
+    topics: [ "Exams", "Career", "Education" ]
+  },
+  {
+    title: "Why is environmental conservation important for future generations?",
+    content: "Please explain the long-term benefits of protecting forests, rivers, and biodiversity.",
+    user: User.find_by!(email: "alice@example.com"),
+    status: 0,
+    posted_at: Time.current - 8.hours,
+    topics: [ "Environment", "Education" ]
+  },
+  {
+    title: "How can I choose the right career path after graduation?",
+    content: "I am confused between higher studies, government jobs, and private sector opportunities.",
+    user: User.find_by!(email: "bob@example.com"),
+    status: 0,
+    posted_at: Time.current - 6.hours,
+    topics: [ "Career", "Education" ]
+  }
 ]
 
-questions.each do |question|
-  2.times do
-    Answer.create!(
-      content: answers.sample,
-      user: users.sample,
-      question: question,
-      status: 1
+question_records.each do |attrs|
+  topics = attrs.delete(:topics)
+
+  question = Question.create!(
+    title: attrs[:title],
+    content: attrs[:content],
+    user: attrs[:user],
+    status: attrs[:status],
+    posted_at: attrs[:posted_at]
+  )
+
+  topics.each do |topic_name|
+    topic = Topic.find_by!(name: topic_name)
+    TopicAssignement.find_or_create_by!(
+      topic: topic,
+      topicable: question
     )
   end
+
+  Question.update_all(status: 1)
 end
 
-# Re-enable callback
-Answer.set_callback(:create, :after, :send_question_user_email)
-
-puts "Seed data created successfully!"
+puts "Seeded #{Question.count} questions."

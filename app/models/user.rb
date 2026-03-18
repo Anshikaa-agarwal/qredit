@@ -59,7 +59,7 @@ class User < ApplicationRecord
       check_username = "#{base_username}#{SecureRandom.hex(3)}"
     end
 
-    username = check_username
+    self.username = check_username
   end
 
   def self.from_omniauth(access_token)
