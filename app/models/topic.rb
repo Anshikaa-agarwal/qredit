@@ -5,7 +5,10 @@ class Topic < ApplicationRecord
   has_many :users,     through: :topic_assignements, source: :topicable, source_type: "User", dependent: :restrict_with_error
 
   # validations
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: {  case_sensitive: false }
+
+  # callbacks
+  before_validation ->(topic) { topic.name = topic.name.capitalize }
 
   def engagement_score
     0.8 * (questions.sum(&:engagement_score)) + 0.2 * (users.size)
