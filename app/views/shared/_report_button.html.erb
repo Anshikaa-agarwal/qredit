@@ -1,7 +1,7 @@
 <% return if !user_signed_in? || !reportable.published? %>
 
 <% unless current_user == reportable.user ||
-         reportable.abuse_reports.exists?(reporter: current_user) %>
+         reportable.abuse_reports.any?(reporter: current_user) %>
 
   <div data-controller="modal">
   

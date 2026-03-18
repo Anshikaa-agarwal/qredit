@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     get "feed", to: "feeds#index"
   end
 
-  resources :users, only: [ :show ] do
+  resources :users, param: :username, only: [ :show ] do
     get "followers_list", to: "users#followers"
     patch :update_profile, on: :member
     resources :topic_assignements, only: [ :create, :destroy ]
@@ -41,9 +41,9 @@ Rails.application.routes.draw do
 
   resources :questions, param: :url, concerns: [ :votable, :reportable ] do
     resources :answers, concerns: [ :votable, :reportable ] do
-      resources :comments, concerns: [ :votable, :reportable ]
+      resources :comments, except: %i[ index show ], concerns: [ :votable, :reportable ]
     end
-    resources :comments, concerns: [ :votable, :reportable ]
+    resources :comments, except: %i[ index show ], concerns: [ :votable, :reportable ]
     patch :publish, on: :member
   end
 

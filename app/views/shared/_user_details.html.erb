@@ -17,9 +17,7 @@
       <span class="text-gray-400">·</span>
 
       <% if user_signed_in? && current_user != user %>
-        <%= turbo_frame_tag dom_id(user, :follow_section) do %>
-          <%= render partial: "shared/follow_button", locals: { user: user } %>
-        <% end %>
+        <%= render partial: "shared/follow_button", locals: { user: user } %>
       <% end %>
 
     </div>

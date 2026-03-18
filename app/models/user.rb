@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  def to_param
+    username.presence || id.to_s
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -8,6 +12,7 @@ class User < ApplicationRecord
   enum :role, { admin: 0, regular: 1 }
 
   # callbacks
+  before_validation :set_username, on: :create
   before_create :set_defaults_for_admins
 
   # associations
@@ -42,6 +47,19 @@ class User < ApplicationRecord
 
   def after_confirmation
     after_verification_settings
+  end
+
+  def set_username
+    return if username
+
+    base_username = email.split("@").first if email.present?
+    check_username = base_username
+
+    while User.exists?(username: check_username)
+      check_username = "#{base_username}#{SecureRandom.hex(3)}"
+    end
+
+    username = check_username
   end
 
   def self.from_omniauth(access_token)

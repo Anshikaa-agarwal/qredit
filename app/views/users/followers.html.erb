@@ -4,18 +4,20 @@
 
     <!-- Followers -->
     <div class="border border-gray-200 rounded-xl p-6">
+      <% followers_count = @followers.size %>
+
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold text-gray-900">
           Followers
         </h2>
         <span class="text-sm text-gray-500">
-          <%= @followers.size %>
+          <%= followers_count %>
         </span>
       </div>
 
       <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-        <% if @followers.any? %>
-          <%= render partial: 'shared/user_details',
+        <% if followers_count.positive? %>
+          <%= render partial: "shared/user_details",
                      collection: @followers,
                      as: :user %>
         <% else %>
@@ -26,18 +28,18 @@
 
     <!-- Following -->
     <div class="border border-gray-200 rounded-xl p-6">
+      <% followees_count = @followees.size %>
+
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold text-gray-900">
           Following
         </h2>
-        <span class="text-sm text-gray-500">
-          <%= @followees.size %>
-        </span>
+        <span class="text-sm text-gray-500"><%= followees_count %></span>
       </div>
 
       <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-        <% if @followees.any? %>
-          <%= render partial: 'shared/user_details',
+        <% if followees_count.positive? %>
+          <%= render partial: "shared/user_details",
                      collection: @followees,
                      as: :user %>
         <% else %>

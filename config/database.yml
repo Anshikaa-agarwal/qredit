@@ -15,13 +15,12 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: question_answer_platform_development
+  primary:
+    <<: *default
+    database: question_answer_platform_development
 
   queue:
     <<: *default
@@ -88,18 +87,3 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
-  database: question_answer_platform_development
-
-test:
-  <<: *default
-  database: question_answer_platform_test
-
-production:
-  url: <%= ENV["DATABASE_URL"] %>
