@@ -32,7 +32,7 @@ class Question < ApplicationRecord
   # validations
   validates :title, uniqueness: true, allow_blank: true
   validates :title, :content, presence: true, if: :published?
-  validate  :atleast_1_credit_needed, on: :create
+  validate  :atleast_1_credit_needed, on: :publish
   validate  :must_have_topics_if_published
   validate  :pdf_type
 
