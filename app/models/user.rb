@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # constants
+  VALID_AVATAR_EXTENSIONS = %w[ jpg jpeg png avif webp ]
+
   def to_param
     username.presence || id.to_s
   end
@@ -108,8 +111,7 @@ class User < ApplicationRecord
   end
 
   def avatar_image_format
-    valid_avatar_extensions = %w[ jpg jpeg png avif webp ]
-    if avatar.attached? && !avatar.filename.extension.in?(valid_avatar_extensions)
+    if avatar.attached? && !avatar.filename.extension.in?(VALID_AVATAR_EXTENSIONS)
       avatar.purge
       errors.add(:avatar, "must be an image of valid extension.")
     end
