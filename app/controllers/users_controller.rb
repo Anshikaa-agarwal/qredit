@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [ :update_profile, :credits ]
-  before_action :set_user, only: [ :show ]
+  before_action :set_current_user, only: [ :update_profile ]
+  before_action :set_user, only: [ :show, :update_profile ]
   before_action :set_current_user, only: [ :update_profile ]
 
   def show
-    @remaining_topics = Topic.where.not(id: @user.topics.select(:id)) if viewing_own_profile?
+    load_remaining_topics if viewing_own_profile?
   end
 
   def update_profile
@@ -13,7 +14,13 @@ class UsersController < ApplicationController
     end
 
     if params[:user]&.[](:avatar)
-      @current_user.update!(user_avatar_params)
+      unless @current_user.update(user_avatar_params)
+        @user = current_user
+        load_remaining_topics if viewing_own_profile?
+        flash.now[:alert] = @current_user.errors.full_messages.to_sentence
+        render :show, status: :unprocessable_entity
+        return
+      end
     end
 
     redirect_to user_path(@current_user)
@@ -61,5 +68,9 @@ class UsersController < ApplicationController
 
   def viewing_own_profile?
     user_signed_in? && @user == current_user
+  end
+
+  def load_remaining_topics
+    @remaining_topics = Topic.where.not(id: @user.topics.select(:id))
   end
 end

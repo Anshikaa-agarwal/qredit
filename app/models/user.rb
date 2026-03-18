@@ -40,6 +40,7 @@ class User < ApplicationRecord
   # validations
   validates :name,  presence: true
   validates :credits, numericality: :only_integer
+  validate  :avatar_image_format
   # password and email are validated with devise.
 
   # attachments
@@ -70,7 +71,11 @@ class User < ApplicationRecord
   end
 
   def displayed_avatar
-    avatar.attached? ? avatar : "placeholder_user_avatar.png"
+    if avatar.attached? && avatar.persisted?
+      avatar
+    else
+      "placeholder_user_avatar.png"
+    end
   end
 
   def admin?
@@ -99,6 +104,14 @@ class User < ApplicationRecord
         type: :earnt,
         units: 5
       )
+    end
+  end
+
+  def avatar_image_format
+    valid_avatar_extensions = %w[ jpg jpeg png avif webp ]
+    if avatar.attached? && !avatar.filename.extension.in?(valid_avatar_extensions)
+      avatar.purge
+      errors.add(:avatar, "must be an image of valid extension.")
     end
   end
 end
