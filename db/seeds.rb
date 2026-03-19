@@ -13,6 +13,7 @@ CreditPurchase.delete_all
 Vote.delete_all
 Comment.delete_all
 Answer.delete_all
+TopicAssignement.delete_all
 Question.delete_all
 Topic.delete_all
 User.delete_all
