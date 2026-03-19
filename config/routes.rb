@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root "home_feed#index"
 
+  get "report", to: "users#report"
+
   concern :unpublishable do
     patch :unpublish, on: :member
   end

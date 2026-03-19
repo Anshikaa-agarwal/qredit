@@ -18,7 +18,7 @@ class Answer < ApplicationRecord
   validates :content, presence: true
 
   # callbacks
-  after_create_commit :send_question_user_email
+  # after_create_commit :send_question_user_email
 
   # scopes
   scope :from_date, ->(from) { where(created_at: from.to_date.beginning_of_day..) }

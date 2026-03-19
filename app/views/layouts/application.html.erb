@@ -72,6 +72,10 @@
               user_path(current_user),
               class: sidebar_link_classes(user_path(current_user)) %>
 
+          <%= link_to "Report",
+              report_path,
+              class: sidebar_link_classes(report_path) %>
+
           <% if current_user&.admin? %>
             <%= link_to "Admin Portal",
               admin_root_path,

@@ -1,0 +1,151 @@
+<div class="min-h-screen bg-slate-50">
+  <div class="mx-auto max-w-7xl px-6 py-10">
+    <div class="mb-8">
+      <p class="text-sm font-medium uppercase tracking-wide text-indigo-600">Overview</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900">My Dashboard</h1>
+      <p class="mt-2 text-sm text-slate-500">Insights based on your activity and interactions.</p>
+    </div>
+
+    <!-- Activity stats -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-slate-500">Questions Asked</p>
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+            <i class="fa-regular fa-circle-question text-lg"></i>
+          </div>
+        </div>
+        <p class="mt-6 text-3xl font-semibold text-slate-900"><%= @user.questions.size %></p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-slate-500">Answers Given</p>
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+            <i class="fa-regular fa-circle-check text-lg"></i>
+          </div>
+        </div>
+        <p class="mt-6 text-3xl font-semibold text-slate-900"><%= @user.answers.size %></p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-slate-500">Comments Posted</p>
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+            <i class="fa-regular fa-comment-dots text-lg"></i>
+          </div>
+        </div>
+        <p class="mt-6 text-3xl font-semibold text-slate-900"><%= @user.comments.size %></p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-slate-500">Topics Following</p>
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-pink-50 text-pink-600">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </div>
+        </div>
+        <p class="mt-6 text-3xl font-semibold text-slate-900"><%= @user.topics.size %></p>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-semibold text-slate-900">Your Questions</h2>
+          <i class="fa-solid fa-chart-simple text-slate-400"></i>
+        </div>
+
+        <div class="mt-6 space-y-4">
+
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+            <p class="text-sm font-medium text-slate-700">Topic you asked the most questions in</p>
+
+            <% if @most_asked_topic %>
+              <p class="mt-2 text-lg font-semibold text-slate-900"><%= @most_asked_topic[0][1] %></p>
+              <p class="text-sm text-slate-500">
+                You asked <span class="font-medium"><%= @most_asked_topic[1] %></span>
+                <%= "question".pluralize(@most_asked_topic[1]) %> in this topic.
+              </p>
+            <% else %>
+              <p class="mt-2 text-sm text-slate-400">No questions asked yet.</p>
+            <% end %>
+          </div>
+
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+            <p class="text-sm font-medium text-slate-700">Questions with no answers after 1 day</p>
+            <p class="mt-2 text-lg font-semibold text-slate-900"><%= @no_answers_after_a_day.count %></p>
+
+            <% if @no_answers_after_a_day.any? %>
+              <div class="mt-2 space-y-1 text-sm text-slate-500">
+                <% @no_answers_after_a_day.limit(3).each do |q| %>
+                  <p class="truncate"><%= q.title %></p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+            <p class="text-sm font-medium text-slate-700">
+              Questions with zero engagement (no answers, comments, or votes)
+            </p>
+            <p class="mt-2 text-lg font-semibold text-slate-900">
+              <%= @no_engagement_questions.count %>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-semibold text-slate-900">Community Interaction</h2>
+          <i class="fa-solid fa-user-group text-slate-400"></i>
+        </div>
+
+        <div class="mt-6 space-y-4">
+
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+            <p class="text-sm font-medium text-slate-700">
+              User who upvotes your content the most
+            </p>
+
+            <% if @most_interactive_user %>
+              <p class="mt-2 text-lg font-semibold text-slate-900">
+                <%= User.find_by(id: @most_interactive_user[0])&.name || "Unknown User" %>
+              </p>
+              <p class="text-sm text-slate-500">
+                <span class="font-medium"><%= @most_interactive_user[1] %></span> upvotes on your questions, answers, or comments.
+              </p>
+            <% else %>
+              <p class="mt-2 text-sm text-slate-400">No upvotes yet.</p>
+            <% end %>
+          </div>
+
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+            <p class="text-sm font-medium text-slate-700">
+              Most common topic among questions asked by users you follow
+            </p>
+
+            <% if @most_common_folloewers_topic %>
+              <p class="mt-2 text-lg font-semibold text-slate-900">
+                <%= @most_common_folloewers_topic[0][1] %>
+              </p>
+              <p class="text-sm text-slate-500">
+                Appears in
+                <span class="font-medium"><%= @most_common_folloewers_topic[1] %></span>
+                <%= "question".pluralize(@most_common_folloewers_topic[1]) %>.
+              </p>
+            <% else %>
+              <p class="mt-2 text-sm text-slate-400">No data yet.</p>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

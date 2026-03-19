@@ -26,7 +26,6 @@ topics = [
   "Travel",
   "India",
   "Education",
-  "General Knowledge",
   "Exams",
   "Career"
 ]
@@ -103,7 +102,7 @@ question_records = [
     user: User.find_by!(email: "john@example.com"),
     status: 0,
     posted_at: Time.current - 5.days,
-    topics: [ "Environment", "General Knowledge" ]
+    topics: [ "Environment" ]
   },
   {
     title: "How does the Indian Parliament function?",
